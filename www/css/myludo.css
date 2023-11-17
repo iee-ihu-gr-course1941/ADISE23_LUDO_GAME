@@ -10,7 +10,7 @@ td.Y_square{background-color: yellow;}
  td.BR_square{background:linear-gradient(to bottom right, red 50%, blue 50%);}
  td.BY_square{background:linear-gradient(to bottom left, blue 50%, yellow 50%);}
  td.GY_square{background:linear-gradient(to bottom right, greenyellow 50%, yellow 50%);}
- td.MIX_square{ 
+ td.MIX_square{
     border-left-color:    cyan;
     border-right: 20px solid red;
     border-bottom: 20px solid green;
