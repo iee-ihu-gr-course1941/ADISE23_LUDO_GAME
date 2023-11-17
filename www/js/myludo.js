@@ -6,9 +6,9 @@ $(function(){
 function draw_empty_board() {
     var t = '<table id="ludo_square">';
 
-    for (var i = 8; i > 0; i--) {
+    for (var i = 11; i > 0; i--) {
         t += '<tr>';
-        for (var j = 1; j < 9; j++) {
+        for (var j = 1; j < 12; j++) {
             t += '<td class="ludo_square" id="square_' + j + '_' + i + '">' + j + ',' + i + '</td>';
         }
         t += '</tr>';
