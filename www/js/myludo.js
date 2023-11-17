@@ -31,10 +31,10 @@ function fill_board_by_data(data) {
 		for(var i=0;i<data.length;i++) {
 		var o = data[i];
 		var id = '#square_'+ o.x +'_' + o.y;
-        $(id).addClass(o.b_color+'_square')
-	//	 var c = (o.piece!=null)?o.piece_color + o.piece:'';
-	// var im = c;
-     //   var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
-	 //	$(id).addClass(o.b_color+'_square').html(im);
+         var c = (o.piece!=null)?  o.piece:'';
+
+      // $(id).addClass(o.b_color+'_square').html(c);
+	  var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
+	 	$(id).addClass(o.b_color+'_square').html(im);
 	}
 }
