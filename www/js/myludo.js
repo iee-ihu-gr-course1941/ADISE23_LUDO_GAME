@@ -21,7 +21,7 @@ function draw_empty_board() {
  
 function fill_board(){
     $.ajax(
-        {url:"ludo.php/board/",
+        {url:"ludo.php/board/" ,
     success: fill_board_by_data
     }
     );
