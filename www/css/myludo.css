@@ -2,4 +2,9 @@
 
 #ludo_board{border-collapse: collapse;}
 
- 
+ td.R_square {background-color: red;}
+ td.G_square {background-color:greenyellow;}
+ td.B_square{background-color: blue;}
+ td.Y_square{background-color: yellow;}
+
+ IMG.piece{width: 2.1em; height: 2.8em;}

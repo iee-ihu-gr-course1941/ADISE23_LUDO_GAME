@@ -4,7 +4,7 @@ $(function(){
 });
 
 function draw_empty_board() {
-    var t = '<table id="ludo_square">';
+    var t = '<table id="ludo_table">';
 
     for (var i = 11; i > 0; i--) {
         t += '<tr>';
@@ -26,15 +26,15 @@ function fill_board(){
     }
     );
 }
+
 function fill_board_by_data(data) {
-	
-	for(var i=0;i<data.length;i++) {
+		for(var i=0;i<data.length;i++) {
 		var o = data[i];
 		var id = '#square_'+ o.x +'_' + o.y;
-        $(id).addClass(o.b)
-		 var c = (o.piece!=null)?o.piece_color + o.piece:'';
-	 var im = c;
-        var im =(o.piece!=null)?'<img class="piece '+c+'" src="images/'+c+'.png">':'';
-	 	$(id).addClass(o.b_color+'_square').html(im);
+        $(id).addClass(o.b_color+'_square')
+	//	 var c = (o.piece!=null)?o.piece_color + o.piece:'';
+	// var im = c;
+     //   var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
+	 //	$(id).addClass(o.b_color+'_square').html(im);
 	}
 }
