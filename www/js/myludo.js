@@ -32,9 +32,9 @@ function fill_board_by_data(data) {
 		var o = data[i];
 		var id = '#square_'+ o.x +'_' + o.y;
         $(id).addClass(o.b)
-		//var c = (o.piece!=null)?o.piece_color + o.piece:'';
-	//var im = c;
-       // var im =(o.piece!=null)?'<img class="piece '+c+'" src="images/'+c+'.png">':'';
-	//	$(id).addClass(o.b_color+'_square').html(im);
+		 var c = (o.piece!=null)?o.piece_color + o.piece:'';
+	 var im = c;
+        var im =(o.piece!=null)?'<img class="piece '+c+'" src="images/'+c+'.png">':'';
+	 	$(id).addClass(o.b_color+'_square').html(im);
 	}
 }
