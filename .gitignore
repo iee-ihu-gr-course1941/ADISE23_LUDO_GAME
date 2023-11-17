@@ -25,5 +25,5 @@
 /vendors/*
 
 
-lib/db_upass.php
-db_upass.php
+lib/dbupass.php
+dbupass.php
