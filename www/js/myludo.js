@@ -1,6 +1,7 @@
 $(function(){
     draw_empty_board();
     fill_board();
+    $('#ludo_reset').click(reset_board);
 });
 
 function draw_empty_board() {
@@ -22,6 +23,15 @@ function draw_empty_board() {
 function fill_board(){
     $.ajax(
         {url:"ludo.php/board/" ,
+      success: fill_board_by_data
+    }
+    );
+}
+
+function reset_board(){
+    $.ajax(
+        {url:"ludo.php/board/" ,
+        method: 'post',
     success: fill_board_by_data
     }
     );
