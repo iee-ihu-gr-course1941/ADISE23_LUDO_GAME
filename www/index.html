@@ -26,8 +26,35 @@
  
     <h1>γκρινιαρης</h1>
     <div id='ludo_board'></div>
-    <button id='ludo_reset' class='btn btn-primary'>ΕΝΑΡΞΗ</button><br>
+  
  
-</body>
+<br/>
+<div id='game_initializer'>
+<input id='username'> 
+<select id='pcolor'>
+<option value='R'>W</option>
+<option value='B'>B</option>
+<option value='G'>W</option>
+<option value='Y'>B</option>
+</select>
+<button id='ludo_login' class='btn btn-primary'>ΕΙΣΟΔΟΣ ΣΤΟ ΠΑΙΧΝΙΔΙ</button><br>
+</div>
+<div id='game_info'>
+</div>
+<div id='move_div'>
+Δώσε κίνηση (x1 y1 x2 y2): <input id='the_move'>  <button id='do_move' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ</button><br>
+<br><br>
+Δώσε κίνηση (x1 y1): <input id='the_move_src'> (x2 y2):
+<select id='the_move_dest'></select>
+<button id='do_move2' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ 2</button><br>
+</div>
 
+<br/><br/>
+
+
+<button id='ludo_reset' class='btn btn-primary'>ΕΝΑΡΞΗ/RESET</button><br>
+
+
+</body>
+</html>
 </html>
