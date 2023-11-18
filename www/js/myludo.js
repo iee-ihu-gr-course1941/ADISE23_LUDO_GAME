@@ -46,5 +46,6 @@ function fill_board_by_data(data) {
       // $(id).addClass(o.b_color+'_square').html(c);
 	  var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
 	 	$(id).addClass(o.b_color+'_square').html(im);
+        
 	}
 }
