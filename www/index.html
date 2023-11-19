@@ -45,9 +45,33 @@
 <div id='game_info'>
 </div>
 
+
 <button id='ludo_reset' class='btn btn-primary'>ΕΝΑΡΞΗ/RESET</button><br>
 
 
+<button id='players_reset' class='btn btn-primary' ">GIVE PLAYERS NULL VALUES</button><br>
+
+ 
+<script>
+
+   $(document).ready(function() {
+        $('#players_reset').click(function() {
+            // Send an AJAX request to the server
+            $.ajax({
+                url: '../lib/users.php',
+                method: 'POST',
+                data: { action: 'players_null' },
+                success: function(response) {
+                    alert('Server response: ' + response);
+                },
+                error: function(xhr, status, error) {
+        console.error('AJAX error: ' + status, error);
+    }
+            });
+        });
+    }); 
+</script>
+ 
 </body>
 </html>
 </html>

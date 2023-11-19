@@ -23,6 +23,7 @@ $input = json_decode(file_get_contents('php://input'),true);
 //					break;
 	 case 'player': handle_player($method, $request[0],$input);
 //					break;
+case 'players_null': handle_players_null($method); break;
 		default: header("HTTP/1.1 404 Not Found");
 				break;
 	}
@@ -39,6 +40,17 @@ $input = json_decode(file_get_contents('php://input'),true);
 	exit;
 }
 
+
+function handle_players_null($method) {
+    if($method=='POST') {
+            players_null();
+		} else if ($method=='PUT') {
+			players_null();
+	 } else {
+		 header('HTTP/1.1 405 Method Not Allowed');
+	} 
+    
+}
 
 function handle_board($method) {
     if($method=='GET') {
@@ -57,7 +69,7 @@ function handle_piece($method, $x,$y,$input) {
 
 function handle_player($method, $p,$input) {
     switch ($b=array_shift($p)) {
-	 	case '':
+	 	case '': 
 	 	case null: if($method=='GET') {show_users($method);}
 	 			   else {header("HTTP/1.1 400 Bad Request"); 
 	 					 print json_encode(['errormesg'=>"Method $method not allowed here."]);}
