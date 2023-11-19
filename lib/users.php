@@ -1,5 +1,24 @@
 <?php
 require_once "../lib/game.php"; 
+<<<<<<< HEAD
+=======
+ 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ 
+ 
+
+
+function players_null() {
+    global $mysqli;
+
+	$sql = 'update players set username = null , token = null';
+	$st = $mysqli->prepare($sql);
+ 	$st->execute();
+}
+
+
+>>>>>>> 285ea20b694c9881fbeb5cb97d206ab35fcd6db4
 
 function show_users() {
 	global $mysqli;
