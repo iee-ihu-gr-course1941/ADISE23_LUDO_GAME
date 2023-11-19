@@ -2,12 +2,13 @@
 
 #ludo_board{border-collapse: collapse;}
 
+td.W_square{background-color: white;}
 td.R_square {background-color: red;}
 td.G_square {background-color:greenyellow;}
 td.B_square{background-color: blue;}
 td.Y_square{background-color: yellow;}
 
-
+ 
  td.GR_square{background:linear-gradient(to bottom left, red 50%, greenyellow 50%);  } 
  td.BR_square{background:linear-gradient(to bottom right, red 50%, blue 50%);}
  td.BY_square{background:linear-gradient(to bottom left, blue 50%, yellow 50%);}

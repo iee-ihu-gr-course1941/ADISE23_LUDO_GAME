@@ -2,27 +2,6 @@
 <html lang="en">
 
 <head>
-     
-<script>
-
-    $(document).ready(function() {
-         $('#players_reset').click(function() {
-             // Send an AJAX request to the server
-             $.ajax({
-                 url: '../lib/users.php',
-                 method: 'POST',
-                 data: { action: 'players_null',
-                 success: function(response) {
-                     alert('Server response: ' + response);
-                 },
-                 error: function(xhr, status, error) {
-         console.error('AJAX error: ' + status, error);
-     }
-         }
-         });
-         });
-     }); 
- </script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,6 +16,7 @@
     <!-- Bootstrap core CSS and JavaScript -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/myludo.css" rel="stylesheet" type="text/css">
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -68,7 +48,7 @@
         <div id="h1Name"><h1 id="name">γκρινιαρης</h1></div>
         <div id='ludo_board'></div>
         <div id="gameButton">
-            <button id='ludo_reset' class='btn btn-primary'>Restart</button><br>
+            <button id='ludo_reset' class='btn btn-primary'>Restart</button><br><!--το κουμπι reset board βημα 1-->
             <button id='ludo_roll' class='btn btn-primary'>ΡΙΞΕ ΖΑΡΙ</button><br>
             <div id='game_initializer'>
                 <input id='username'> 
@@ -80,20 +60,33 @@
                 </select>
                 
                 <button id='ludo_login' class='btn btn-primary'>ΕΙΣΟΔΟΣ ΣΤΟ ΠΑΙΧΝΙΔΙ</button><br>
-                </div>
-                
-                 
+                </div>              
                 <div id='game_info'>
                 </div>
-                
-                <button id='ludo_reset' class='btn btn-primary'>ΕΝΑΡΞΗ/RESET</button><br>
+                <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>
         </div>
 
+        <script>
+            $(document).ready(function() {
+                 $('#players_reset').click(function() {
+                     // Send an AJAX request to the server
+                     $.ajax({
+                         url: '../lib/users.php',
+                         method: 'POST',
+                         data: { action: 'players_null',
+                         success: function(response) {
+                             alert('Server response: ' + response);
+                         }
+                         }}
+                 );
+             }); 
+            });
 
+         </script>
 </body>
 
 <footer id="footer">
     <p>&copy; 2023 ADISE23_LUDO_GAME. Dimitris, Blue, Kapten</p>
 </footer>
 
-</html>
+ </html>

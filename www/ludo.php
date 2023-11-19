@@ -1,4 +1,8 @@
 <?php
+
+//ludo.php dilosh path me ton server
+
+
 //print_r("HERE!!!!!!");
 require_once "../lib/dbconnect.php";
 require_once "../lib/board.php";
@@ -15,7 +19,7 @@ $input = json_decode(file_get_contents('php://input'),true);
 # print_r($request );
 
  switch ($r=array_shift($request)) {
-    case 'board' : 
+    case 'board' :
 	switch ($b=array_shift($request)) {
 		case '': 
 		case null: handle_board($method);break;
@@ -43,9 +47,9 @@ case 'players_null': handle_players_null($method); break;
 
 function handle_players_null($method) {
     if($method=='POST') {
-            players_null();
+			reset_players();
 		} else if ($method=='PUT') {
-			players_null();
+			reset_players();
 	 } else {
 		 header('HTTP/1.1 405 Method Not Allowed');
 	} 
@@ -56,7 +60,7 @@ function handle_board($method) {
     if($method=='GET') {
             show_board();
     } else if ($method=='POST') {
-           reset_board();
+		reset_board();
     } else {
         header('HTTP/1.1 405 Method Not Allowed');
     }

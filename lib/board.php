@@ -19,4 +19,5 @@ function reset_board(){
     $mysqli->query($sql);
     show_board();
 }
+
 ?>

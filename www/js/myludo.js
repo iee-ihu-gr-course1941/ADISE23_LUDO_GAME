@@ -9,7 +9,6 @@ $(function(){
     draw_empty_board();
     fill_board();
     $('#ludo_login').click(login_to_game);
-
     $('#ludo_reset').click(reset_board);
     game_status_update();
 });
@@ -40,9 +39,18 @@ function fill_board(){
 
 function reset_board(){
     $.ajax(
-        {url:"ludo.php/board/" ,
+        {url:"ludo.php/board/",
         method: 'post',
     success: fill_board_by_data
+    }
+    );
+}
+
+function reset_players(){
+    $.ajax(
+        {url:"ludo.php/players_null/",
+        method: 'post',
+    success: reset_players
     }
     );
 }
