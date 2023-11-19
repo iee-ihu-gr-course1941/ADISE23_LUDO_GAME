@@ -1,0 +1,109 @@
+
+  
+    /*-----navybox-----*/
+  .navybox {
+    position: relative;
+    background: navy; /* Use 'background' instead of 'background-color' */
+    padding: 20px;
+    width: 100%; /* Set the width to 100% to extend from left to right */
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+   
+  }
+
+  #playerName{
+    position: absolute;
+    left: 1%;
+    color: white;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  li {
+    margin-right: 20px;
+  }
+  
+  a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+  }
+  
+  a:hover {
+    color: lightgray;
+  }
+
+  #playerData{
+    position: absolute;
+    right: 0%;
+    color: white;
+  }
+
+    /*-----finish navybox-----*/
+
+    /*-----Board-----*/
+  
+
+  #h1Name{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 8vh;
+
+
+    /*-----Finish Board-----*/
+
+  }
+  #ludo_board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    border-collapse: collapse;
+    background-image: url('/www/images/black-1072366_1920.jpg');
+    border: solid black 1px;
+    text-align: center;
+    position: relative;
+  }
+
+    /*-----Finish Board-----*/
+  
+    /*-----Buttton-----*/
+
+  #gameButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    position: relative;
+    bottom: 5%;
+    margin-right: 20px;
+  }
+
+  #ludo_reset{
+    margin-right: 10px;
+  }
+
+    /*-----Finish Buttton-----*/
+
+    /*-----Footer-----*/
+
+  #footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+    position: relative;
+    bottom: 0%;
+    color: white;
+    background-color: navy;
+
+  }
+
+    /*-----Finish Media Query-----*/
