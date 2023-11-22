@@ -1,4 +1,5 @@
 <?php
+  $sql = 'call clean_board()';
 function show_board(){
     global $mysqli;
 

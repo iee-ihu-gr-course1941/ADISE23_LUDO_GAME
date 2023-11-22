@@ -19,8 +19,9 @@
     <link href="css/styles.css" rel="stylesheet" type="text/css">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Your custom JavaScript -->
+    <script src="js/myludo.js" ></script>
     <script src="js/myludo.js", src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
@@ -47,6 +48,7 @@
 
         <div id="h1Name"><h1 id="name">γκρινιαρης</h1></div>
         <div id='ludo_board'></div>
+        <div id='players_board'></div>
         <div id="gameButton">
             <button id='ludo_reset' class='btn btn-primary'>Restart</button><br><!--το κουμπι reset board βημα 1-->
             <button id='ludo_roll' class='btn btn-primary'>ΡΙΞΕ ΖΑΡΙ</button><br>
@@ -66,23 +68,8 @@
                 <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>
         </div>
 
-        <script>
-            $(document).ready(function() {
-                 $('#players_reset').click(function() {
-                     // Send an AJAX request to the server
-                     $.ajax({
-                         url: '../lib/users.php',
-                         method: 'POST',
-                         data: { action: 'players_null',
-                         success: function(response) {
-                             alert('Server response: ' + response);
-                         }
-                         }}
-                 );
-             }); 
-            });
 
-         </script>
+        <script src="js/myludo.js"></script>
 </body>
 
 <footer id="footer">

@@ -303,6 +303,14 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.clean_players
+DELIMITER //
+CREATE PROCEDURE `clean_players`()
+BEGIN
+	REPLACE INTO  players SELECT * FROM players_empty;
+END//
+DELIMITER ;
+
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 CREATE TABLE IF NOT EXISTS `game_status` (
   `status` enum('not active','initialized','started','ended','aborded') NOT NULL DEFAULT 'not active',
@@ -311,7 +319,9 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
+	('', NULL, NULL, '2023-11-22 14:37:14');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DELIMITER //
@@ -340,89 +350,26 @@ CREATE TABLE IF NOT EXISTS `players` (
 
 -- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	(NULL, 'B', NULL, '2023-11-18 10:10:57'),
-	(NULL, 'R', NULL, '2023-11-18 10:01:44'),
-	(NULL, 'G', NULL, '2023-11-18 10:15:03'),
-	(NULL, 'Y', NULL, '2023-11-18 10:01:54');
+	('dffddfdf', 'B', '908d41da8a24adf7e89882d72e332bf4', '2023-11-22 14:35:02'),
+	('fddfdf', 'R', 'f666ab4e007005135872152d67fcc1ee', '2023-11-22 14:34:53'),
+	('dsdsdsd', 'G', 'e0da9b1d8354cf7c3300bee4d72751e1', '2023-11-22 14:50:57'),
+	('dd', 'Y', 'fa27c1c5853581331a72e74dd7178fef', '2023-11-22 14:37:14');
 
--- Dumping structure for πίνακας adise23_ludo_game.tboard
-CREATE TABLE IF NOT EXISTS `tboard` (
-  `x` tinyint(1) NOT NULL,
-  `y` tinyint(1) NOT NULL,
-  `b_color` enum('W','Y','G','R','WG','S','F') NOT NULL,
-  `piece_color` enum('Y','R') DEFAULT NULL,
-  `piece` enum('K1','K2','K3','K4') DEFAULT NULL,
-  PRIMARY KEY (`x`,`y`)
+-- Dumping structure for πίνακας adise23_ludo_game.players_empty
+CREATE TABLE IF NOT EXISTS `players_empty` (
+  `username` varchar(20) DEFAULT NULL,
+  `piece_color` enum('B','R','G','Y') NOT NULL,
+  `token` varchar(100) DEFAULT NULL,
+  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.tboard: ~66 rows (approximately)
-INSERT INTO `tboard` (`x`, `y`, `b_color`, `piece_color`, `piece`) VALUES
-	(1, 1, 'Y', '', ''),
-	(1, 2, 'Y', '', ''),
-	(1, 3, 'Y', '', ''),
-	(1, 4, 'Y', '', ''),
-	(1, 5, 'W', '', ''),
-	(1, 6, 'W', '', ''),
-	(2, 1, 'Y', '', ''),
-	(2, 2, 'W', 'Y', 'K4'),
-	(2, 3, 'W', 'Y', 'K3'),
-	(2, 4, 'Y', '', ''),
-	(2, 5, 'W', '', ''),
-	(2, 6, 'WG', '', ''),
-	(3, 1, 'Y', '', ''),
-	(3, 2, 'W', 'Y', 'K1'),
-	(3, 3, 'W', 'Y', 'K2'),
-	(3, 4, 'Y', '', ''),
-	(3, 5, 'W', '', ''),
-	(3, 6, 'WG', '', ''),
-	(4, 1, 'Y', '', ''),
-	(4, 2, 'Y', '', ''),
-	(4, 3, 'Y', '', ''),
-	(4, 4, 'Y', '', ''),
-	(4, 5, 'W', '', ''),
-	(4, 6, 'WG', '', ''),
-	(5, 1, 'W', '', ''),
-	(5, 2, 'Y', '', ''),
-	(5, 3, 'W', '', ''),
-	(5, 4, 'W', '', ''),
-	(5, 5, '', '', ''),
-	(5, 6, 'WG', '', ''),
-	(6, 1, 'W', '', ''),
-	(6, 2, 'Y', '', ''),
-	(6, 3, 'Y', '', ''),
-	(6, 4, 'Y', '', ''),
-	(6, 5, 'Y', '', ''),
-	(6, 6, 'F', '', ''),
-	(7, 1, 'W', '', ''),
-	(7, 2, 'W', '', ''),
-	(7, 3, 'W', '', ''),
-	(7, 4, 'W', '', ''),
-	(7, 5, '', '', ''),
-	(7, 6, 'WG', '', ''),
-	(8, 1, 'G', '', ''),
-	(8, 2, 'G', '', ''),
-	(8, 3, 'G', '', ''),
-	(8, 4, 'G', '', ''),
-	(8, 5, 'W', '', ''),
-	(8, 6, 'G', '', ''),
-	(9, 1, 'G', '', ''),
-	(9, 2, 'W', '', ''),
-	(9, 3, 'W', '', ''),
-	(9, 4, 'G', '', ''),
-	(9, 5, 'W', '', ''),
-	(9, 6, 'G', '', ''),
-	(10, 1, 'G', '', ''),
-	(10, 2, 'W', '', ''),
-	(10, 3, 'W', '', ''),
-	(10, 4, 'G', '', ''),
-	(10, 5, 'G', '', ''),
-	(10, 6, 'G', '', ''),
-	(11, 1, 'G', '', ''),
-	(11, 2, 'G', '', ''),
-	(11, 3, 'G', '', ''),
-	(11, 4, 'G', '', ''),
-	(11, 5, 'W', '', ''),
-	(11, 6, 'W', '', '');
+-- Dumping data for table adise23_ludo_game.players_empty: ~4 rows (approximately)
+INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) VALUES
+	(NULL, 'B', NULL, NULL),
+	(NULL, 'R', NULL, NULL),
+	(NULL, 'G', NULL, NULL),
+	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
