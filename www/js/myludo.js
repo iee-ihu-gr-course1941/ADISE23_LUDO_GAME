@@ -65,36 +65,32 @@ function draw_empty_board(p) {
 }
 
  
-function fill_board(){
-    $.ajax(
-        {url:"ludo.php/board/" ,
-      success: fill_board_by_data
-    }
-    );
+function fill_board() {
+	$.ajax({url: "ludo.php/board/", 
+		headers: {"X-Token": me.token},
+		success: fill_board_by_data });
 }
 
 function reset_board(){
     $.ajax(
         {url:"ludo.php/board/",
-        method: 'post',
-    success: fill_board_by_data
-    }
-    );
+        headers: {"X-Token": me.token}, method: 'POST',  success: fill_board_by_data });
+	$('#move_div').hide();
+    $('#game_initializer').show(2000);
 }
 
 
 
 function fill_board_by_data(data) {
     board=data;
-		for(var i=0;i<data.length;i++) {
+    for(var i=0;i<data.length;i++) {
 		var o = data[i];
 		var id = '#square_'+ o.x +'_' + o.y;
-         var c = (o.piece!=null)?  o.piece:'';
-var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
-	 	$(id).addClass(o.b_color+'_square').html(im);
-        
-	}}
-
+		var c = (o.piece!=null)?o.piece_color + o.piece:'';
+		var pc= (o.piece!=null)?'piece'+o.piece_color:'';
+		var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
+		$(id).addClass(o.b_color+'_square').html(im);}
+    }
     
     function login_to_game() {
 
@@ -126,9 +122,13 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
     }
     
     
-    function login_error(data,y,z,c) {
+    function login_error(data, y, z, c) {
         var x = data.responseJSON;
-        alert(x.errormesg);
+        if (x && x.errormesg) {
+            alert(x.errormesg);
+        } else {
+            alert('An error occurred');
+        }
     }
   
    
@@ -138,25 +138,25 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
     }
     
     function update_status(data) {
-       // last_update=new Date().getTime();
-      //  var game_stat_old = game_status;
+        last_update=new Date().getTime();
+       var game_stat_old = game_status;
         game_status=data[0];
         update_info();
-        //clearTimeout(timer);
+        clearTimeout(timer);
          if(game_status.p_turn==me.piece_color &&  me.piece_color!=null) {
            x=0;
-    //        // do play
+            // do play
          if(game_stat_old.p_turn!=game_status.p_turn) {
                 fill_board();
           }
            $('#move_div').show(1000);
-            timer=setTimeout(function() { game_status_update();}, 15000);
-            setTimeout(function() { game_status_update();}, 15000);
+           timer=setTimeout(function() { game_status_update();}, 15000);
+          
         } else {
             // must wait for something
           $('#move_div').hide(1000);
-          // timer=setTimeout(function() { game_status_update();}, 4000);
-          setTimeout(function() { game_status_update();}, 4000);
+         timer=setTimeout(function() { game_status_update();}, 4000);
+         
         }
  
 
@@ -186,6 +186,8 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
                     error: login_error});
             
         }
+
+
         function move_result(data){
             game_status_update();
             fill_board_by_data(data);
