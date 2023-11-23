@@ -81,7 +81,6 @@ function set_user($b, $input) {
     }
 }
 
-
 function handle_user($method, $b,$input) {
 	if($method=='GET') {
 		show_user($b);

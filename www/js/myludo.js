@@ -22,7 +22,7 @@ $(function(){
             url: 'ludo.php/delete_players/', // Adjust the path to your server-side script
             method: 'POST',
 dataType: "json",
-            headers: {"X-Token": me.token},
+          headers: {"X-Token": me.token},
             contentType: 'application/json',
             data: { action: 'reset_players' }, // Pass the action as part of the data
             success: function(response) {
@@ -33,13 +33,9 @@ dataType: "json",
                 alert('js Error occurred while updating the database.');
             }
         });
-     
+    // game_status_update();
 
     } 
-
-
-
-
     function login_to_game() {
 
         if($('#username').val()=='') {
@@ -114,31 +110,11 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
         
 	}}
 
-    function login_to_game() {
-        if($('#username').val()=='') {
-            alert('You have to set a username');
-            return;
-        }
-        var p_color = $('#pcolor').val();
-        draw_empty_board(p_color);
-        fill_board();
-        
-        $.ajax({url: "ludo.php/players/"+p_color, 
-                method: 'PUT',
-                dataType: "json",
-                headers: {"X-Token": me.token},
-                contentType: 'application/json',
-                data: JSON.stringify( {username: $('#username').val(), piece_color: p_color}),
-                success: login_result,
-                error: login_error});
-    }
-
+    
 
 
     function login_result(data) {
-///////////////////////
-        update_info();
-        game_status_update();
+
         me = data[0];
         $('#game_initializer').hide();
        update_info();

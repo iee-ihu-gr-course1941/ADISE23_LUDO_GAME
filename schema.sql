@@ -19,6 +19,8 @@
 CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `adise23_ludo_game`;
 
+
+DROP TABLE IF EXISTS board;
 -- Dumping structure for πίνακας adise23_ludo_game.board
 CREATE TABLE IF NOT EXISTS `board` (
   `x` tinyint(1) NOT NULL,
@@ -157,6 +159,9 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(11, 10, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
+
+
+DROP TABLE IF EXISTS board_empty;
 -- Dumping structure for πίνακας adise23_ludo_game.board_empty
 CREATE TABLE IF NOT EXISTS `board_empty` (
   `x` tinyint(1) NOT NULL,
@@ -295,37 +300,49 @@ INSERT INTO `board_empty` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`
 	(11, 10, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
+
+
+
+DROP PROCEDURE IF EXISTS clean_board;
 -- Dumping structure for procedure adise23_ludo_game.clean_board
 DELIMITER //
-CREATE PROCEDURE `clean_board`()
+CREATE PROCEDURE IF NOT EXISTS `clean_board`()
 BEGIN
 	REPLACE INTO  board SELECT * FROM  board_empty;
 END//
 DELIMITER ;
 
+
+
+DROP PROCEDURE IF EXISTS clean_players;
 -- Dumping structure for procedure adise23_ludo_game.clean_players
 DELIMITER //
-CREATE PROCEDURE `clean_players`()
+CREATE PROCEDURE IF NOT EXISTS `clean_players`()
 BEGIN
 	REPLACE INTO  players SELECT * FROM players_empty;
 END//
 DELIMITER ;
+
+DROP TABLE IF   EXISTS  game_status ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 CREATE TABLE IF NOT EXISTS `game_status` (
   `status` enum('not active','initialized','started','ended','aborded') NOT NULL DEFAULT 'not active',
   `p_turn` enum('R','G','B','Y') DEFAULT NULL,
   `result` enum('B','R','G','Y') DEFAULT NULL,
-  `last_change` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `last_change` timestamp NULL DEFAULT now() ON UPDATE now()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('', NULL, NULL, '2023-11-22 14:37:14');
+	('not active', NULL, NULL, NULL);
 
+
+
+DROP PROCEDURE IF EXISTS move_piece;
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DELIMITER //
-CREATE PROCEDURE `move_piece`(x1 TINYINT,y1 TINYINT,x2 TINYINT,y2 TINYINT)
+CREATE PROCEDURE IF NOT EXISTS `move_piece`(x1 TINYINT,y1 TINYINT,x2 TINYINT,y2 TINYINT)
 BEGIN
 DECLARE p, p_color CHAR;
 SELECT piece, piece_color INTO p, p_color
@@ -339,28 +356,32 @@ WHERE X=x1 AND Y=y1;
 END//
 DELIMITER ;
 
+
+DROP TABLE IF EXISTS players;
 -- Dumping structure for πίνακας adise23_ludo_game.players
 CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_action` timestamp NULL DEFAULT  now() ON UPDATE now(),
   PRIMARY KEY (`piece_color`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=UTF8MB4_GENERAL_CI;
 
--- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
+
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	('dffddfdf', 'B', '908d41da8a24adf7e89882d72e332bf4', '2023-11-22 14:35:02'),
-	('fddfdf', 'R', 'f666ab4e007005135872152d67fcc1ee', '2023-11-22 14:34:53'),
-	('dsdsdsd', 'G', 'e0da9b1d8354cf7c3300bee4d72751e1', '2023-11-22 14:50:57'),
-	('dd', 'Y', 'fa27c1c5853581331a72e74dd7178fef', '2023-11-22 14:37:14');
-
+	(NULL, 'B', NULL, NULL),
+	(NULL, 'R', NULL, NULL),
+	(NULL, 'G', NULL, NULL),
+	(NULL, 'Y', NULL, NULL);
+ 
+ 
+DROP TABLE IF EXISTS players_empty;
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_action` timestamp NULL DEFAULT now() ON UPDATE now(),
   PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
