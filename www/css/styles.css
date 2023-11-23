@@ -46,6 +46,7 @@
 
     /*-----finish navybox-----*/
 
+
     /*-----Board-----*/
   
 
@@ -60,7 +61,7 @@
     /*-----Finish Board-----*/
 
   }
-  #ludo_board {
+  #main_body {
     display: flex;
     justify-content: center;
     align-items: center;
