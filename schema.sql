@@ -14,7 +14,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Set the time zone globally for the entire server
+SET GLOBAL time_zone = '+2:00';
 
+-- Set the time zone for the current session
+SET time_zone = '+2:00';
 -- Dumping database structure for adise23_ludo_game
 CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `adise23_ludo_game`;
@@ -319,17 +323,19 @@ DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 DROP TABLE IF EXISTS `game_status`;
-CREATE TABLE IF NOT EXISTS `game_status` (
-  `status` enum('not active','initialized','started','ended','aborded') NOT NULL DEFAULT 'not active',
-  `p_turn` enum('R','G','B','Y') DEFAULT NULL,
-  `result` enum('B','R','G','Y') DEFAULT NULL,
-  `last_change` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+CREATE TABLE `game_status` (
+`status` enum('not active','initialized','started','
+ended','aborded') NOT NULL DEFAULT 'not active',
+`p_turn` enum('R','G','B','Y') DEFAULT NULL,
+`result` enum('R','G','B','Y','D') DEFAULT NULL,
+`last_change` NOW() NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('', NULL, NULL, '2023-11-23 08:57:03');
+	('not active', NULL, NULL, NULL);
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -354,17 +360,17 @@ CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_action` timestamp NULL DEFAULT NOW() ON UPDATE NOW(),
   PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	('dd', 'B', '775858bb1df6155b62ab73f715791c05', '2023-11-23 08:56:17'),
-	('dd', 'R', 'a8c7a94b903256cb0807fbbaa6276d27', '2023-11-23 08:51:14'),
+	(NULL, 'B', NULL, NULL),
+	(NULL, 'R', NULL, NULL),
 	(NULL, 'G', NULL, NULL),
-	('margaretbluee', 'Y', '096a01311546b10e722e40af17adaf29', '2023-11-23 08:56:24');
+	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -372,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_action` timestamp NULL DEFAULT NOW() ON UPDATE  NOW(),
   PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -386,18 +392,15 @@ INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) 
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 DROP TRIGGER IF EXISTS `game_status_update`;
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER game_status_update BEFORE UPDATE
+ 
+
+DELIMITER $$
+CREATE
+TRIGGER game_status_update BEFORE UPDATE
 ON game_status
 FOR EACH ROW BEGIN
 SET NEW.last_change = NOW();
-END//
+END$$
 DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
 
-/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+playersplayers
