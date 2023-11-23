@@ -19,9 +19,8 @@
 CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `adise23_ludo_game`;
 
-
-DROP TABLE IF EXISTS board;
 -- Dumping structure for πίνακας adise23_ludo_game.board
+DROP TABLE IF EXISTS `board`;
 CREATE TABLE IF NOT EXISTS `board` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
@@ -159,10 +158,8 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(11, 10, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
-
-
-DROP TABLE IF EXISTS board_empty;
 -- Dumping structure for πίνακας adise23_ludo_game.board_empty
+DROP TABLE IF EXISTS `board_empty`;
 CREATE TABLE IF NOT EXISTS `board_empty` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
@@ -300,49 +297,41 @@ INSERT INTO `board_empty` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`
 	(11, 10, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
-
-
-
-DROP PROCEDURE IF EXISTS clean_board;
 -- Dumping structure for procedure adise23_ludo_game.clean_board
+DROP PROCEDURE IF EXISTS `clean_board`;
 DELIMITER //
-CREATE PROCEDURE IF NOT EXISTS `clean_board`()
+CREATE PROCEDURE `clean_board`()
 BEGIN
 	REPLACE INTO  board SELECT * FROM  board_empty;
 END//
 DELIMITER ;
 
-
-
-DROP PROCEDURE IF EXISTS clean_players;
 -- Dumping structure for procedure adise23_ludo_game.clean_players
+DROP PROCEDURE IF EXISTS `clean_players`;
 DELIMITER //
-CREATE PROCEDURE IF NOT EXISTS `clean_players`()
+CREATE PROCEDURE `clean_players`()
 BEGIN
 	REPLACE INTO  players SELECT * FROM players_empty;
 END//
 DELIMITER ;
 
-DROP TABLE IF   EXISTS  game_status ;
-
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
+DROP TABLE IF EXISTS `game_status`;
 CREATE TABLE IF NOT EXISTS `game_status` (
   `status` enum('not active','initialized','started','ended','aborded') NOT NULL DEFAULT 'not active',
   `p_turn` enum('R','G','B','Y') DEFAULT NULL,
   `result` enum('B','R','G','Y') DEFAULT NULL,
-  `last_change` timestamp NULL DEFAULT now() ON UPDATE now()
+  `last_change` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
 	('not active', NULL, NULL, NULL);
 
-
-
-DROP PROCEDURE IF EXISTS move_piece;
 -- Dumping structure for procedure adise23_ludo_game.move_piece
+DROP PROCEDURE IF EXISTS `move_piece`;
 DELIMITER //
-CREATE PROCEDURE IF NOT EXISTS `move_piece`(x1 TINYINT,y1 TINYINT,x2 TINYINT,y2 TINYINT)
+CREATE PROCEDURE `move_piece`(x1 TINYINT,y1 TINYINT,x2 TINYINT,y2 TINYINT)
 BEGIN
 DECLARE p, p_color CHAR;
 SELECT piece, piece_color INTO p, p_color
@@ -356,32 +345,30 @@ WHERE X=x1 AND Y=y1;
 END//
 DELIMITER ;
 
-
-DROP TABLE IF EXISTS players;
 -- Dumping structure for πίνακας adise23_ludo_game.players
+DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT  now() ON UPDATE now(),
+  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`piece_color`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=UTF8MB4_GENERAL_CI;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+-- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	(NULL, 'B', NULL, NULL),
-	(NULL, 'R', NULL, NULL),
-	(NULL, 'G', NULL, NULL),
-	(NULL, 'Y', NULL, NULL);
- 
- 
-DROP TABLE IF EXISTS players_empty;
+	('ff', 'B', 'be09986c92a4c5a005247c431c9ef1b5', '2023-11-23 07:16:23'),
+	('d', 'R', '5cbf1754389950f338171147dd5e0c31', '2023-11-23 07:16:27'),
+	('ff', 'G', 'c4c0a62c192a8254c2f7a2c71d284ff9', '2023-11-23 07:16:30'),
+	('dd', 'Y', '2fd09304d561eae1044ff3fd321f8be9', '2023-11-23 07:16:33');
+
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
+DROP TABLE IF EXISTS `players_empty`;
 CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT now() ON UPDATE now(),
+  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -393,6 +380,7 @@ INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) 
 	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
+DROP TRIGGER IF EXISTS `game_status_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER game_status_update BEFORE UPDATE
