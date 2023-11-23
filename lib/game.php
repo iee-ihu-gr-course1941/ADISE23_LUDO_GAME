@@ -14,6 +14,12 @@ function show_status() {
 }
  
 
+
+
+
+
+ 
+
 function update_game_status() {
 	global $mysqli;
 	
@@ -51,7 +57,7 @@ function update_game_status() {
 			case 3:
 				case 4: $new_status='started'; 
 				if($status['p_turn']==null) {//ξεκινα παντα ο μπλε 
-					$new_turn='Β'; // It was not started before...
+					$new_turn='Y'; // It was not started before...
 				}
 				break;
 	}
@@ -60,10 +66,9 @@ function update_game_status() {
 	$st = $mysqli->prepare($sql);
 	$st->bind_param('ss',$new_status,$new_turn);
 	$st->execute();
-	
-	
-	
-}
+	}
+
+
 function read_status() {
 	global $mysqli;
 	
@@ -75,4 +80,5 @@ function read_status() {
 	$status = $res->fetch_assoc();
 	return($status);
 }
+
 ?>
