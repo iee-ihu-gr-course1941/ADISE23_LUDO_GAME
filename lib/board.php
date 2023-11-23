@@ -61,7 +61,7 @@ function move_piece($x,$y,$x2,$y2,$token) {
 
 function do_move($x,$y,$x2,$y2) {
 	global $mysqli;
-	$sql = 'call `move_piece`(?,?,?,?);';
+	$sql = 'call move_piece(?,?,?,?);';
 	$st = $mysqli->prepare($sql);
 	$st->bind_param('iiii',$x,$y,$x2,$y2 );
 	$st->execute();

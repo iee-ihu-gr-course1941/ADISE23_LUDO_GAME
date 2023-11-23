@@ -127,7 +127,7 @@ function fill_board_by_data(data) {
         if (x && x.errormesg) {
             alert(x.errormesg);
         } else {
-            alert('An error occurred');
+            alert('ΓΤΧΜ An error occurred');
         }
     }
   
