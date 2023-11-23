@@ -14,11 +14,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Set the time zone globally for the entire server
-SET GLOBAL time_zone = '+2:00';
 
--- Set the time zone for the current session
-SET time_zone = '+2:00';
 -- Dumping database structure for adise23_ludo_game
 CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `adise23_ludo_game`;
@@ -323,16 +319,14 @@ DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 DROP TABLE IF EXISTS `game_status`;
-CREATE TABLE `game_status` (
-`status` enum('not active','initialized','started','
-ended','aborded') NOT NULL DEFAULT 'not active',
-`p_turn` enum('R','G','B','Y') DEFAULT NULL,
-`result` enum('R','G','B','Y','D') DEFAULT NULL,
-`last_change` NOW() NULL DEFAULT NULL
+CREATE TABLE IF NOT EXISTS `game_status` (
+  `status` enum('not active','initialized','started','\r\nended','aborded') NOT NULL DEFAULT 'not active',
+  `p_turn` enum('R','G','B','Y') DEFAULT NULL,
+  `result` enum('R','G','B','Y','D') DEFAULT NULL,
+  `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
--- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
 	('not active', NULL, NULL, NULL);
@@ -360,17 +354,17 @@ CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT NOW() ON UPDATE NOW(),
+  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	(NULL, 'B', NULL, NULL),
-	(NULL, 'R', NULL, NULL),
+	('sdsd', 'B', 'e78347ee46324b4b14be0074efb7da8c', '2023-11-23 09:54:04'),
+	('ddd', 'R', '68032a6650719933ddc757447d1d95ac', '2023-11-23 09:53:58'),
 	(NULL, 'G', NULL, NULL),
-	(NULL, 'Y', NULL, NULL);
+	('ds', 'Y', '3e60929f8ec61854e44e49164520f074', '2023-11-23 09:54:15');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -378,7 +372,7 @@ CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
   `token` varchar(100) DEFAULT NULL,
-  `last_action` timestamp NULL DEFAULT NOW() ON UPDATE  NOW(),
+  `last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`piece_color`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -392,15 +386,3 @@ INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) 
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 DROP TRIGGER IF EXISTS `game_status_update`;
- 
-
-DELIMITER $$
-CREATE
-TRIGGER game_status_update BEFORE UPDATE
-ON game_status
-FOR EACH ROW BEGIN
-SET NEW.last_change = NOW();
-END$$
-DELIMITER ;
-
-playersplayers

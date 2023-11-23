@@ -153,13 +153,10 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
            timer=setTimeout(function() { game_status_update();}, 4000);
         }
 
-        function update_info(){
-            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.');
-            
-            
-        }
-         
-  
+    }
 
-
+    function update_info(){
+        $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.');
+        
+        
     }
