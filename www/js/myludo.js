@@ -138,19 +138,19 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
         var game_stat_old = game_status;
         game_status=data[0];
         update_info();
-       // clearTimeout(timer);
-       // if(game_status.p_turn==me.piece_color &&  me.piece_color!=null) {
-    //        x=0;
+        clearTimeout(timer);
+         if(game_status.p_turn==me.piece_color &&  me.piece_color!=null) {
+           x=0;
     //        // do play
-   //         if(game_stat_old.p_turn!=game_status.p_turn) {
-  //              fill_board();
-    //        }
-    //        $('#move_div').show(1000);
-     //       timer=setTimeout(function() { game_status_update();}, 15000);
-     //   } else {
-      //      // must wait for something
-      //      $('#move_div').hide(1000);
-      //      timer=setTimeout(function() { game_status_update();}, 4000);
+         if(game_stat_old.p_turn!=game_status.p_turn) {
+                fill_board();
+          }
+           $('#move_div').show(1000);
+            timer=setTimeout(function() { game_status_update();}, 15000);
+        } else {
+            // must wait for something
+           $('#move_div').hide(1000);
+           timer=setTimeout(function() { game_status_update();}, 4000);
         }
 
         function update_info(){
@@ -162,4 +162,4 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
   
 
 
-    
+    }

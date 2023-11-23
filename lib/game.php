@@ -47,7 +47,9 @@ function update_game_status() {
 	switch($active_players) {
 		case 0: $new_status='not active'; break;
 		case 1: $new_status='initialized'; break;
-		case 2: $new_status='started'; 
+		case 2:
+			case 3:
+				case 4: $new_status='started'; 
 				if($status['p_turn']==null) {//ξεκινα παντα ο μπλε 
 					$new_turn='Β'; // It was not started before...
 				}
