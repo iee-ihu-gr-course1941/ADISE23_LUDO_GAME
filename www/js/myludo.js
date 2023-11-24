@@ -8,11 +8,12 @@ var timer=null;
 $(function(){
     draw_empty_board();
     fill_board();
+
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
     $('#do_move').click( do_move);
-    $('#move_div').hide(1000);
+    $('#move_div').hide();
     game_status_update();
 });
 
@@ -71,15 +72,11 @@ function fill_board() {
 		success: fill_board_by_data });
 }
 
-function reset_board(){
-    $.ajax(
-        {url:"ludo.php/board/",
-       method: 'POST',  success: fill_board_by_data });
+function reset_board() {
+	$.ajax({url: "ludo.php/board/", headers: {"X-Token": me.token}, method: 'POST',  success: fill_board_by_data });
 	$('#move_div').hide();
-    $('#game_initializer').show(2000);
+	$('#game_initializer').show(2000);
 }
-
-
 
 function fill_board_by_data(data) {
     board=data;

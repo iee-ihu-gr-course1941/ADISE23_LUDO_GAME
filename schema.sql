@@ -20,6 +20,7 @@ CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET
 USE `adise23_ludo_game`;
 
 -- Dumping structure for πίνακας adise23_ludo_game.board
+DROP TABLE IF EXISTS `board`;
 CREATE TABLE IF NOT EXISTS `board` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
@@ -48,8 +49,8 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(1, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(1, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 2, 'W', 'Y', 'Y3', NULL, NULL, NULL, NULL),
-	(2, 3, 'W', 'Y', 'Y1', NULL, NULL, NULL, NULL),
+	(2, 2, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 5, 'W', NULL, NULL, 6, 15, 24, 33),
 	(2, 6, 'G', NULL, NULL, NULL, NULL, NULL, 36),
@@ -59,8 +60,8 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 10, 'W', 'G', 'G1', NULL, NULL, NULL, NULL),
 	(2, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 2, 'W', 'Y', 'Y4', NULL, NULL, NULL, NULL),
-	(3, 3, 'W', 'Y', 'Y2', NULL, NULL, NULL, NULL),
+	(3, 2, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 5, 'W', NULL, NULL, 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
@@ -76,15 +77,15 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 5, 'W', NULL, NULL, 4, 13, 22, 31),
 	(4, 6, 'G', NULL, NULL, NULL, NULL, NULL, 38),
 	(4, 7, 'W', NULL, NULL, 12, 21, 30, 3),
-	(4, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 8, 'G', 'Y', 'Y1', NULL, NULL, NULL, NULL),
 	(4, 9, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 1, 'W', NULL, NULL, NULL, 9, 18, 27),
 	(5, 2, 'Y', NULL, NULL, 1, 10, 19, 28),
-	(5, 3, 'W', NULL, NULL, 2, 11, 20, 29),
-	(5, 4, 'W', NULL, NULL, 3, 12, 21, 30),
-	(5, 5, 'GY', NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 3, 'W', 'Y', 'Y3', 2, 11, 20, 29),
+	(5, 4, 'W', 'Y', 'Y4', 3, 12, 21, 30),
+	(5, 5, 'GY', 'Y', 'Y2', NULL, NULL, NULL, NULL),
 	(5, 6, 'G', NULL, NULL, NULL, NULL, NULL, 39),
 	(5, 7, 'GR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 8, 'W', NULL, NULL, 13, 22, 31, 4),
@@ -159,6 +160,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.board_empty
+DROP TABLE IF EXISTS `board_empty`;
 CREATE TABLE IF NOT EXISTS `board_empty` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
@@ -298,6 +300,7 @@ INSERT INTO `board_empty` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for procedure adise23_ludo_game.clean_board
+DROP PROCEDURE IF EXISTS `clean_board`;
 DELIMITER //
 CREATE PROCEDURE `clean_board`()
 BEGIN
@@ -306,6 +309,7 @@ END//
 DELIMITER ;
 
 -- Dumping structure for procedure adise23_ludo_game.clean_players
+DROP PROCEDURE IF EXISTS `clean_players`;
 DELIMITER //
 CREATE PROCEDURE `clean_players`()
 BEGIN
@@ -314,6 +318,7 @@ END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
+DROP TABLE IF EXISTS `game_status`;
 CREATE TABLE IF NOT EXISTS `game_status` (
   `status` enum('not active','initialized','started','\r\nended','aborded') NOT NULL DEFAULT 'not active',
   `p_turn` enum('R','G','B','Y') DEFAULT NULL,
@@ -321,19 +326,15 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'R', 'D', '2023-11-24 07:30:08');
+	('started', 'Y', 'D', '2023-11-24 09:39:07');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
+DROP PROCEDURE IF EXISTS `move_piece`;
 DELIMITER //
-CREATE PROCEDURE `move_piece`(
-	IN `x1` TINYINT,
-	IN `y1` TINYINT,
-	IN `x2` TINYINT,
-	IN `y2` TINYINT
-)
+CREATE PROCEDURE `move_piece`(IN x1 TINYINT, IN y1 TINYINT, IN x2 TINYINT, IN y2 TINYINT)
 BEGIN
     DECLARE p, p_color, piece_val VARCHAR(3);
     DECLARE color_val ENUM('R','G','B','Y');
@@ -381,6 +382,7 @@ END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.players
+DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
@@ -393,11 +395,12 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	(NULL, 'R', NULL, NULL),
+	('φσφσφσφσ', 'R', 'f0392d543aaf082ed09fc64862b064bb', '2023-11-24 09:39:01'),
 	(NULL, 'G', NULL, NULL),
-	(NULL, 'Y', NULL, NULL);
+	('"<br />\\n<b>Fatal er', 'Y', '404b6c785e53a055b3c588413645b8e9', '2023-11-24 09:39:07');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
+DROP TABLE IF EXISTS `players_empty`;
 CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
@@ -415,6 +418,7 @@ INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) 
 	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
+DROP TRIGGER IF EXISTS `game_status_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 DELIMITER //
 CREATE TRIGGER game_status_update BEFORE UPDATE
