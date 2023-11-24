@@ -74,7 +74,7 @@ function fill_board() {
 function reset_board(){
     $.ajax(
         {url:"ludo.php/board/",
-        headers: {"X-Token": me.token}, method: 'POST',  success: fill_board_by_data });
+       method: 'POST',  success: fill_board_by_data });
 	$('#move_div').hide();
     $('#game_initializer').show(2000);
 }
@@ -124,11 +124,9 @@ function fill_board_by_data(data) {
     
     function login_error(data, y, z, c) {
         var x = data.responseJSON;
-        if (x && x.errormesg) {
+     
             alert(x.errormesg);
-        } else {
-            alert('ΓΤΧΜ An error occurred');
-        }
+       
     }
   
    
@@ -189,7 +187,8 @@ function fill_board_by_data(data) {
 
 
         function move_result(data){
-            game_status_update();
+          //  fill_board_by_data
+          //  game_status_update();
             fill_board_by_data(data);
         }
         

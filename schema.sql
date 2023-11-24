@@ -20,13 +20,12 @@ CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET
 USE `adise23_ludo_game`;
 
 -- Dumping structure for πίνακας adise23_ludo_game.board
-DROP TABLE IF EXISTS `board`;
 CREATE TABLE IF NOT EXISTS `board` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
   `b_color` enum('R','G','B','Y','W','MIX','GR','BR','BY','GY') NOT NULL,
   `piece_color` enum('R','G','B','Y') DEFAULT NULL,
-  `piece` enum('R1','R2','R3','R4','G1','G2','G3','G4','B1','B2','B3','B4','Y1','Y2','Y3','Y4') DEFAULT NULL,
+  `piece` varchar(3) DEFAULT NULL,
   `y_path` int(11) DEFAULT NULL CHECK (`y_path` is null or `y_path` >= 1 and `y_path` <= 39),
   `b_path` int(11) DEFAULT NULL CHECK (`b_path` is null or `b_path` >= 1 and `b_path` <= 39),
   `r_path` int(11) DEFAULT NULL CHECK (`r_path` is null or `r_path` >= 1 and `r_path` <= 39),
@@ -160,13 +159,12 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.board_empty
-DROP TABLE IF EXISTS `board_empty`;
 CREATE TABLE IF NOT EXISTS `board_empty` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
   `b_color` enum('R','G','B','Y','W','MIX','GR','BR','BY','GY') NOT NULL,
   `piece_color` enum('R','G','B','Y') DEFAULT NULL,
-  `piece` enum('R1','R2','R3','R4','G1','G2','G3','G4','B1','B2','B3','B4','Y1','Y2','Y3','Y4') DEFAULT NULL,
+  `piece` varchar(3) DEFAULT NULL,
   `y_path` int(11) DEFAULT NULL CHECK (`y_path` is null or `y_path` >= 1 and `y_path` <= 39),
   `b_path` int(11) DEFAULT NULL CHECK (`b_path` is null or `b_path` >= 1 and `b_path` <= 39),
   `r_path` int(11) DEFAULT NULL CHECK (`r_path` is null or `r_path` >= 1 and `r_path` <= 39),
@@ -300,7 +298,6 @@ INSERT INTO `board_empty` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for procedure adise23_ludo_game.clean_board
-DROP PROCEDURE IF EXISTS `clean_board`;
 DELIMITER //
 CREATE PROCEDURE `clean_board`()
 BEGIN
@@ -309,7 +306,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for procedure adise23_ludo_game.clean_players
-DROP PROCEDURE IF EXISTS `clean_players`;
 DELIMITER //
 CREATE PROCEDURE `clean_players`()
 BEGIN
@@ -318,7 +314,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
-DROP TABLE IF EXISTS `game_status`;
 CREATE TABLE IF NOT EXISTS `game_status` (
   `status` enum('not active','initialized','started','\r\nended','aborded') NOT NULL DEFAULT 'not active',
   `p_turn` enum('R','G','B','Y') DEFAULT NULL,
@@ -329,27 +324,63 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 -- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('not active', NULL, NULL, NULL);
+	('started', 'R', 'D', '2023-11-24 07:30:08');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
-DROP PROCEDURE IF EXISTS `move_piece`;
 DELIMITER //
-CREATE PROCEDURE `move_piece`(x1 TINYINT,y1 TINYINT,x2 TINYINT,y2 TINYINT)
+CREATE PROCEDURE `move_piece`(
+	IN `x1` TINYINT,
+	IN `y1` TINYINT,
+	IN `x2` TINYINT,
+	IN `y2` TINYINT
+)
 BEGIN
-DECLARE p, p_color CHAR;
-SELECT piece, piece_color INTO p, p_color
-FROM `board` WHERE X=x1 AND Y=y1;
-UPDATE board
-SET piece=p, piece_color=p_color
-WHERE X=x2 AND Y=y2;
-UPDATE board
-SET piece=NULL,piece_color=NULL
-WHERE X=x1 AND Y=y1;
+    DECLARE p, p_color, piece_val VARCHAR(3);
+    DECLARE color_val ENUM('R','G','B','Y');
+
+    -- Use exception handling to rollback on error
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'An error occurred, transaction rolled back.';
+    END;
+
+    -- Start the transaction
+    START TRANSACTION;
+
+    -- Check if the piece exists at the source coordinates
+    SELECT piece, piece_color INTO p, p_color
+    FROM `board`
+    WHERE X = x1 AND Y = y1;
+
+    -- If the piece exists, move it
+    IF p IS NOT NULL THEN
+        -- Move the piece to the destination coordinates
+        UPDATE `board`
+        SET piece = NULL, piece_color = NULL
+        WHERE X = x1 AND Y = y1;
+
+        UPDATE `board`
+        SET piece = p, piece_color = p_color
+        WHERE X = x2 AND Y = y2;
+
+        -- Debugging information
+        SELECT * FROM `board` WHERE X = x1 AND Y = y1;
+        SELECT * FROM `board` WHERE X = x2 AND Y = y2;
+
+        -- Commit the transaction if everything is successful
+        COMMIT;
+    ELSE
+        -- If the piece does not exist at the source coordinates, rollback the transaction
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Piece does not exist at the specified coordinates.';
+    END IF;
 END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.players
-DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
@@ -361,13 +392,12 @@ CREATE TABLE IF NOT EXISTS `players` (
 -- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	('sdsd', 'B', 'e78347ee46324b4b14be0074efb7da8c', '2023-11-23 09:54:04'),
-	('ddd', 'R', '68032a6650719933ddc757447d1d95ac', '2023-11-23 09:53:58'),
+	(NULL, 'B', NULL, NULL),
+	(NULL, 'R', NULL, NULL),
 	(NULL, 'G', NULL, NULL),
-	('ds', 'Y', '3e60929f8ec61854e44e49164520f074', '2023-11-23 09:54:15');
+	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
-DROP TABLE IF EXISTS `players_empty`;
 CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
@@ -385,4 +415,18 @@ INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) 
 	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
-DROP TRIGGER IF EXISTS `game_status_update`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+DELIMITER //
+CREATE TRIGGER game_status_update BEFORE UPDATE
+ON game_status
+FOR EACH ROW BEGIN
+SET NEW.last_change = NOW();
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
