@@ -20,7 +20,6 @@ CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET
 USE `adise23_ludo_game`;
 
 -- Dumping structure for πίνακας adise23_ludo_game.board
-DROP TABLE IF EXISTS `board`;
 CREATE TABLE IF NOT EXISTS `board` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
@@ -160,7 +159,6 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.board_empty
-DROP TABLE IF EXISTS `board_empty`;
 CREATE TABLE IF NOT EXISTS `board_empty` (
   `x` tinyint(1) NOT NULL,
   `y` tinyint(1) NOT NULL,
@@ -300,7 +298,6 @@ INSERT INTO `board_empty` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for procedure adise23_ludo_game.clean_board
-DROP PROCEDURE IF EXISTS `clean_board`;
 DELIMITER //
 CREATE PROCEDURE `clean_board`()
 BEGIN
@@ -309,7 +306,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for procedure adise23_ludo_game.clean_players
-DROP PROCEDURE IF EXISTS `clean_players`;
 DELIMITER //
 CREATE PROCEDURE `clean_players`()
 BEGIN
@@ -318,7 +314,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
-DROP TABLE IF EXISTS `game_status`;
 CREATE TABLE IF NOT EXISTS `game_status` (
   `status` enum('not active','initialized','started','\r\nended','aborded') NOT NULL DEFAULT 'not active',
   `p_turn` enum('R','G','B','Y') DEFAULT NULL,
@@ -326,15 +321,19 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
 	('started', 'Y', 'D', '2023-11-24 09:39:07');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
-DROP PROCEDURE IF EXISTS `move_piece`;
 DELIMITER //
-CREATE PROCEDURE `move_piece`(IN x1 TINYINT, IN y1 TINYINT, IN x2 TINYINT, IN y2 TINYINT)
+CREATE PROCEDURE `move_piece`(
+	IN `x1` TINYINT,
+	IN `y1` TINYINT,
+	IN `x2` TINYINT,
+	IN `y2` TINYINT
+)
 BEGIN
     DECLARE p, p_color, piece_val VARCHAR(3);
     DECLARE color_val ENUM('R','G','B','Y');
@@ -366,6 +365,8 @@ BEGIN
         SET piece = p, piece_color = p_color
         WHERE X = x2 AND Y = y2;
 
+UPDATE game_status SET p_turn=if(p_color='Y','R','Y');
+
         -- Debugging information
         SELECT * FROM `board` WHERE X = x1 AND Y = y1;
         SELECT * FROM `board` WHERE X = x2 AND Y = y2;
@@ -382,7 +383,6 @@ END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.players
-DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
@@ -400,7 +400,6 @@ INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	('"<br />\\n<b>Fatal er', 'Y', '404b6c785e53a055b3c588413645b8e9', '2023-11-24 09:39:07');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
-DROP TABLE IF EXISTS `players_empty`;
 CREATE TABLE IF NOT EXISTS `players_empty` (
   `username` varchar(20) DEFAULT NULL,
   `piece_color` enum('B','R','G','Y') NOT NULL,
@@ -418,7 +417,6 @@ INSERT INTO `players_empty` (`username`, `piece_color`, `token`, `last_action`) 
 	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
-DROP TRIGGER IF EXISTS `game_status_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 DELIMITER //
 CREATE TRIGGER game_status_update BEFORE UPDATE
