@@ -145,7 +145,7 @@ function fill_board_by_data(data) {
                 fill_board();
           }
            $('#move_div').show(1000);
-           timer=setTimeout(function() { game_status_update();}, 15000);
+           timer=setTimeout(function() { game_status_update();}, 4000);
           
         } else {
             // must wait for something
@@ -175,7 +175,9 @@ function fill_board_by_data(data) {
                     method: 'PUT',
                     dataType: "json",
                     contentType: 'application/json',
-                    data: JSON.stringify( {x: a[2], y: a[3], token: me.token}),
+                    data: JSON.stringify( {x: a[2], y: a[3]}),
+                  // data: JSON.stringify( {x: a[2], y: a[3] , "X-Token": me.token  }),
+                  //to token απο ορισμα, το βαζω στους headers(αλλαγη ludo.php)
                     headers: {"X-Token": me.token},
                     success: move_result,
                     error: login_error});
