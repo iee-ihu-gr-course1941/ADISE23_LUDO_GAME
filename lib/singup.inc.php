@@ -54,3 +54,5 @@ else{
     header("location: ../www/singup.php");
     exit();
 }
+
+?>

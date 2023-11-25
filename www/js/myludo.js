@@ -14,7 +14,6 @@ $(function(){
     $('#players_reset').click(reset_players);
     $('#do_move').click( do_move);
     $('#move_div').hide();
-    game_status_update();
 });
 
 
@@ -158,7 +157,8 @@ function fill_board_by_data(data) {
     }
 
       function update_info(){
-            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.');
+            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.' +  '0');
             
             
         }

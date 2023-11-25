@@ -11,15 +11,12 @@
     <section id='main_body'>
 
         <div id='ludo_board'></div>
-        <div id='players_board'></div>
+    
         <div id='ui_Chat'>
             <a id='game_info'>
-           
+             
         </div>
-        <div id='move_div'>
-                    Δώσε κίνηση (x1 y1 x2 y2): <input id='the_move'>  <button id='do_move' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ</button> </div>
-                <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>
-        </div>
+     
     </section>
 
     <div id="gameButton">
@@ -35,6 +32,10 @@
             </select>    
         </div>      
         <button id='ludo_login' class='btn btn-primary'>ΕΙΣΟΔΟΣ ΣΤΟ ΠΑΙΧΝΙΔΙ</button><br>
+        <div id='move_div'>
+                    Δώσε κίνηση (x1 y1 x2 y2): <input id='the_move'>  <button id='do_move' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ</button> </div>
+                
+        </div> 
         <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>
 
     </div>

@@ -20,3 +20,5 @@ else{
     header("location: ../www/login.php");
     exit();
 }
+
+?>
