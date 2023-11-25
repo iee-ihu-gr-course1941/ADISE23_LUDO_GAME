@@ -521,6 +521,22 @@ DECLARE dice_result INT;
  END//
 DELIMITER ;
 
+-- Dumping structure for πίνακας adise23_ludo_game.users
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `usersId` int(11) NOT NULL AUTO_INCREMENT,
+  `usersName` varchar(128) NOT NULL,
+  `usersEmail` varchar(128) NOT NULL,
+  `usersPwd` varchar(128) NOT NULL,
+  PRIMARY KEY (`usersId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.users: ~2 rows (approximately)
+DELETE FROM `users`;
+INSERT INTO `users` (`usersId`, `usersName`, `usersEmail`, `usersPwd`) VALUES
+	(1, 'Dimitris', 'dimitris121997@gmail.com', '$2y$10$wHp4pOtEadNxnRBCmhUOjOf7fXJjRUCE2TIf4okRtEJRol1pDwuVq'),
+	(3, 'test', 'test@gmail.com', '$2y$10$WQt5m/LDZ627ioDYj2T6peGwMeRHjq5RHlnjSGzQX1e/K1x/KC5Oy');
+
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 DROP TRIGGER IF EXISTS `game_status_update`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
