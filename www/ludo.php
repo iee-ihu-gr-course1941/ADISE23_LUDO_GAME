@@ -15,18 +15,29 @@ $request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
 // $request = explode('/', trim($_SERVER['SCRIPT_NAME'],'/'));
 // Σε περίπτωση που τρέχουμε php –S 
 $input = json_decode(file_get_contents('php://input'),true);
+if($input==null) {
+    $input=[];
+}
+if(isset($_SERVER['HTTP_X_TOKEN'])) {
+    $input['token']=$_SERVER['HTTP_X_TOKEN'];
+} else {
+    $input['token']='';
+}
 
-# print_r($request );
+// print_r($request );
 
  switch ($r=array_shift($request)) {
     case 'board' :
 	switch ($b=array_shift($request)) {
 		case '': 
 		case null: handle_board($method);break;
-//		case 'piece': handle_piece($method, $request[0],$request[1],$input);
-//					break;
-	 case 'player': handle_player($method, $request[0],$input);
-//					break;
+ 	case 'piece': handle_piece($method, $request[0],$request[1],$input);
+ 				break;
+	// case 'player': handle_player($method, $request[0],$input);
+					//break;
+					default: header("HTTP/1.1 404 Not Found");
+                            break;
+			
  
 	}
 		break;
@@ -67,9 +78,15 @@ function handle_board($method) {
 }
 
 function handle_piece($method, $x,$y,$input) {
-    ;
-}
+	if($method=='GET') {
+		show_piece($x,$y);
+	} else if ($method=='PUT') {
+		move_piece($x,$y,$input['x'],$input['y'],  
+				   $input['token']);
+	}    
 
+
+}
 function handle_player($method, $p,$input) {
     switch ($b=array_shift($p)) {
 	 	//case '':
@@ -80,9 +97,12 @@ function handle_player($method, $p,$input) {
 		
 		
 		          
-        case 'R': 
-			case 'B': 
-		case 'G': 
+        case 'R':  handle_user($method, $b,$input);
+		break;
+			case 'B':  handle_user($method, $b,$input);
+			break;
+		case 'G':  handle_user($method, $b,$input);
+		break;
 			case 'Y': handle_user($method, $b,$input);
 					break;
 		default: header("HTTP/1.1 404 Not Found");
