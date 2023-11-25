@@ -45,10 +45,9 @@
   }
 
     /*-----finish navybox-----*/
-
-
-    /*-----Board-----*/
   
+
+    /*-----PageName-----*/
 
   #h1Name{
     display: flex;
@@ -56,24 +55,75 @@
     justify-content: center;
     align-items: center;
     height: 8vh;
-
-
-    /*-----Finish Board-----*/
-
   }
+
+    /*-----Finish PageName-----*/
+
+    /*-----Board-----*/
+
   #main_body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 70vh;
     border-collapse: collapse;
     background-image: url('/www/images/black-1072366_1920.jpg');
     border: solid black 1px;
     text-align: center;
     position: relative;
+    
   }
 
+   #ludo_board{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    position: relative;
+    margin: 0 auto;
+  }
+  
+  #main_body p{
+    color: white;
+    font-size: large;
+  }
+
+  #ui_Chat{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    height: 100%;
+    background-color: white;
+    color: black;
+  }
     /*-----Finish Board-----*/
+
+    /*-----Form-----*/
+
+  #form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    border-collapse: collapse;
+    
+  }
+
+  input{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 5px;
+
+  }
+  
+  #submit{
+    width: 100%; /* Make the button as wide as the input fields */
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
+  }
+
+    /*-----Finish Form-----*/
   
     /*-----Buttton-----*/
 

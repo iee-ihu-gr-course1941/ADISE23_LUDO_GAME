@@ -11,10 +11,12 @@
     <section id='main_body'>
 
         <div id='ludo_board'></div>
-
+        <div id='players_board'></div>
+        <div id='ui_Chat'>
+            <a id='game_info'>
+           
+        </div>
     </section>
-
-    <div id='players_board'></div>
 
     <div id="gameButton">
         <button id='ludo_reset' class='btn btn-primary'>Restart</button><br><!--το κουμπι reset board βημα 1-->
@@ -26,14 +28,13 @@
             <option value='B'>B</option>
             <option value='G'>G</option>
             <option value='Y'>Y</option>
-            </select>
-                
-            <button id='ludo_login' class='btn btn-primary'>ΕΙΣΟΔΟΣ ΣΤΟ ΠΑΙΧΝΙΔΙ</button><br>
-           </div>              
-            <div id='game_info'>
-            </div>
-            <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>
+            </select>    
+        </div>      
+        <button id='ludo_login' class='btn btn-primary'>ΕΙΣΟΔΟΣ ΣΤΟ ΠΑΙΧΝΙΔΙ</button><br>
+        <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>
+
     </div>
+
 
 <?php
 

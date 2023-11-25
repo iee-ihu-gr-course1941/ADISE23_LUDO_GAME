@@ -15,33 +15,27 @@ $(function(){
 });
 
  
- function reset_players() {
-    
-        // Send an AJAX request to the server to update the database
-        $.ajax({
-            url: 'ludo.php/delete_players/', // Adjust the path to your server-side script
-            method: 'POST',
-dataType: "json",
-          headers: {"X-Token": me.token},
-            contentType: 'application/json',
-            data: { action: 'reset_players' }, // Pass the action as part of the data
-            success: function(response) {
-                // Handle the response from the server
-                alert('js Database updated successfully!');
-            },
-            error: function() {
-                alert('js Error occurred while updating the database.');
-            }
-        });
-    // game_status_update();
+function reset_players() {
+    // Send an AJAX request to the server to update the database
+    $.ajax({
+        url: "///C:/Users/dimit/Documents/GitHub/ADISE23_LUDO_GAME/lib/users.php",
+        method: 'post',
+        data: {action:"reset_players"},
+        success: function(response) {
+            alert(response);
+        },
+        error: function() {
+            alert('Error occurred while nulling the table.');
+        }
+    });
+    }
 
-    } 
     function login_to_game() {
-
         if($('#username').val()=='') {
             alert('You have to set a username');
             return;
         }
+
         var p_color = $('#pcolor').val();
         draw_empty_board(p_color);
         fill_board();
@@ -97,15 +91,13 @@ function reset_board(){
     );
 }
 
-
-
 function fill_board_by_data(data) {
     board=data;
 		for(var i=0;i<data.length;i++) {
 		var o = data[i];
 		var id = '#square_'+ o.x +'_' + o.y;
-         var c = (o.piece!=null)?  o.piece:'';
-var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
+        var c = (o.piece!=null)?  o.piece:'';
+        var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
 	 	$(id).addClass(o.b_color+'_square').html(im);
         
 	}}

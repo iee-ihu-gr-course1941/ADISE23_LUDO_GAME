@@ -86,3 +86,42 @@ function createUser($conn,$username,$email,$pwd){
     header("location: ../www/singup.php?error=none");
     exit();
 }
+
+//Ελεγχος αν ειναι κενα τα πεδια στο login
+function emptyInputLogin($username,$pwd){
+    $result;
+    if(empty($username) || empty($pwd)){
+        $result = true;
+    }
+    else{
+        $result = false;
+    }
+    return $result;
+}
+
+//Ελεγχος αν υπαρχει ο χρηστης στην βαση δεδομενων
+function loginUser($conn,$username,$pwd){
+    $nameExists = nameExists($conn,$username,$username);
+
+    //Ελεγχος αν υπαρχει ο χρηστης
+    if($nameExists === false){
+        header("location: ../www/login.php?error=wronglogin");
+        exit();
+    }
+    
+    //Ελεγχος αν ο κωδικος ειναι σωστος
+    $pwdHashed = $nameExists["usersPwd"];
+    $checkPwd = password_verify($pwd,$pwdHashed);
+
+    if($checkPwd === false){
+        header("location: ../www/login.php?error=wronglogin");
+        exit();
+    }
+    else if($checkPwd === true){
+        session_start();
+        $_SESSION["userid"] = $nameExists["usersId"];
+        $_SESSION["username"] = $nameExists["usersName"];
+        header("location: ../www/index.php");
+        exit();
+    }
+}

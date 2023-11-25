@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,17 +33,31 @@
 
     <nav> 
     <!--navybox-->
-   
         <div class="navybox">
          <ul>
-             <ul id="playerName"><a>UserName:</a>&nbsp;
-              <li id="UserName"><a>DimitrisGiouv</a></li>
+             <ul id="playerName"><a>UserName:</a> &nbsp;
+              <?php
+                if(isset($_SESSION["username"])){
+                    echo "<li id='UserName'><a>".$_SESSION["username"]."</a></li>";
+                }
+                else{
+                    echo "<li id='UserName'><a>Guest</a></li>";
+                }
+                ?>
+              </a></li>
              </ul>
             <li><a href="#">Αρχικη</a></li>
             <li><a href="">Προφιλ</a></li>
             <li><a href="./index.php">Παιχνιδι</a></li>
-            <li><a href="./singup.php">Sing Up</a></li>
-            <li><a href="./login.php">Login</a></li>
+            <?php
+                if(isset($_SESSION["username"])){
+                    echo "<li><a href='../lib/logout.inc.php'>Log out</a></li>";
+                }
+                else{
+                    echo "<li><a href='./singup.php'>Sing Up</a></li>";
+                    echo "<li><a href='./login.php'>Log in</a></li>";
+                }
+            ?>
              <ul id="playerData"><a>Score:</a>&nbsp;
               <li id="Score"><a>0098</a></li>
              </ul>

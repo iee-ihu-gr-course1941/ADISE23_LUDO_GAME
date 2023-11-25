@@ -92,11 +92,15 @@ function handle_user($method, $b,$input) {
 }
 
 function reset_players(){
-	global $mysqli;
-
-    $sql = 'call clean_players()';
-    $mysqli->query($sql);
-show_users();
+	global $conn;
+	$reset="reset_players";
+    $sql = "TRUNCATE TABLE $reset";
+    if ($conn->query($sql) === TRUE) {
+		echo "Table $tableName truncated successfully";
+	} else {
+		echo "Error truncating table: " . $conn->error;
+	}
+	show_users();
 }
 
 
