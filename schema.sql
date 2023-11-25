@@ -52,7 +52,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 2, 'W', 'Y', 'Y3', NULL, NULL, NULL, NULL),
 	(2, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 5, 'W', 'Y', 'Y1', 6, 15, 24, 33),
+	(2, 5, 'W', NULL, NULL, 6, 15, 24, 33),
 	(2, 6, 'G', NULL, NULL, NULL, NULL, NULL, 36),
 	(2, 7, 'G', NULL, NULL, 10, 19, 28, 1),
 	(2, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -102,7 +102,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(6, 8, 'R', NULL, NULL, NULL, NULL, 38, NULL),
 	(6, 9, 'R', NULL, NULL, NULL, NULL, 37, NULL),
 	(6, 10, 'R', NULL, NULL, NULL, NULL, 36, NULL),
-	(6, 11, 'W', NULL, NULL, 17, 26, 35, 8),
+	(6, 11, 'W', 'Y', 'Y1', 17, 26, 35, 8),
 	(7, 1, 'W', NULL, NULL, 34, 7, 16, 25),
 	(7, 2, 'W', NULL, NULL, 33, 6, 15, 24),
 	(7, 3, 'W', NULL, NULL, 32, 5, 14, 23),
@@ -110,16 +110,16 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 5, 'BY', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 6, 'B', NULL, NULL, NULL, 39, NULL, NULL),
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
-	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
+	(7, 8, 'W', 'Y', 'Y1', 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', NULL, NULL, 19, 28, 1, 10),
+	(7, 10, 'R', 'Y', 'Y1', 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 3, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 4, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 5, 'W', NULL, NULL, 30, 3, 12, 21),
-	(8, 6, 'B', NULL, NULL, NULL, 38, NULL, NULL),
+	(8, 6, 'B', 'R', 'R3', NULL, 38, NULL, NULL),
 	(8, 7, 'W', NULL, NULL, 22, 31, 4, 13),
 	(8, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 9, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -133,8 +133,8 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(9, 6, 'B', NULL, NULL, NULL, 37, NULL, NULL),
 	(9, 7, 'W', NULL, NULL, 32, 5, 27, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
-	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
-	(9, 10, 'W', 'R', 'R1', NULL, NULL, NULL, NULL),
+	(9, 9, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 2, 'W', 'B', 'B4', NULL, NULL, NULL, NULL),
@@ -145,7 +145,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(10, 7, 'W', NULL, NULL, 24, 33, 6, 15),
 	(10, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 9, 'W', 'R', 'R4', NULL, NULL, NULL, NULL),
-	(10, 10, 'W', 'R', 'R2', NULL, NULL, NULL, NULL),
+	(10, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -326,10 +326,10 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'Y', 'D', '2023-11-25 11:20:00');
+	('started', 'Y', 'D', '2023-11-25 14:08:06');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -388,10 +388,10 @@ UPDATE game_status SET p_turn=if(p_color='Y','R','Y');
 END//
 DELIMITER ;
 
--- Dumping structure for procedure adise23_ludo_game.move_y_piece
-DROP PROCEDURE IF EXISTS `move_y_piece`;
+-- Dumping structure for procedure adise23_ludo_game.move_y_path
+DROP PROCEDURE IF EXISTS `move_y_path`;
 DELIMITER //
-CREATE PROCEDURE `move_y_piece`()
+CREATE PROCEDURE `move_y_path`()
 BEGIN
     DECLARE current_x TINYINT;
     DECLARE current_y TINYINT;
@@ -403,7 +403,7 @@ DECLARE dice_result INT;
 
     -- Use exception handling to rollback on error
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-   
+
 
     -- Start the transaction
     START TRANSACTION;
@@ -417,55 +417,45 @@ DECLARE dice_result INT;
          SELECT dice_result;
 
     -- If the piece exists, move it
-    IF  (current_ypath IS NULL) AND (dice_result  = 6)  THEN
+    IF  (current_ypath IS NULL)   THEN
         -- Move the piece to the destination coordinates
-        UPDATE `board`
+        UPDATE board
         SET piece = NULL, piece_color = NULL
         WHERE X = current_x AND Y = current_y;
 
 
 
-        UPDATE `board`
-        SET piece = 'Y1', piece_color = 'Y'  
+        UPDATE board
+        SET piece = 'Y1', piece_color = 'Y'
         WHERE X= 5 AND Y= 2 ;
-    
+
 UPDATE game_status SET p_turn= 'R' ;
 
         -- Debugging information
-  SELECT * FROM `board` WHERE X = 2 AND Y = 3;
-        SELECT * FROM `board` WHERE y_path=1 ;
-
+  SELECT * FROM board WHERE X = 2 AND Y = 3;
+        SELECT * FROM board WHERE y_path=1 ;
         -- Commit the transaction if everything is successful
  COMMIT;
-       
-        ELSEIF current_ypath IS NOT NULL THEN
-         
-    SET new_ypath=current_ypath + dice_result;
-   
-        -- Move the piece to the destination coordinates
-        UPDATE `board`
+       ELSEIF current_ypath IS NOT NULL THEN
+   SET new_ypath=current_ypath + dice_result;
+          -- Move the piece to the destination coordinates
+        UPDATE board
         SET piece = NULL, piece_color = NULL
         WHERE X = current_x AND Y = current_y;
-
-        UPDATE `board`
+        UPDATE board
         SET piece = 'Y1', piece_color = 'Y'
         WHERE y_path=new_ypath;
-
 UPDATE game_status SET p_turn= 'R' ;
-
         -- Debugging information
-  SELECT * FROM `board` WHERE X = current_x AND Y = current_y;
-        SELECT * FROM `board` WHERE y_path = new_ypath;
-
+  SELECT * FROM board WHERE X = current_x AND Y = current_y;
+        SELECT * FROM board WHERE y_path = new_ypath;
         -- Commit the transaction if everything is successful
         COMMIT;
- 
-    ELSE
+ ELSE
    ROLLBACK;
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Piece does not exist at the specified coordinates.';
-  
-    END IF;
+ END IF;
 END//
 DELIMITER ;
 
@@ -483,9 +473,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	(NULL, 'R', NULL, NULL),
+	('dsd', 'R', 'd628363845209193b4fc9321586d62f5', '2023-11-25 14:05:16'),
 	(NULL, 'G', NULL, NULL),
-	(NULL, 'Y', NULL, NULL);
+	('sdsds', 'Y', '9d1bf7b00048b0ab4b86d57b9cf6987e', '2023-11-25 14:05:27');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -529,13 +519,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `usersEmail` varchar(128) NOT NULL,
   `usersPwd` varchar(128) NOT NULL,
   PRIMARY KEY (`usersId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.users: ~2 rows (approximately)
+-- Dumping data for table adise23_ludo_game.users: ~3 rows (approximately)
 DELETE FROM `users`;
 INSERT INTO `users` (`usersId`, `usersName`, `usersEmail`, `usersPwd`) VALUES
 	(1, 'Dimitris', 'dimitris121997@gmail.com', '$2y$10$wHp4pOtEadNxnRBCmhUOjOf7fXJjRUCE2TIf4okRtEJRol1pDwuVq'),
-	(3, 'test', 'test@gmail.com', '$2y$10$WQt5m/LDZ627ioDYj2T6peGwMeRHjq5RHlnjSGzQX1e/K1x/KC5Oy');
+	(3, 'test', 'test@gmail.com', '$2y$10$WQt5m/LDZ627ioDYj2T6peGwMeRHjq5RHlnjSGzQX1e/K1x/KC5Oy'),
+	(4, 'blue', 'margarita.iliopoulou@hotmail.com', '$2y$10$jlYZYN4gCf4i8dHMsi9iC.FyIz9MWo6iCG0wqMKDQEJXT2bq0WLF2');
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 DROP TRIGGER IF EXISTS `game_status_update`;

@@ -12,8 +12,12 @@ $(function(){
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
+
+
     $('#do_move').click( do_move);
     $('#move_div').hide();
+    $('#do_move_roll').click( do_move_roll);
+    $('#move_div_roll').hide();
 });
 
 
@@ -74,6 +78,7 @@ function fill_board() {
 function reset_board() {
 	$.ajax({url: "ludo.php/board/", headers: {"X-Token": me.token}, method: 'POST',  success: fill_board_by_data });
 	$('#move_div').hide();
+    $('#move_div_roll').hide(); 
 	$('#game_initializer').show(2000);
 }
 
@@ -143,11 +148,13 @@ function fill_board_by_data(data) {
          if(game_stat_old.p_turn!=game_status.p_turn) {
                 fill_board();
           }
+          $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
            timer=setTimeout(function() { game_status_update();}, 4000);
           
         } else {
             // must wait for something
+            $('#move_div_roll').hide(1000);
           $('#move_div').hide(1000);
          timer=setTimeout(function() { game_status_update();}, 4000);
          
@@ -163,7 +170,7 @@ function fill_board_by_data(data) {
             
         }
 
-        function do_move() {
+     /*   function do_move() {
             var s = $('#the_move').val();
             
             var a = s.trim().split(/[ ]+/);
@@ -177,6 +184,22 @@ function fill_board_by_data(data) {
                     contentType: 'application/json',
                     data: JSON.stringify( {x: a[2], y: a[3]}),
                   // data: JSON.stringify( {x: a[2], y: a[3] , "X-Token": me.token  }),
+                  //to token απο ορισμα, το βαζω στους headers(αλλαγη ludo.php)
+                    headers: {"X-Token": me.token},
+                    success: move_result,
+                    error: login_error});
+            
+        } 
+
+        */
+
+        function do_move_roll() {
+           
+            $.ajax({url: "ludo.php/roll/ " , 
+                    method: 'PUT',
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data:  { action: 'do_move_yellow' },
                   //to token απο ορισμα, το βαζω στους headers(αλλαγη ludo.php)
                     headers: {"X-Token": me.token},
                     success: move_result,

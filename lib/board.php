@@ -62,7 +62,8 @@ function move_piece($x,$y,$x2,$y2,$token) {
 //	}
 //	foreach($board[$x][$y]['moves'] as $i=>$move) {
 	//	if($x2==$move['x'] && $y2==$move['y']) {
-	 	do_move($x,$y,$x2,$y2);
+	 //	do_move($x,$y,$x2,$y2);
+		 do_move_yellow();
 	 	show_board();	
 		exit;
 	//	}
@@ -86,6 +87,16 @@ function do_move($x,$y,$x2,$y2) {
 	//header('Content-type: application/json');
 	//print json_encode(read_board(), JSON_PRETTY_PRINT);
 	// show_board();
+}
+
+function do_move_yellow() {
+	global $mysqli;
+	// Assuming you have a database connection in $conn
+$sql = "CALL move_y_path()";
+$mysqli->query($sql);
+show_board();
+
+	 
 }
   
 

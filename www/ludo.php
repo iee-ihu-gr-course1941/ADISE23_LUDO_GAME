@@ -49,6 +49,8 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
   			break;
 	case 'delete_players': handle_delete_players($method);
 	break;
+	case 'roll': handle_roll($method);
+	break;
     default: 	
 	header("HTTP/1.1 404 Not Found");
     print "<h1>not FOUND</h1>";
@@ -61,6 +63,14 @@ function handle_delete_players($method) {
 		header('HTTP/1.1 405 Method Not Allowed');
     } else if ($method=='POST') {
 		reset_players();
+    }  else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+}
+function handle_roll($method) {
+    if($method=='GET') {
+		header('HTTP/1.1 405 Method Not Allowed');
+    } else if ($method=='PUT') {
+		do_move_yellow();
     }  else {header('HTTP/1.1 405 Method Not Allowed');}
     
 }
