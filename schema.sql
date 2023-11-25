@@ -42,7 +42,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(1, 3, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(1, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(1, 5, 'W', NULL, NULL, 7, 16, 25, 34),
-	(1, 6, 'W', 'Y', 'Y1', 8, 17, 26, 35),
+	(1, 6, 'W', NULL, NULL, 8, 17, 26, 35),
 	(1, 7, 'W', NULL, NULL, 9, 18, 27, NULL),
 	(1, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(1, 9, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -52,7 +52,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 2, 'W', 'Y', 'Y3', NULL, NULL, NULL, NULL),
 	(2, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 5, 'W', NULL, NULL, 6, 15, 24, 33),
+	(2, 5, 'W', 'Y', 'Y1', 6, 15, 24, 33),
 	(2, 6, 'G', NULL, NULL, NULL, NULL, NULL, 36),
 	(2, 7, 'G', NULL, NULL, 10, 19, 28, 1),
 	(2, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -326,10 +326,10 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'R', 'D', '2023-11-25 10:35:25');
+	('started', 'Y', 'D', '2023-11-25 11:20:00');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -483,9 +483,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	('00012', 'R', 'c2d57e8deb7552c4547bbf96be387ebf', '2023-11-25 10:28:41'),
+	(NULL, 'R', NULL, NULL),
 	(NULL, 'G', NULL, NULL),
-	('sdsdsdds', 'Y', '2e9bf0f1a6ce42ad993d49f0ae611354', '2023-11-25 10:28:50');
+	(NULL, 'Y', NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
