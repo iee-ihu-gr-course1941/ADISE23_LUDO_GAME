@@ -62,9 +62,10 @@ function move_piece($x,$y,$x2,$y2,$token) {
 //	}
 //	foreach($board[$x][$y]['moves'] as $i=>$move) {
 	//	if($x2==$move['x'] && $y2==$move['y']) {
-	 //	do_move($x,$y,$x2,$y2);
-		 do_move_yellow();
-	 	show_board();	
+	   	do_move($x,$y,$x2,$y2);
+	//  do_move_yellow();
+//	 roll_dice();
+	 	 show_board();	
 		exit;
 	//	}
 //	}
@@ -89,16 +90,87 @@ function do_move($x,$y,$x2,$y2) {
 	// show_board();
 }
 
-function do_move_yellow() {
-	global $mysqli;
-	// Assuming you have a database connection in $conn
-$sql = "CALL move_y_path()";
-$mysqli->query($sql);
-show_board();
+//function do_move_yellow() {
+//	global $mysqli;
+//	// Assuming you have a database connection in $conn
+//$sql = "CALL move_y_piece()";
+//$st = $mysqli -> prepare($sql);
+//
+//$st -> execute();
+//$res = $st -> get_result();
+//
+//header('Content-type: application/json');
+//print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+//	 
+//}
+//
+//function roll_dice($b){
+//	global $mysqli;
+//
+//	//orig_board->ολος ο πινακας απο την βαση(read_board: select * from board)
+//	$orig_board=read_board();
+//	$board=convert_board($orig_board);
+//	$status = read_status();
+//	//p_turn=$b -> ειναι η σειρα του παικτη που εκανε την αιτηση να παιξει
+//	if($status['status']=='started' && $status['p_turn']==$b && $b!=null) {
+//		// It my turn !!!!
+//		$n = add_valid_moves_to_board($board,$b);
+//		
+//		// Εάν n==0, τότε έχασα !!!!!
+//		// Θα πρέπει να ενημερωθεί το game_status.
+//	}
+//	header('Content-type: application/json');
+//	print json_encode($orig_board, JSON_PRETTY_PRINT);
+//
+//function add_valid_moves_to_piece(&$board,$b,$x,$y) {
+//	$number_of_moves=0;
+//	//ελεγχος εαν το χρωμα του πιονιου ανηκει στον παικτη που κανει την κινηση
+//	if($board[$x][$y]['piece_color']==$b) {
+//		switch($board[$x][$y]['piece']){
+//			case 'Y1': roll_dice_Y() ;break;
+//			case 'Y2': ;break;
+//			case 'Y3':  ;break;
+//			case 'Y4':  ;break;
+//			case 'R1':roll_dice_R();break;
+//			case 'R2':  ;break;
+//			case 'R3':  ;break;
+//			case 'R4': $number_of_moves+=bishop_moves($board,$b,$x,$y);break;
+//		}
+//	} 
+//	 
+//
+//
+function roll_dice_Y1(){
 
-	 
+	global $mysqli;
+ 
+    // Assuming you have a database connection in $mysqli
+    $sql = "call Y1_dice() ; ";
+    $st = $mysqli -> prepare($sql);
+
+  $st -> execute();
+  $res = $st -> get_result();
+ 
+  header('Content-type: application/json');
+  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+    
 }
-  
+
+//function roll_dice_R(){
+//
+//	global $mysqli;
+//
+//   // Assuming you have a database connection in $mysqli
+//   $sql = "call R1_dice();";
+//   $st = $mysqli -> prepare($sql);
+//
+// $st -> execute();
+// $res = $st -> get_result();
+//
+// header('Content-type: application/json');
+// print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+//   
+// ?
 
 function show_board(){
   global $mysqli;
@@ -134,23 +206,6 @@ function show_board_by_player($b) {
 	}
 	header('Content-type: application/json');
 	print json_encode($orig_board, JSON_PRETTY_PRINT);
-}
-function add_valid_moves_to_piece(&$board,$b,$x,$y) {
-	$number_of_moves=0;
-	//ελεγχος εαν το χρωμα του πιονιου ανηκει στον παικτη που κανει την κινηση
-	if($board[$x][$y]['piece_color']==$b) {
-		switch($board[$x][$y]['piece']){
-			case 'Y1': $number_of_moves+=pawn_moves($board,$b,$x,$y);break;
-			case 'Y2': $number_of_moves+=king_moves($board,$b,$x,$y);break;
-			case 'Y3': $number_of_moves+=queen_moves($board,$b,$x,$y);break;
-			case 'Y4': $number_of_moves+=rook_moves($board,$b,$x,$y);break;
-			case 'R1': $number_of_moves+=knight_moves($board,$b,$x,$y);break;
-			case 'R2': $number_of_moves+=bishop_moves($board,$b,$x,$y);break;
-			case 'R3': $number_of_moves+=bishop_moves($board,$b,$x,$y);break;
-			case 'R4': $number_of_moves+=bishop_moves($board,$b,$x,$y);break;
-		}
-	} 
-	return($number_of_moves);
 }
 
 //call by reference: τα στοιχεια του νεου πινακα δεν υπαρχουν στην πραγματικοτητα σαν obj

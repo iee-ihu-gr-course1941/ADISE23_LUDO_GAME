@@ -37,11 +37,11 @@
                      <button id='do_move' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ</button> </div>
 
 
-
+                     
                      <div id='move_div_roll'>
     Έτυχες: <span id='the_move_roll'> </span>
     <button id='do_move_roll' class='btn btn-primary'>ΡΙΞΕ ΖΑΡΙ</button>
-</div>
+</div><div id="diceResult"></div>
         
         
         <button id='players_reset' class='btn btn-primary'>ΤΟΟΟ ΚΟΥΜΠΙ NULL(100% ΔΟΥΛΕΥΕΙ)</button><br>

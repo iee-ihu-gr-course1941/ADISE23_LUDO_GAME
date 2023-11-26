@@ -14,9 +14,9 @@ $(function(){
     $('#players_reset').click(reset_players);
 
 
-    $('#do_move').click( do_move);
+    $('#do_move').click(do_move);
     $('#move_div').hide();
-    $('#do_move_roll').click( do_move_roll);
+    $('#do_move_roll').click(roll_dice);
     $('#move_div_roll').hide();
 });
 
@@ -150,27 +150,29 @@ function fill_board_by_data(data) {
           }
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
+           fill_board_by_data(data);
            timer=setTimeout(function() { game_status_update();}, 4000);
           
         } else {
             // must wait for something
-            $('#move_div_roll').hide(1000);
-          $('#move_div').hide(1000);
+            $('#move_div_roll').hide(5000);
+          $('#move_div').hide(5000);
+            fill_board_by_data(data);
          timer=setTimeout(function() { game_status_update();}, 4000);
          
         }
  
 
     }
-
+ 
       function update_info(){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
-            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.' +  '0');
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.'  );
             
             
         }
 
-     /*   function do_move() {
+       function do_move() {
             var s = $('#the_move').val();
             
             var a = s.trim().split(/[ ]+/);
@@ -191,27 +193,125 @@ function fill_board_by_data(data) {
             
         } 
 
-        */
+        function roll_dice(data){
+        //  last_update=new Date().getTime();
+        //  var game_stat_old = game_status;
+        //   game_status=data[0];
+        //   update_info();
+        //   clearTimeout(timer);
+              if(game_status.p_turn=='Y' ) {
+                roll_dice_Y();
+        }else{
+            //roll_dice_R();
+        }}
+//
+      function roll_dice_Y() {
+          // Make an AJAX call to the server to perform the move
+          $.ajax({
+              url: "ludo.php/roll/Y",
+              method: 'GET',
+              dataType: "json",
+              contentType: 'application/json',
+              data: { action: 'roll_dice_Y1' },
+              headers: { "X-Token": me.token },
+              success: function (data) {
+                  // Handle the success response
+                  console.log("Success Response:", data);
+      
+                  // Access the 'dice' property of the last element
+                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                      $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                      
+                    $("#the_move").val(
+                        " " + data[data.length - 1].prev_x +
+                        " " + data[data.length - 1].prev_y +
+                        " " + data[data.length - 1].new_x +
+                        "  " + data[data.length - 1].new_y
+                    );
+                } else {
+                    console.error("Invalid dice result:", data);
+                    // Handle the case where 'dice' is not present or invalid
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle the error response
+                console.error("Error Response:", xhr.responseText);
+                // You might want to handle errors and display an appropriate message
+            }
+        }); }
 
-        function do_move_roll() {
-           
-            $.ajax({url: "ludo.php/roll/ " , 
-                    method: 'PUT',
-                    dataType: "json",
-                    contentType: 'application/json',
-                    data:  { action: 'do_move_yellow' },
-                  //to token απο ορισμα, το βαζω στους headers(αλλαγη ludo.php)
-                    headers: {"X-Token": me.token},
-                    success: move_result,
-                    error: login_error});
-            
-        }
 
+//      function roll_dice_R() {
+//          // Make an AJAX call to the server to perform the move
+//          $.ajax({
+//              url: "ludo.php/roll/R",
+//              method: 'GET',
+//              dataType: "json",
+//              contentType: 'application/json',
+//              data: { action: 'roll_dice_R' },
+//              headers: { "X-Token": me.token },
+//              success: function (data) {
+//                  // Handle the success response
+//                  console.log("Success Response:", data);
+//      
+//                  // Access the 'dice' property of the last element
+//                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+//                      $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+//                      
+//                    $("#the_move").val(
+//                        " " + data[data.length - 1].prev_x +
+//                        " " + data[data.length - 1].prev_y +
+//                        " " + data[data.length - 1].new_x +
+//                        "  " + data[data.length - 1].new_y
+//                    );
+//                } else {
+//                    console.error("Invalid dice result:", data);
+//                    // Handle the case where 'dice' is not present or invalid
+//                }
+//            },
+//            error: function (xhr, status, error) {
+//                // Handle the error response
+//                console.error("Error Response:", xhr.responseText);
+//                // You might want to handle errors and display an appropriate message
+//            }
+//        }); }
+ //
+ //        $.ajax({
+ //           url: "ludo.php/move_y/",
+ //           method: 'PUT',
+ //           dataType: "json",
+ //           contentType: 'application/json',
+ //           data: { action: 'do_move_yellow' },
+ //           headers: { "X-Token": me.token },
+ //           success:  fill_board_by_data,
+ //           error: function (xhr, status, error) {
+ //               // Handle the error response
+ //               console.error("Error Response:", xhr.responseText);
+ //               // You might want to handle errors and display an appropriate message
+ //           }
+ //       });}
+ //
+ //            /*     // Use the fetched coordinates in the PUT request
+ //               $.ajax({
+ //                   url: "ludo.php/board/piece/" + data.prev_x + '/' + data.prev_y,
+ //                   method: 'PUT',
+ //                   dataType: "json",
+ //                   contentType: 'application/json',
+ //                   data: JSON.stringify({ x: data.new_x, y: data.new_y }),
+ //                   headers: { "X-Token": me.token },
+ //                   success: move_result,
+ //                   error: login_error
+ //               });
+ //          
+ //           }*/
+ //  
+ //
 
         function move_result(data){
           //  fill_board_by_data
-          //  game_status_update();
+         
             fill_board_by_data(data);
+            game_status_update();
         }
         
 

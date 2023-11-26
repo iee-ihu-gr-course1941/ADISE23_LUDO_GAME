@@ -49,9 +49,14 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
   			break;
 	case 'delete_players': handle_delete_players($method);
 	break;
-	case 'roll': handle_roll($method);
+	 case 'roll': 
+	 switch ($b=array_shift($request)) {
+		case 'Y': handle_roll_Y($method);
+		//case 'R':handle_roll_R($method);
+	break;}
 	break;
-    default: 	
+	//case 'move_y':handle_move_y($method);
+   // default: 	
 	header("HTTP/1.1 404 Not Found");
     print "<h1>not FOUND</h1>";
 	exit;
@@ -66,14 +71,22 @@ function handle_delete_players($method) {
     }  else {header('HTTP/1.1 405 Method Not Allowed');}
     
 }
-function handle_roll($method) {
+ function handle_roll_Y($method) {
     if($method=='GET') {
-		header('HTTP/1.1 405 Method Not Allowed');
-    } else if ($method=='PUT') {
-		do_move_yellow();
-    }  else {header('HTTP/1.1 405 Method Not Allowed');}
+		roll_dice_Y1();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
-}
+ }
+ function handle_roll_R($method) {
+    if($method=='GET') {
+ 		roll_dice_R();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
+ 
+ 
  
 
 function handle_board($method) {
