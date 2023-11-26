@@ -202,80 +202,82 @@ function fill_board_by_data(data) {
               if(game_status.p_turn=='Y' ) {
                 roll_dice_Y();
         }else{
-            //roll_dice_R();
+            roll_dice_R();
         }}
 //
-      function roll_dice_Y() {
-          // Make an AJAX call to the server to perform the move
-          $.ajax({
-              url: "ludo.php/roll/Y",
-              method: 'GET',
-              dataType: "json",
-              contentType: 'application/json',
-              data: { action: 'roll_dice_Y1' },
-              headers: { "X-Token": me.token },
-              success: function (data) {
-                  // Handle the success response
-                  console.log("Success Response:", data);
-      
-                  // Access the 'dice' property of the last element
-                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                      $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                      
-                    $("#the_move").val(
-                        " " + data[data.length - 1].prev_x +
-                        " " + data[data.length - 1].prev_y +
-                        " " + data[data.length - 1].new_x +
-                        "  " + data[data.length - 1].new_y
-                    );
-                } else {
-                    console.error("Invalid dice result:", data);
-                    // Handle the case where 'dice' is not present or invalid
-                }
-            },
-            error: function (xhr, status, error) {
-                // Handle the error response
-                console.error("Error Response:", xhr.responseText);
-                // You might want to handle errors and display an appropriate message
-            }
-        }); }
+function roll_dice_Y() {
+   // $('#do_move_roll').prop('disabled', true);
+    // Make an AJAX call to the server to perform the move
+    $.ajax({
+        url: "ludo.php/roll/Y",
+        method: 'GET',
+        dataType: "json",
+        contentType: 'application/json',
+        data: { action: 'roll_dice_Y1' },
+        headers: { "X-Token": me.token },
+        success: function (data) {
+            // Handle the success response
+            console.log("Success Response:", data);
+
+            // Access the 'dice' property of the last element
+            if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                
+              $("#the_move").val(
+                  " " + data[data.length - 1].prev_x +
+                  " " + data[data.length - 1].prev_y +
+                  " " + data[data.length - 1].new_x +
+                  "  " + data[data.length - 1].new_y
+              );
+            
+          } else {
+              console.error("Invalid dice result:", data);
+              // Handle the case where 'dice' is not present or invalid
+          }
+      },
+      error: function (xhr, status, error) {
+          // Handle the error response
+          console.error("Error Response:", xhr.responseText);
+          // You might want to handle errors and display an appropriate message
+      }
+  }); }
 
 
-//      function roll_dice_R() {
-//          // Make an AJAX call to the server to perform the move
-//          $.ajax({
-//              url: "ludo.php/roll/R",
-//              method: 'GET',
-//              dataType: "json",
-//              contentType: 'application/json',
-//              data: { action: 'roll_dice_R' },
-//              headers: { "X-Token": me.token },
-//              success: function (data) {
-//                  // Handle the success response
-//                  console.log("Success Response:", data);
-//      
-//                  // Access the 'dice' property of the last element
-//                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-//                      $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-//                      
-//                    $("#the_move").val(
-//                        " " + data[data.length - 1].prev_x +
-//                        " " + data[data.length - 1].prev_y +
-//                        " " + data[data.length - 1].new_x +
-//                        "  " + data[data.length - 1].new_y
-//                    );
-//                } else {
-//                    console.error("Invalid dice result:", data);
-//                    // Handle the case where 'dice' is not present or invalid
-//                }
-//            },
-//            error: function (xhr, status, error) {
-//                // Handle the error response
-//                console.error("Error Response:", xhr.responseText);
-//                // You might want to handle errors and display an appropriate message
-//            }
-//        }); }
- //
+     function roll_dice_R() {
+         // Make an AJAX call to the server to perform the move
+         $.ajax({
+             url: "ludo.php/roll/R",
+             method: 'GET',
+             dataType: "json",
+             contentType: 'application/json',
+             data: { action: 'roll_dice_R1' },
+             headers: { "X-Token": me.token },
+             success: function (data) {
+                 // Handle the success response
+                 console.log("Success Response:", data);
+     
+                 // Access the 'dice' property of the last element
+                 if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                     $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                     
+                   $("#the_move").val(
+                       " " + data[data.length - 1].prev_x +
+                       " " + data[data.length - 1].prev_y +
+                       " " + data[data.length - 1].new_x +
+                       "  " + data[data.length - 1].new_y
+                   );
+               } else {
+                   console.error("Invalid dice result:", data);
+                   // Handle the case where 'dice' is not present or invalid
+               }
+           },
+           error: function (xhr, status, error) {
+               // Handle the error response
+               console.error("Error Response:", xhr.responseText);
+               // You might want to handle errors and display an appropriate message
+           }
+       }); }
+
  //        $.ajax({
  //           url: "ludo.php/move_y/",
  //           method: 'PUT',

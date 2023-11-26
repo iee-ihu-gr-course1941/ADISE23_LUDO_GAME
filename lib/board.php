@@ -145,32 +145,32 @@ function roll_dice_Y1(){
 	global $mysqli;
  
     // Assuming you have a database connection in $mysqli
-    $sql = "call Y1_dice() ; ";
-    $st = $mysqli -> prepare($sql);
+    $sql = "call Y1_dice();";
+    $st1 = $mysqli -> prepare($sql);
 
-  $st -> execute();
-  $res = $st -> get_result();
+  $st1 -> execute();
+  $res = $st1 -> get_result();
  
   header('Content-type: application/json');
   print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
     
 }
 
-//function roll_dice_R(){
-//
-//	global $mysqli;
-//
-//   // Assuming you have a database connection in $mysqli
-//   $sql = "call R1_dice();";
-//   $st = $mysqli -> prepare($sql);
-//
-// $st -> execute();
-// $res = $st -> get_result();
-//
-// header('Content-type: application/json');
-// print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-//   
-// ?
+function roll_dice_R1(){
+
+	global $mysqli;
+
+   // Assuming you have a database connection in $mysqli
+   $sql = "call R1_dice();";
+   $st = $mysqli -> prepare($sql);
+
+ $st -> execute();
+ $res = $st -> get_result();
+
+ header('Content-type: application/json');
+ print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+   
+}
 
 function show_board(){
   global $mysqli;

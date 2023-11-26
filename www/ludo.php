@@ -51,9 +51,9 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 	break;
 	 case 'roll': 
 	 switch ($b=array_shift($request)) {
-		case 'Y': handle_roll_Y($method);
-		//case 'R':handle_roll_R($method);
-	break;}
+		case 'Y':handle_roll_Y($method); break;
+		 case 'R':handle_roll_R($method); break;
+	 }
 	break;
 	//case 'move_y':handle_move_y($method);
    // default: 	
@@ -80,7 +80,7 @@ function handle_delete_players($method) {
  }
  function handle_roll_R($method) {
     if($method=='GET') {
- 		roll_dice_R();
+ 		roll_dice_R1();
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
