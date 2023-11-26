@@ -207,14 +207,14 @@ function fill_board_by_data(data) {
         //   update_info();
         //   clearTimeout(timer);
               if(game_status.p_turn=='Y' ) {
-                roll_dice_Y();
+                roll_dice_Y1();
         }else{
-            roll_dice_R();
+            roll_dice_R1();
         }}
 //
 
 
-function roll_dice_Y() {
+function roll_dice_Y1() {
    // $('#do_move_roll').prop('disabled', true);
     // Make an AJAX call to the server to perform the move
     $.ajax({
@@ -262,7 +262,7 @@ function roll_dice_Y() {
   }); }
 
 
-     function roll_dice_R() {
+     function roll_dice_R1() {
          // Make an AJAX call to the server to perform the move
          $.ajax({
              url: "ludo.php/roll/R",
@@ -312,18 +312,54 @@ function roll_dice_Y() {
        function makeImagesClickableR() {
         // Make all image td elements clickable and highlighted
         $('.piece').filter('[src^="images/R"]').parent('td').addClass('clickableR').click(onImageClickR);
-      //  $('.piece').parent('td').addClass('clickableR').click(onImageClickR);
+ 
     }
     function makeImagesUnclickableR() {
         // Remove clickability and highlighting from image td elements
         $('.piece').parent('td').removeClass('clickableR').off('click', onImageClickR);
     }
     function onImageClickR(e) {
-        // Handle the click event on image td elements
         var clickedTd = e.currentTarget;
-        console.log('Clicked on', clickedTd.id);
-        // Add your custom logic for handling the click event on image td elements here
+        var imageName = $(clickedTd).find('img').attr('src'); // Get the image source
+    
+        // Check if the image name starts with "RR"
+        if (imageName && imageName.startsWith('images/RR')) {
+            // Extract the number from the image name (assuming it follows the RR1, RR2 pattern)
+            var imageNumber = imageName.replace('images/RR', '').replace('.png', '');
+    
+            // Use a switch statement to distinguish different actions based on the image number
+            switch (imageNumber) {
+                case '1':
+                    // Action for RR1
+                    console.log('Clicked on RR1:', imageName);
+                    roll_dice_R1();
+                    break;
+                case '2':
+                    // Action for RR2
+                    console.log('Clicked on RR2:', imageName);
+                    // Add your custom logic for RR2
+                    break;
+                case '3':
+                    // Action for RR3
+                    console.log('Clicked on RR3:', imageName);
+                    // Add your custom logic for RR3
+                    break;
+                case '4':
+                    // Action for RR4
+                    console.log('Clicked on RR4:', imageName);
+                    // Add your custom logic for RR4
+                    break;
+                default:
+                    // Default action if the image number doesn't match any case
+                    console.log('Clicked on RR image with unknown number:', imageName);
+                    // Add default logic
+            }
+        } else {
+            console.log('Clicked on non-RR image:', imageName);
+            // Add logic for other images if needed
+        }
     }
+   
 
     function makeImagesClickableY() {
         // Make all image td elements clickable and highlighted
@@ -335,10 +371,45 @@ function roll_dice_Y() {
         $('.piece').parent('td').removeClass('clickableY').off('click', onImageClickY);
     }
     function onImageClickY(e) {
-        // Handle the click event on image td elements
         var clickedTd = e.currentTarget;
-        console.log('Clicked on', clickedTd.id);
-        // Add your custom logic for handling the click event on image td elements here
+        var imageName = $(clickedTd).find('img').attr('src'); // Get the image source
+    
+        // Check if the image name starts with "YY"
+        if (imageName && imageName.startsWith('images/YY')) {
+             
+            var imageNumber = imageName.replace('images/YY', '').replace('.png', '');
+    
+            // Use a switch statement to distinguish different actions based on the image number
+            switch (imageNumber) {
+                case '1':
+                    // Action for YY1
+                    console.log('Clicked on YY1:', imageName);
+                    roll_dice_Y1();
+                    break;
+                case '2':
+                    // Action for YY2
+                    console.log('Clicked on YY2:', imageName);
+                    // Add your custom logic for YY2
+                    break;
+                case '3':
+                    // Action for YY3
+                    console.log('Clicked on YY3:', imageName);
+                    // Add your custom logic for YY3
+                    break;
+                case '4':
+                    // Action for YY4
+                    console.log('Clicked on YY4:', imageName);
+                    // Add your custom logic for YY4
+                    break;
+                default:
+                    // Default action if the image number doesn't match any case
+                    console.log('Clicked on YY image with unknown number:', imageName);
+                    // Add default logic
+            }
+        } else {
+            console.log('Clicked on non-YY image:', imageName);
+            // Add logic for other images if needed
+        }
     }
 
  //        $.ajax({
