@@ -18,6 +18,10 @@ $(function(){
     $('#move_div').hide();
     $('#do_move_roll').click(roll_dice);
     $('#move_div_roll').hide();
+
+
+   // $('#the_move_src').change( update_moves_selector);
+	//$('#do_move2').click( do_move2);
 });
 
 
@@ -50,7 +54,7 @@ function draw_empty_board(p) {
     if(p!='B'||p!='R'||p!='G') {p='Y';}
 	var draw_init = {
 		'Y': {i1:11,i2:0,istep:-1,j1:1,j2:12,jstep:1},
-		'B': {i1:1,i2:12,istep:1, j1:11,j2:0,jstep:-1}
+		'R': {i1:1,i2:12,istep:1, j1:11,j2:0,jstep:-1}
 	};
 	var s=draw_init[p];
 
@@ -66,6 +70,7 @@ function draw_empty_board(p) {
     t += '</table>';
 
     $('#ludo_board').html(t);
+   // $('ludo_square').click(click_on_piece);
 }
 
  
@@ -90,7 +95,9 @@ function fill_board_by_data(data) {
 		var c = (o.piece!=null)?o.piece_color + o.piece:'';
 		var pc= (o.piece!=null)?'piece'+o.piece_color:'';
 		var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
-		$(id).addClass(o.b_color+'_square').html(im);}
+		$(id).addClass(o.b_color+'_square').html(im);
+    //    $(id).click(click_on_piece);
+    }
     }
     
     function login_to_game() {
@@ -205,6 +212,8 @@ function fill_board_by_data(data) {
             roll_dice_R();
         }}
 //
+
+
 function roll_dice_Y() {
    // $('#do_move_roll').prop('disabled', true);
     // Make an AJAX call to the server to perform the move
@@ -223,6 +232,16 @@ function roll_dice_Y() {
             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
                 
+
+                 // Check if the dice result is 6
+                 if (data[data.length - 1].dice === 6) {
+                    makeImagesClickableY();
+                    makeImagesUnclickableR();
+                } else {
+                    makeImagesUnclickableY();
+                    makeImagesUnclickableR();
+                }
+
               $("#the_move").val(
                   " " + data[data.length - 1].prev_x +
                   " " + data[data.length - 1].prev_y +
@@ -260,6 +279,17 @@ function roll_dice_Y() {
                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
                      $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
                      
+                            // Check if the dice result is 6
+                 if (data[data.length - 1].dice === 6) {
+                    makeImagesClickableR();
+                    makeImagesUnclickableY();
+                } else {
+                    makeImagesUnclickableR();
+                    makeImagesUnclickableY();
+                }
+                
+
+
                    $("#the_move").val(
                        " " + data[data.length - 1].prev_x +
                        " " + data[data.length - 1].prev_y +
@@ -277,6 +307,39 @@ function roll_dice_Y() {
                // You might want to handle errors and display an appropriate message
            }
        }); }
+
+
+       function makeImagesClickableR() {
+        // Make all image td elements clickable and highlighted
+        $('.piece').filter('[src^="images/R"]').parent('td').addClass('clickableR').click(onImageClickR);
+      //  $('.piece').parent('td').addClass('clickableR').click(onImageClickR);
+    }
+    function makeImagesUnclickableR() {
+        // Remove clickability and highlighting from image td elements
+        $('.piece').parent('td').removeClass('clickableR').off('click', onImageClickR);
+    }
+    function onImageClickR(e) {
+        // Handle the click event on image td elements
+        var clickedTd = e.currentTarget;
+        console.log('Clicked on', clickedTd.id);
+        // Add your custom logic for handling the click event on image td elements here
+    }
+
+    function makeImagesClickableY() {
+        // Make all image td elements clickable and highlighted
+        $('.piece').filter('[src^="images/Y"]').parent('td').addClass('clickableY').click(onImageClickY);
+       // $('.piece').parent('td').addClass('clickableY').click(onImageClickY);
+    }
+    function makeImagesUnclickableY() {
+        // Remove clickability and highlighting from image td elements
+        $('.piece').parent('td').removeClass('clickableY').off('click', onImageClickY);
+    }
+    function onImageClickY(e) {
+        // Handle the click event on image td elements
+        var clickedTd = e.currentTarget;
+        console.log('Clicked on', clickedTd.id);
+        // Add your custom logic for handling the click event on image td elements here
+    }
 
  //        $.ajax({
  //           url: "ludo.php/move_y/",
@@ -316,5 +379,47 @@ function roll_dice_Y() {
             game_status_update();
         }
         
-
-        
+////
+////      function click_on_piece(e) {
+////          var o=e.target;
+////         if(o.tagName!='TD') {o=o.parentNode;}
+////        if(o.tagName!='TD') {return;}
+////          
+////         var id=o.id;
+////         var a=id.split(/_/);
+////         $('#the_move_src').val(a[1]+' ' +a[2]);
+////         update_moves_selector();
+////     }
+//
+//
+//function click_on_piece(e) {
+//    var o = e.target;
+//    if (o.tagName != 'TD') {
+//        o = o.parentNode;
+//    }
+//    if (o.tagName != 'TD') {
+//        return;
+//    }  console.log('Clicked on', o.id);}
+//
+//
+//
+//        function update_moves_selector() {
+//            $('.ludo_square').removeClass('pmove').removeClass('tomove');
+//            var s = $('#the_move_src').val();
+//            var a = s.trim().split(/[ ]+/);
+//            $('#the_move_dest').html('');
+//            if(a.length!=2) {
+//                return;
+//            }
+//            var id = '#square_'+ a[0]+'_'+a[1];
+//            $(id).addClass('tomove');
+//            for(i=0;i<board.length;i++) {
+//                if(board[i].x==a[0] && board[i].y==a[1] && board[i].moves && Array.isArray(board[i].moves)) {
+//                    for(m=0;m<board[i].moves.length;m++) {
+//                        $('#the_move_dest').append('<option value="'+board[i].moves[m].x+' '+board[i].moves[m].y+'">'+board[i].moves[m].x+' '+board[i].moves[m].y+'</option>');
+//                        var id = '#square_'+ board[i].moves[m].x +'_' + board[i].moves[m].y;
+//                        $(id).addClass('pmove');
+//                    }
+//                }
+//            }
+//        }
