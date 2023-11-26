@@ -49,10 +49,23 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
   			break;
 	case 'delete_players': handle_delete_players($method);
 	break;
+
+
 	 case 'roll': 
 	 switch ($b=array_shift($request)) {
-		case 'Y':handle_roll_Y($method); break;
-		 case 'R':handle_roll_R($method); break;
+		case 'Y': 
+		switch ($b=array_shift($request)) {
+ 
+			case 'Y1':handle_roll_Y1($method); break;
+
+		}break;
+
+		case 'R': 
+			switch ($b=array_shift($request)) {
+ 
+				case 'R1':handle_roll_R1($method); break;
+	
+			}break;
 	 }
 	break;
 	//case 'move_y':handle_move_y($method);
@@ -71,14 +84,14 @@ function handle_delete_players($method) {
     }  else {header('HTTP/1.1 405 Method Not Allowed');}
     
 }
- function handle_roll_Y($method) {
+ function handle_roll_Y1($method) {
     if($method=='GET') {
 		roll_dice_Y1();
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
- function handle_roll_R($method) {
+ function handle_roll_R1($method) {
     if($method=='GET') {
  		roll_dice_R1();
  

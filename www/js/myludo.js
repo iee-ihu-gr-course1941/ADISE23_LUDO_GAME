@@ -218,7 +218,7 @@ function roll_dice_Y1() {
    // $('#do_move_roll').prop('disabled', true);
     // Make an AJAX call to the server to perform the move
     $.ajax({
-        url: "ludo.php/roll/Y",
+        url: "ludo.php/roll/Y/Y1",
         method: 'GET',
         dataType: "json",
         contentType: 'application/json',
@@ -240,6 +240,7 @@ function roll_dice_Y1() {
                 } else {
                     makeImagesUnclickableY();
                     makeImagesUnclickableR();
+                    do_move();
                 }
 
               $("#the_move").val(
@@ -248,7 +249,8 @@ function roll_dice_Y1() {
                   " " + data[data.length - 1].new_x +
                   "  " + data[data.length - 1].new_y
               );
-            
+
+             // do_move();
           } else {
               console.error("Invalid dice result:", data);
               // Handle the case where 'dice' is not present or invalid
@@ -265,7 +267,7 @@ function roll_dice_Y1() {
      function roll_dice_R1() {
          // Make an AJAX call to the server to perform the move
          $.ajax({
-             url: "ludo.php/roll/R",
+             url: "ludo.php/roll/R/R1",
              method: 'GET',
              dataType: "json",
              contentType: 'application/json',
@@ -281,11 +283,14 @@ function roll_dice_Y1() {
                      
                             // Check if the dice result is 6
                  if (data[data.length - 1].dice === 6) {
+                    
                     makeImagesClickableR();
                     makeImagesUnclickableY();
                 } else {
                     makeImagesUnclickableR();
                     makeImagesUnclickableY();
+                    do_move();
+                
                 }
                 
 
@@ -296,6 +301,7 @@ function roll_dice_Y1() {
                        " " + data[data.length - 1].new_x +
                        "  " + data[data.length - 1].new_y
                    );
+               
                } else {
                    console.error("Invalid dice result:", data);
                    // Handle the case where 'dice' is not present or invalid
