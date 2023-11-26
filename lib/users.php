@@ -5,7 +5,7 @@ require_once "../lib/game.php";
 
 function show_users() {
 	global $mysqli;
-	$sql = 'select username,piece_color from players';
+	$sql = 'Select username,piece_color Rom players';
 	$st = $mysqli->prepare($sql);
 	$st->execute();
 	$res = $st->get_result();
@@ -76,15 +76,10 @@ function handle_user($method, $b,$input) {
     } 	 
 }
 
-function reset_players(){
-	global $conn;
-	$reset="reset_players";
-    $sql = "TRUNCATE TABLE $reset";
-    if ($conn->query($sql) === TRUE) {
-		echo "Table $tableName truncated successfully";
-	} else {
-		echo "Error truncating table: " . $conn->error;
-	}
+function reset_players() {
+	global $mysqli;
+    $sql = 'Call clean_players()';
+    $mysqli->query($sql);
 	show_users();
 }
 

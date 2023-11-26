@@ -74,4 +74,8 @@ function read_status() {
 	return($status);
 }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 ?>

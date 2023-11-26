@@ -121,7 +121,8 @@ function loginUser($conn,$username,$pwd){
         session_start();
         $_SESSION["userid"] = $nameExists["usersId"];
         $_SESSION["username"] = $nameExists["usersName"];
-        header("location: ../www/index.php");
+
+        header("location: /MyProject/lobby.php");
         exit();
     }
 }

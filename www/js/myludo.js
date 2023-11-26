@@ -8,26 +8,56 @@ var timer=null;
 $(function(){
     draw_empty_board();
     fill_board();
-
+    if (window.location.pathname.endsWith("lobby.php")) {//make the AJAX call when the page is lobby.php
+        fetchPlayerStatus();
+        setInterval(function () {
+            fetchPlayerStatus();
+        
+        }, 5000);
+    }
+    text_user_name();
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
+<<<<<<< Updated upstream
     $('#do_move').click( do_move);
     $('#move_div').hide();
     game_status_update();
+=======
+    //$('#do_move').click( do_move);
+    //$('#move_div').hide();
+    $('#do_move_roll').click( do_move_roll);
+    $('#move_div_roll').hide();
+>>>>>>> Stashed changes
 });
 
 
+function text_user_name() {
+    $.ajax({
+        url: "ludo.php/inputUserName/",
+        dataType: 'json',
+        success: text_user_name_result,
+        error: function() {
+            console.error('Error fetching session username');
+        }
+    });
+}
 
- 
+function text_user_name_result(data) {
+    console.log('Received data:', data); // Log the received data for debugging
+
+    if (data && data.username) {
+        $('#username').val(data.username);
+    } else {
+        console.error('Invalid response or username not found');
+    }
+}
+
+
  function reset_players() {
-    
-        // Send an AJAX request to the server to update the database
-        $.ajax({
-            url: 'ludo.php/delete_players/', // Adjust the path to your server-side script
+        $.ajax({url: 'ludo.php/delete_players/',
             method: 'POST',
-dataType: "json",
-         
+            dataType: "json",
             contentType: 'application/json',
             data: { action: 'reset_players' }, // Pass the action as part of the data
             success: function(response) {
@@ -74,7 +104,11 @@ function fill_board() {
 
 function reset_board() {
 	$.ajax({url: "ludo.php/board/", headers: {"X-Token": me.token}, method: 'POST',  success: fill_board_by_data });
+<<<<<<< Updated upstream
 	$('#move_div').hide();
+=======
+    $('#move_div_roll').hide(); 
+>>>>>>> Stashed changes
 	$('#game_initializer').show(2000);
 }
 
@@ -90,15 +124,13 @@ function fill_board_by_data(data) {
     }
     
     function login_to_game() {
-
         if($('#username').val()=='') {
             alert('You have to set a username');
             return;
         }
         var p_color = $('#pcolor').val();
         draw_empty_board(p_color);
-        fill_board();
-        
+        fill_board();  
         $.ajax({url: "ludo.php/players/"+p_color, 
                 method: 'PUT',
                 dataType: "json",
@@ -108,7 +140,6 @@ function fill_board_by_data(data) {
                 success: login_result,
                 error: login_error});
     } 
- 
 
     function login_result(data) {
 
@@ -121,14 +152,12 @@ function fill_board_by_data(data) {
     
     function login_error(data, y, z, c) {
         var x = data.responseJSON;
-     
-            alert(x.errormesg);
-       
+        alert(x.errormesg);
     }
   
    
     function game_status_update() {
-	        clearTimeout(timer);
+	    clearTimeout(timer);
         $.ajax({url: "ludo.php/status/", success: update_status,headers: {"X-Token": me.token} });
     }
     
@@ -191,5 +220,39 @@ function fill_board_by_data(data) {
             fill_board_by_data(data);
         }
         
+
+        //lobby//
+
+        function fetchPlayerStatus() {
+            $.ajax({
+                url: "ludo.php/players_status/",
+                method: 'GET',
+                dataType: "json",
+                headers: { "X-Token": me.token },
+                contentType: 'application/json',
+                success: fetchPlayerStatusResult,
+                error: fetchPlayerStatusError
+            });
+        }
+        
+        function fetchPlayerStatusResult(data) {
+            console.log(data); // Log the received data for debugging
+            var t = '<table id="players_table">';
+            t += '<tr><th>Player</th><th>Username</th><th>Piece Color</th></tr>';
+            for (var i = 0; i < data.length; i++) {
+                var o = data[i];
+                t += '<tr><td>' + (i + 1) + '</td><td>' + o.username + '</td><td>' + o.piece_color + '</td></tr>';
+            }
+            t += '</table>';
+            $('#players').html(t);
+        }
+        
+        function fetchPlayerStatusError(data, y, z, c) {
+            console.log(data); // Log the entire response for debugging
+            var x = data.responseJSON;
+            alert(x.error); // Assuming the property name is 'error' in the response
+        }
+        
+        //finish lobby//
 
         
