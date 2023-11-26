@@ -184,7 +184,7 @@ function fill_board_by_data(data) {
             
             var a = s.trim().split(/[ ]+/);
             if(a.length!=4) {
-                alert('Must give 4 numbers');
+             //   alert('Must give 4 numbers');
                 return;
             }
             $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
@@ -263,6 +263,152 @@ function roll_dice_Y1() {
       }
   }); }
 
+  function roll_dice_Y2() {
+    // $('#do_move_roll').prop('disabled', true);
+     // Make an AJAX call to the server to perform the move
+     $.ajax({
+         url: "ludo.php/roll/Y/Y2",
+         method: 'GET',
+         dataType: "json",
+         contentType: 'application/json',
+         data: { action: 'roll_dice_Y2' },
+         headers: { "X-Token": me.token },
+         success: function (data) {
+             // Handle the success response
+             console.log("Success Response:", data);
+ 
+             // Access the 'dice' property of the last element
+             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                 
+ 
+                  // Check if the dice result is 6
+                  if (data[data.length - 1].dice === 6) {
+                     makeImagesClickableY();
+                     makeImagesUnclickableR();
+                 } else {
+                     makeImagesUnclickableY();
+                     makeImagesUnclickableR();
+                     do_move();
+                 }
+ 
+               $("#the_move").val(
+                   " " + data[data.length - 1].prev_x +
+                   " " + data[data.length - 1].prev_y +
+                   " " + data[data.length - 1].new_x +
+                   "  " + data[data.length - 1].new_y
+               );
+ 
+              // do_move();
+           } else {
+               console.error("Invalid dice result:", data);
+               // Handle the case where 'dice' is not present or invalid
+           }
+       },
+       error: function (xhr, status, error) {
+           // Handle the error response
+           console.error("Error Response:", xhr.responseText);
+           // You might want to handle errors and display an appropriate message
+       }
+   }); }
+
+   function roll_dice_Y3() {
+    // $('#do_move_roll').prop('disabled', true);
+     // Make an AJAX call to the server to perform the move
+     $.ajax({
+         url: "ludo.php/roll/Y/Y3",
+         method: 'GET',
+         dataType: "json",
+         contentType: 'application/json',
+         data: { action: 'roll_dice_Y3' },
+         headers: { "X-Token": me.token },
+         success: function (data) {
+             // Handle the success response
+             console.log("Success Response:", data);
+ 
+             // Access the 'dice' property of the last element
+             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                 
+ 
+                  // Check if the dice result is 6
+                  if (data[data.length - 1].dice === 6) {
+                     makeImagesClickableY();
+                     makeImagesUnclickableR();
+                 } else {
+                     makeImagesUnclickableY();
+                     makeImagesUnclickableR();
+                     do_move();
+                 }
+ 
+               $("#the_move").val(
+                   " " + data[data.length - 1].prev_x +
+                   " " + data[data.length - 1].prev_y +
+                   " " + data[data.length - 1].new_x +
+                   "  " + data[data.length - 1].new_y
+               );
+ 
+              // do_move();
+           } else {
+               console.error("Invalid dice result:", data);
+               // Handle the case where 'dice' is not present or invalid
+           }
+       },
+       error: function (xhr, status, error) {
+           // Handle the error response
+           console.error("Error Response:", xhr.responseText);
+           // You might want to handle errors and display an appropriate message
+       }
+   }); }
+
+   function roll_dice_Y4() {
+    // $('#do_move_roll').prop('disabled', true);
+     // Make an AJAX call to the server to perform the move
+     $.ajax({
+         url: "ludo.php/roll/Y/Y4",
+         method: 'GET',
+         dataType: "json",
+         contentType: 'application/json',
+         data: { action: 'roll_dice_Y4' },
+         headers: { "X-Token": me.token },
+         success: function (data) {
+             // Handle the success response
+             console.log("Success Response:", data);
+ 
+             // Access the 'dice' property of the last element
+             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                 
+ 
+                  // Check if the dice result is 6
+                  if (data[data.length - 1].dice === 6) {
+                     makeImagesClickableY();
+                     makeImagesUnclickableR();
+                 } else {
+                     makeImagesUnclickableY();
+                     makeImagesUnclickableR();
+                     do_move();
+                 }
+ 
+               $("#the_move").val(
+                   " " + data[data.length - 1].prev_x +
+                   " " + data[data.length - 1].prev_y +
+                   " " + data[data.length - 1].new_x +
+                   "  " + data[data.length - 1].new_y
+               );
+ 
+              // do_move();
+           } else {
+               console.error("Invalid dice result:", data);
+               // Handle the case where 'dice' is not present or invalid
+           }
+       },
+       error: function (xhr, status, error) {
+           // Handle the error response
+           console.error("Error Response:", xhr.responseText);
+           // You might want to handle errors and display an appropriate message
+       }
+   }); }
 
      function roll_dice_R1() {
          // Make an AJAX call to the server to perform the move
@@ -290,11 +436,8 @@ function roll_dice_Y1() {
                     makeImagesUnclickableR();
                     makeImagesUnclickableY();
                     do_move();
-                
-                }
-                
-
-
+                               }
+        
                    $("#the_move").val(
                        " " + data[data.length - 1].prev_x +
                        " " + data[data.length - 1].prev_y +
@@ -313,6 +456,144 @@ function roll_dice_Y1() {
                // You might want to handle errors and display an appropriate message
            }
        }); }
+       function roll_dice_R2() {
+        // Make an AJAX call to the server to perform the move
+        $.ajax({
+            url: "ludo.php/roll/R/R2",
+            method: 'GET',
+            dataType: "json",
+            contentType: 'application/json',
+            data: { action: 'roll_dice_R2' },
+            headers: { "X-Token": me.token },
+            success: function (data) {
+                // Handle the success response
+                console.log("Success Response:", data);
+    
+                // Access the 'dice' property of the last element
+                if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                    $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                    
+                           // Check if the dice result is 6
+                if (data[data.length - 1].dice === 6) {
+                   
+                   makeImagesClickableR();
+                   makeImagesUnclickableY();
+               } else {
+                   makeImagesUnclickableR();
+                   makeImagesUnclickableY();
+                   do_move();
+                              }
+       
+                  $("#the_move").val(
+                      " " + data[data.length - 1].prev_x +
+                      " " + data[data.length - 1].prev_y +
+                      " " + data[data.length - 1].new_x +
+                      "  " + data[data.length - 1].new_y
+                  );
+              
+              } else {
+                  console.error("Invalid dice result:", data);
+                  // Handle the case where 'dice' is not present or invalid
+              }
+          },
+          error: function (xhr, status, error) {
+              // Handle the error response
+              console.error("Error Response:", xhr.responseText);
+              // You might want to handle errors and display an appropriate message
+          }
+      }); }
+      function roll_dice_R3() {
+        // Make an AJAX call to the server to perform the move
+        $.ajax({
+            url: "ludo.php/roll/R/R3",
+            method: 'GET',
+            dataType: "json",
+            contentType: 'application/json',
+            data: { action: 'roll_dice_R3' },
+            headers: { "X-Token": me.token },
+            success: function (data) {
+                // Handle the success response
+                console.log("Success Response:", data);
+    
+                // Access the 'dice' property of the last element
+                if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                    $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                    
+                           // Check if the dice result is 6
+                if (data[data.length - 1].dice === 6) {
+                   
+                   makeImagesClickableR();
+                   makeImagesUnclickableY();
+               } else {
+                   makeImagesUnclickableR();
+                   makeImagesUnclickableY();
+                   do_move();
+                              }
+       
+                  $("#the_move").val(
+                      " " + data[data.length - 1].prev_x +
+                      " " + data[data.length - 1].prev_y +
+                      " " + data[data.length - 1].new_x +
+                      "  " + data[data.length - 1].new_y
+                  );
+              
+              } else {
+                  console.error("Invalid dice result:", data);
+                  // Handle the case where 'dice' is not present or invalid
+              }
+          },
+          error: function (xhr, status, error) {
+              // Handle the error response
+              console.error("Error Response:", xhr.responseText);
+              // You might want to handle errors and display an appropriate message
+          }
+      }); }
+      function roll_dice_R4() {
+        // Make an AJAX call to the server to perform the move
+        $.ajax({
+            url: "ludo.php/roll/R/R4",
+            method: 'GET',
+            dataType: "json",
+            contentType: 'application/json',
+            data: { action: 'roll_dice_R4' },
+            headers: { "X-Token": me.token },
+            success: function (data) {
+                // Handle the success response
+                console.log("Success Response:", data);
+    
+                // Access the 'dice' property of the last element
+                if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                    $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                    
+                           // Check if the dice result is 6
+                if (data[data.length - 1].dice === 6) {
+                   
+                   makeImagesClickableR();
+                   makeImagesUnclickableY();
+               } else {
+                   makeImagesUnclickableR();
+                   makeImagesUnclickableY();
+                   do_move();
+                              }
+       
+                  $("#the_move").val(
+                      " " + data[data.length - 1].prev_x +
+                      " " + data[data.length - 1].prev_y +
+                      " " + data[data.length - 1].new_x +
+                      "  " + data[data.length - 1].new_y
+                  );
+              
+              } else {
+                  console.error("Invalid dice result:", data);
+                  // Handle the case where 'dice' is not present or invalid
+              }
+          },
+          error: function (xhr, status, error) {
+              // Handle the error response
+              console.error("Error Response:", xhr.responseText);
+              // You might want to handle errors and display an appropriate message
+          }
+      }); }
 
 
        function makeImagesClickableR() {
@@ -343,16 +624,19 @@ function roll_dice_Y1() {
                 case '2':
                     // Action for RR2
                     console.log('Clicked on RR2:', imageName);
+                    roll_dice_R2();
                     // Add your custom logic for RR2
                     break;
                 case '3':
                     // Action for RR3
                     console.log('Clicked on RR3:', imageName);
+                    roll_dice_R3();
                     // Add your custom logic for RR3
                     break;
                 case '4':
                     // Action for RR4
                     console.log('Clicked on RR4:', imageName);
+                    roll_dice_R4();
                     // Add your custom logic for RR4
                     break;
                 default:
@@ -395,16 +679,19 @@ function roll_dice_Y1() {
                 case '2':
                     // Action for YY2
                     console.log('Clicked on YY2:', imageName);
+                    roll_dice_Y2();
                     // Add your custom logic for YY2
                     break;
                 case '3':
                     // Action for YY3
                     console.log('Clicked on YY3:', imageName);
+                    roll_dice_Y3();
                     // Add your custom logic for YY3
                     break;
                 case '4':
                     // Action for YY4
                     console.log('Clicked on YY4:', imageName);
+                    roll_dice_Y4();
                     // Add your custom logic for YY4
                     break;
                 default:

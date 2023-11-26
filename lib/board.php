@@ -44,7 +44,7 @@ function move_piece($x,$y,$x2,$y2,$token) {
 //εαν το p_turn δε ταιριαζει με το χρωμα του παικτη επιστρεφω μνμα λαθους
 	if($status['p_turn']!=$color) {
 		header("HTTP/1.1 400 Bad Request");
-		print json_encode(['errormesg'=>"It is not your turn."]);
+		//print json_encode(['errormesg'=>"It is not your turn."]);
 		exit;
 	}
 //	$orig_board=read_board();
@@ -155,7 +155,52 @@ function roll_dice_Y1(){
   print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
     
 }
+function roll_dice_Y2(){
 
+	global $mysqli;
+ 
+    // Assuming you have a database connection in $mysqli
+    $sql = "call Y2_dice();";
+    $st1 = $mysqli -> prepare($sql);
+
+  $st1 -> execute();
+  $res = $st1 -> get_result();
+ 
+  header('Content-type: application/json');
+  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+    
+}
+function roll_dice_Y3(){
+
+	global $mysqli;
+ 
+    // Assuming you have a database connection in $mysqli
+    $sql = "call Y3_dice();";
+    $st1 = $mysqli -> prepare($sql);
+
+  $st1 -> execute();
+  $res = $st1 -> get_result();
+ 
+  header('Content-type: application/json');
+  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+    
+}
+
+function roll_dice_Y4(){
+
+	global $mysqli;
+ 
+    // Assuming you have a database connection in $mysqli
+    $sql = "call Y4_dice();";
+    $st1 = $mysqli -> prepare($sql);
+
+  $st1 -> execute();
+  $res = $st1 -> get_result();
+ 
+  header('Content-type: application/json');
+  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+    
+}
 function roll_dice_R1(){
 
 	global $mysqli;
@@ -171,6 +216,52 @@ function roll_dice_R1(){
  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
    
 }
+function roll_dice_R2(){
+
+	global $mysqli;
+
+   // Assuming you have a database connection in $mysqli
+   $sql = "call R2_dice();";
+   $st = $mysqli -> prepare($sql);
+
+ $st -> execute();
+ $res = $st -> get_result();
+
+ header('Content-type: application/json');
+ print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+   
+}
+function roll_dice_R3(){
+
+	global $mysqli;
+
+   // Assuming you have a database connection in $mysqli
+   $sql = "call R3_dice();";
+   $st = $mysqli -> prepare($sql);
+
+ $st -> execute();
+ $res = $st -> get_result();
+
+ header('Content-type: application/json');
+ print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+   
+}
+function roll_dice_R4(){
+
+	global $mysqli;
+
+   // Assuming you have a database connection in $mysqli
+   $sql = "call R4_dice();";
+   $st = $mysqli -> prepare($sql);
+
+ $st -> execute();
+ $res = $st -> get_result();
+
+ header('Content-type: application/json');
+ print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+   
+}
+
 
 function show_board(){
   global $mysqli;

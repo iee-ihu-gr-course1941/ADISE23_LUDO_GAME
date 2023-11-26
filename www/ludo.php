@@ -57,14 +57,21 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 		switch ($b=array_shift($request)) {
  
 			case 'Y1':handle_roll_Y1($method); break;
+			case 'Y2':handle_roll_Y2($method); break;
+			case 'Y3':handle_roll_Y3($method); break;
+			case 'Y4':handle_roll_Y4($method); break;
+
 
 		}break;
 
 		case 'R': 
 			switch ($b=array_shift($request)) {
  
+				 
 				case 'R1':handle_roll_R1($method); break;
-	
+				case 'R2':handle_roll_R2($method); break;
+				case 'R3':handle_roll_R3($method); break;
+				case 'R4':handle_roll_R4($method); break;
 			}break;
 	 }
 	break;
@@ -91,6 +98,27 @@ function handle_delete_players($method) {
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
+ function handle_roll_Y2($method) {
+    if($method=='GET') {
+		roll_dice_Y2();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
+ function handle_roll_Y3($method) {
+    if($method=='GET') {
+		roll_dice_Y3();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
+ function handle_roll_Y4($method) {
+    if($method=='GET') {
+		roll_dice_Y4();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
  function handle_roll_R1($method) {
     if($method=='GET') {
  		roll_dice_R1();
@@ -98,7 +126,27 @@ function handle_delete_players($method) {
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
+ function handle_roll_R2($method) {
+    if($method=='GET') {
+ 		roll_dice_R2();
  
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
+ function handle_roll_R3($method) {
+    if($method=='GET') {
+ 		roll_dice_R3();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
+ function handle_roll_R4($method) {
+    if($method=='GET') {
+ 		roll_dice_R4();
+ 
+     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+    
+ }
  
  
 
