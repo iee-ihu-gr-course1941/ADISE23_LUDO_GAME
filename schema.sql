@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Διακομιστής:                  127.0.0.1
--- Έκδοση διακομιστή:            10.4.28-MariaDB - mariadb.org binary distribution
+-- Έκδοση διακομιστή:            10.4.32-MariaDB - mariadb.org binary distribution
 -- Λειτ. σύστημα διακομιστή:     Win64
 -- HeidiSQL Έκδοση:              12.5.0.6677
 -- --------------------------------------------------------
@@ -50,7 +50,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(1, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 2, 'W', 'Y', 'Y3', NULL, NULL, NULL, NULL),
-	(2, 3, 'W', 'Y', 'Y1', NULL, NULL, NULL, NULL),
+	(2, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 5, 'W', NULL, NULL, 6, 15, 24, 33),
 	(2, 6, 'G', NULL, NULL, NULL, NULL, NULL, 36),
@@ -82,7 +82,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 1, 'W', NULL, NULL, NULL, 9, 18, 27),
-	(5, 2, 'Y', NULL, NULL, 1, 10, 19, 28),
+	(5, 2, 'Y', 'Y', 'Y1', 1, 10, 19, 28),
 	(5, 3, 'W', NULL, NULL, 2, 11, 20, 29),
 	(5, 4, 'W', NULL, NULL, 3, 12, 21, 30),
 	(5, 5, 'GY', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -112,7 +112,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', NULL, NULL, 19, 28, 1, 10),
+	(7, 10, 'R', 'R', 'R4', 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -144,7 +144,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(10, 6, 'B', NULL, NULL, NULL, 36, NULL, NULL),
 	(10, 7, 'W', NULL, NULL, 24, 33, 6, 15),
 	(10, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
-	(10, 9, 'W', 'R', 'R4', NULL, NULL, NULL, NULL),
+	(10, 9, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 10, 'W', 'R', 'R2', NULL, NULL, NULL, NULL),
 	(10, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -351,17 +351,28 @@ CREATE TABLE IF NOT EXISTS `dice` (
 -- Dumping data for table adise23_ludo_game.dice: ~8 rows (approximately)
 DELETE FROM `dice`;
 INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`) VALUES
-	(9, 10, 7, 10, '2023-11-26 15:13:27', 'R', 'R1', 0),
-	(10, 10, 7, 10, '2023-11-26 15:13:27', 'R', 'R2', 0),
-	(9, 9, 7, 10, '2023-11-26 15:13:27', 'R', 'R3', 0),
-	(10, 9, 7, 10, '2023-11-26 15:13:27', 'R', 'R4', 0),
-	(10, 9, 7, 10, '2023-11-26 15:20:15', 'R', 'R4', 2),
-	(10, 9, 7, 10, '2023-11-26 15:20:18', 'R', 'R4', 2),
-	(10, 9, 7, 10, '2023-11-26 15:20:22', 'R', 'R4', 3),
-	(2, 3, 5, 2, '2023-11-26 15:13:27', 'Y', 'Y1', 0),
-	(3, 3, 5, 2, '2023-11-26 15:13:27', 'Y', 'Y2', 0),
-	(2, 2, 5, 2, '2023-11-26 15:13:27', 'Y', 'Y3', 0),
-	(3, 2, 5, 2, '2023-11-26 15:13:27', 'Y', 'Y4', 0);
+	(9, 10, 7, 10, '2023-11-28 14:36:27', 'R', 'R1', 3),
+	(10, 10, 7, 10, '2023-11-28 14:36:27', 'R', 'R2', 3),
+	(9, 9, 7, 10, '2023-11-28 14:36:27', 'R', 'R3', 3),
+	(10, 9, 7, 10, '2023-11-28 14:36:27', 'R', 'R4', 3),
+	(5, 2, 4, 5, '2023-11-28 14:36:27', 'Y', 'Y1', 3),
+	(3, 3, 5, 2, '2023-11-28 14:36:27', 'Y', 'Y2', 3),
+	(2, 2, 5, 2, '2023-11-28 14:36:27', 'Y', 'Y3', 3),
+	(3, 2, 5, 2, '2023-11-28 14:36:27', 'Y', 'Y4', 3);
+
+-- Dumping structure for πίνακας adise23_ludo_game.error_log
+DROP TABLE IF EXISTS `error_log`;
+CREATE TABLE IF NOT EXISTS `error_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `message` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.error_log: ~1 rows (approximately)
+DELETE FROM `error_log`;
+INSERT INTO `error_log` (`id`, `message`, `created_at`) VALUES
+	(1, 'Invalid piece parameter.', '2023-11-27 11:42:17');
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 DROP TABLE IF EXISTS `game_status`;
@@ -372,10 +383,10 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'R', 'D', '2023-11-26 15:13:12');
+	('started', 'Y', 'D', '2023-11-28 14:37:23');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -420,8 +431,8 @@ BEGIN
 UPDATE game_status SET p_turn=if(p_color='Y','R','Y');
 
         -- Debugging information
-        SELECT * FROM `board` WHERE X = x1 AND Y = y1;
-        SELECT * FROM `board` WHERE X = x2 AND Y = y2;
+        -- SELECT * FROM `board` WHERE X = x1 AND Y = y1;
+       -- SELECT * FROM `board` WHERE X = x2 AND Y = y2;
 
         -- Commit the transaction if everything is successful
         COMMIT;
@@ -526,9 +537,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	('red', 'R', '587a7f746262e359ac3889c786312353', '2023-11-26 15:09:44'),
+	('red', 'R', '1ea5a5f8efb87dd1e0202df23cd34e0b', '2023-11-28 14:36:36'),
 	(NULL, 'G', NULL, NULL),
-	('yel', 'Y', '89614f1bb0891c81f2578de1c393a680', '2023-11-26 15:10:08');
+	('tet', 'Y', '078727436a2c7502f4ff97d41fdb319c', '2023-11-28 14:36:41');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -553,56 +564,8 @@ DROP PROCEDURE IF EXISTS `R1_dice`;
 DELIMITER //
 CREATE PROCEDURE `R1_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_rpath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_rpath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, r_path INTO current_x, current_y, current_rpath
-    FROM board
-    WHERE piece_color = 'R' AND piece = 'R1';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'R1' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_rpath IS NULL) THEN
-        SET new_x = 7;
-        SET new_y = 10;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R1');
-    ELSE
-        SET new_rpath = current_rpath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   r_path = new_rpath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R1');
-
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'R1'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 
@@ -611,56 +574,8 @@ DROP PROCEDURE IF EXISTS `R2_dice`;
 DELIMITER //
 CREATE PROCEDURE `R2_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_rpath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_rpath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, r_path INTO current_x, current_y, current_rpath
-    FROM board
-    WHERE piece_color = 'R' AND piece = 'R2';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'R2' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_rpath IS NULL) THEN
-        SET new_x = 7;
-        SET new_y = 10;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R2');
-    ELSE
-        SET new_rpath = current_rpath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   r_path = new_rpath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R2');
-
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'R2'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 
@@ -669,56 +584,8 @@ DROP PROCEDURE IF EXISTS `R3_dice`;
 DELIMITER //
 CREATE PROCEDURE `R3_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_rpath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_rpath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, r_path INTO current_x, current_y, current_rpath
-    FROM board
-    WHERE piece_color = 'R' AND piece = 'R3';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'R3' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_rpath IS NULL) THEN
-        SET new_x = 7;
-        SET new_y = 10;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R3');
-    ELSE
-        SET new_rpath = current_rpath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   r_path = new_rpath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R3');
-
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'R3'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 
@@ -727,73 +594,402 @@ DROP PROCEDURE IF EXISTS `R4_dice`;
 DELIMITER //
 CREATE PROCEDURE `R4_dice`()
 BEGIN
+   SELECT * FROM  dice WHERE piece = 'R4' ORDER BY `created_at` DESC LIMIT 1 ;
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.roll_dice
+DROP PROCEDURE IF EXISTS `roll_dice`;
+DELIMITER //
+CREATE PROCEDURE `roll_dice`(
+	IN `piece_num` VARCHAR(10),
+	IN `diceresult` INT
+)
+BEGIN
     DECLARE current_x TINYINT;
     DECLARE current_y TINYINT;
+    DECLARE current_ypath INT;
     DECLARE current_rpath INT;
     DECLARE new_x TINYINT;
     DECLARE new_y TINYINT;
+    DECLARE new_ypath INT;
     DECLARE new_rpath INT;
     DECLARE dice_result INT;
+    DECLARE generated_dice_result INT;
+ 
 
     -- Use exception handling to rollback on error
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
 
     -- Start the transaction
     START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, r_path INTO current_x, current_y, current_rpath
-    FROM board
-    WHERE piece_color = 'R' AND piece = 'R4';
-
-    SET dice_result = roll_dice();
  
+-- SET @generated_dice_result = 0;
+-- Roll the dice
+-- CALL roll_diceOUT(@generated_dice_result);
 
-    -- If the piece exists, calculate the new coordinates
-    IF (current_rpath IS NULL) THEN
-        SET new_x = 7;
-        SET new_y = 10;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R4');
-    ELSE
-        SET new_rpath = current_rpath + dice_result;
+-- Debugging: Print the generated dice result
+-- SELECT @generated_dice_result AS debug_dice_result;
 
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   r_path = new_rpath;
-    END IF;
+-- SET generated_dice_result = @generated_dice_result;
 
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'R', dice_result, 'R4');
+-- Update the dice table with the generated dice result
+UPDATE dice SET dice = @generated_dice_result;
+  CASE piece_num
+        WHEN 1 THEN
+            -- Get the current coordinates of the piece
+            SELECT x, y, y_path INTO current_x, current_y, current_ypath
+            FROM board
+            WHERE piece_color = 'Y' AND piece = 'Y1'; 
+IF (current_ypath IS NULL) THEN
+    SET new_x = 5;
+    SET new_y = 2;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y1';
+     
+ELSE
+    SET new_ypath = current_ypath +  @generated_dice_result;
 
-    -- Commit the transaction if everything is successful
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE y_path = new_ypath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y1'  ;
+  
+END IF;
+   -- CALL `move_piece`(current_x, current_y, new_x, new_y);
+-- Commit the transaction if everything is successful
+
+            CALL Y1_dice();
+COMMIT;
+            -- Rest of your Y1 case...
+
+        WHEN 2 THEN
+             -- Get the current coordinates of the piece
+            SELECT x, y, y_path INTO current_x, current_y, current_ypath
+            FROM board
+            WHERE piece_color = 'Y' AND piece = 'Y2';
+IF (current_ypath IS NULL) THEN
+    SET new_x = 5;
+    SET new_y = 2;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y2';
+ELSE
+    SET new_ypath = current_ypath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE y_path = new_ypath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y2';
+END IF;
+         CALL Y2_dice();
+
+        WHEN 3 THEN
+             -- Get the current coordinates of the piece
+            SELECT x, y, y_path INTO current_x, current_y, current_ypath
+            FROM board
+            WHERE piece_color = 'Y' AND piece = 'Y3';
+IF (current_ypath IS NULL) THEN
+    SET new_x = 5;
+    SET new_y = 2;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y3';
+ELSE
+    SET new_ypath = current_ypath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE y_path = new_ypath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y3';
+END IF;
+           CALL Y3_dice();
+
+        WHEN 4 THEN
+              -- Get the current coordinates of the piece
+            SELECT x, y, y_path INTO current_x, current_y, current_ypath
+            FROM board
+            WHERE piece_color = 'Y' AND piece = 'Y4';
+IF (current_ypath IS NULL) THEN
+    SET new_x = 5;
+    SET new_y = 2;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y4';
+ELSE
+    SET new_ypath = current_ypath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE y_path = new_ypath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'Y',
+        dice =  @generated_dice_result
+    WHERE piece = 'Y4';
+END IF;
+           CALL Y4_dice();
+        WHEN 111 THEN
+        SELECT x, y, r_path INTO current_x, current_y, current_rpath
+FROM board
+WHERE piece_color = 'R' AND piece = 'R1';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_rpath IS NULL) THEN
+    SET new_x = 7;
+    SET new_y = 10;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R1';
+ELSE
+    SET new_rpath = current_rpath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE r_path = new_rpath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R1';
+END IF;
+
+             CALL R1_dice();
+
+        WHEN 222 THEN
+                SELECT x, y, r_path INTO current_x, current_y, current_rpath
+FROM board
+WHERE piece_color = 'R' AND piece = 'R2';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_rpath IS NULL) THEN
+    SET new_x = 7;
+    SET new_y = 10;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R2';
+ELSE
+    SET new_rpath = current_rpath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE r_path = new_rpath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R2';
+END IF;
+
+            CALL R2_dice();
+
+        WHEN 333 THEN
+                SELECT x, y, r_path INTO current_x, current_y, current_rpath
+FROM board
+WHERE piece_color = 'R' AND piece = 'R3';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_rpath IS NULL) THEN
+    SET new_x = 7;
+    SET new_y = 10;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R3';
+ELSE
+    SET new_rpath = current_rpath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE r_path = new_rpath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R3';
+END IF;
+
+              CALL R3_dice();
+
+        WHEN 444 THEN
+        
+                SELECT x, y, r_path INTO current_x, current_y, current_rpath
+FROM board
+WHERE piece_color = 'R' AND piece = 'R4';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_rpath IS NULL) THEN
+    SET new_x = 7;
+    SET new_y = 10;
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice =  @generated_dice_result
+    WHERE piece = 'R4';
+ELSE
+    SET new_rpath = current_rpath +  @generated_dice_result;
+
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE r_path = new_rpath;
+
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'R',
+        dice = @generated_dice_result
+    WHERE piece = 'R4';
+END IF;
+
+         CALL R4_dice();
+        ELSE
+            -- Default case
+            ROLLBACK;
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Invalid piece parameter.';
+    END CASE;
     COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'R4'
-ORDER BY `created_at` DESC
-LIMIT 1;
+ 
 END//
 DELIMITER ;
 
--- Dumping structure for function adise23_ludo_game.roll_dice
-DROP FUNCTION IF EXISTS `roll_dice`;
+-- Dumping structure for procedure adise23_ludo_game.roll_diceOUT
+DROP PROCEDURE IF EXISTS `roll_diceOUT`;
 DELIMITER //
-CREATE FUNCTION `roll_dice`() RETURNS int(11)
+CREATE PROCEDURE `roll_diceOUT`(
+	OUT `generated_dice_result` INT
+)
 BEGIN
-DECLARE dice_result INT;
-
+  
     -- Generate a random number between 1 and 6
-    SET dice_result = FLOOR(1 + (RAND() * 6));
-
-    -- Debugging information
-    return  dice_result;
-
- END//
+    SET generated_dice_result = FLOOR(1 + RAND() * 6);
+ SELECT generated_dice_result ;
+END//
 DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.temp
@@ -845,56 +1041,8 @@ DROP PROCEDURE IF EXISTS `Y1_dice`;
 DELIMITER //
 CREATE PROCEDURE `Y1_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_ypath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_ypath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, y_path INTO current_x, current_y, current_ypath
-    FROM board
-    WHERE piece_color = 'Y' AND piece = 'Y1';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'Y1' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_ypath IS NULL) THEN
-        SET new_x = 5;
-        SET new_y = 2;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y1');
-    ELSE
-        SET new_ypath = current_ypath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   y_path = new_ypath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y1');
-   
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'Y1'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 
@@ -903,56 +1051,8 @@ DROP PROCEDURE IF EXISTS `Y2_dice`;
 DELIMITER //
 CREATE PROCEDURE `Y2_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_ypath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_ypath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, y_path INTO current_x, current_y, current_ypath
-    FROM board
-    WHERE piece_color = 'Y' AND piece = 'Y2';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'Y2' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_ypath IS NULL) THEN
-        SET new_x = 5;
-        SET new_y = 2;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y2');
-    ELSE
-        SET new_ypath = current_ypath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   y_path = new_ypath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y2');
-   
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'Y2'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 
@@ -961,56 +1061,8 @@ DROP PROCEDURE IF EXISTS `Y3_dice`;
 DELIMITER //
 CREATE PROCEDURE `Y3_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_ypath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_ypath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, y_path INTO current_x, current_y, current_ypath
-    FROM board
-    WHERE piece_color = 'Y' AND piece = 'Y3';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'Y3' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_ypath IS NULL) THEN
-        SET new_x = 5;
-        SET new_y = 2;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y3');
-    ELSE
-        SET new_ypath = current_ypath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   y_path = new_ypath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y3');
-   
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'Y3'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 
@@ -1019,56 +1071,8 @@ DROP PROCEDURE IF EXISTS `Y4_dice`;
 DELIMITER //
 CREATE PROCEDURE `Y4_dice`()
 BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_ypath INT;
-    DECLARE new_x TINYINT;
-    DECLARE new_y TINYINT;
-    DECLARE new_ypath INT;
-    DECLARE dice_result INT;
-
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-
-    -- Start the transaction
-    START TRANSACTION;
-
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, y_path INTO current_x, current_y, current_ypath
-    FROM board
-    WHERE piece_color = 'Y' AND piece = 'Y4';
-
-    SET dice_result = roll_dice();
+   SELECT * FROM  dice WHERE piece = 'Y4' ORDER BY `created_at` DESC LIMIT 1 ;
  
-
-    -- If the piece exists, calculate the new coordinates
-    IF (current_ypath IS NULL) THEN
-        SET new_x = 5;
-        SET new_y = 2;
-            INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice,piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y4');
-    ELSE
-        SET new_ypath = current_ypath + dice_result;
-
-        -- Calculate the new coordinates
-        SELECT X, Y INTO new_x, new_y
-        FROM `board`
-        WHERE   y_path = new_ypath;
-    END IF;
-
-    -- Insert into the dice table
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice, piece)
-    VALUES (current_x, current_y, new_x, new_y, 'Y', dice_result, 'Y4');
-   
-    -- Commit the transaction if everything is successful
-    COMMIT;
-
-    -- Return the dice table
-   SELECT *
-FROM `dice`
-WHERE `piece` = 'Y4'
-ORDER BY `created_at` DESC
-LIMIT 1;
 END//
 DELIMITER ;
 

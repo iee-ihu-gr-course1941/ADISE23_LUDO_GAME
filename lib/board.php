@@ -140,126 +140,192 @@ function do_move($x,$y,$x2,$y2) {
 //	 
 //
 //
-function roll_dice_Y1(){
 
-	global $mysqli;
- 
-    // Assuming you have a database connection in $mysqli
-    $sql = "call Y1_dice();";
-    $st1 = $mysqli -> prepare($sql);
+ function roll_dice($piece_num) {
+//  global $mysqli;
+//
+//  // Call roll_diceOUT procedure
+//  $sql = "CALL roll_diceOUT(@generated_dice_result)";
+//  $mysqli->query($sql);
+//
+//  // Use the output variable directly
+//  $sql = "SELECT @generated_dice_result AS generated_dice_result";
+//  $result = $mysqli->query($sql);
+//  $row = $result->fetch_assoc();
+//  $generatedDiceResult = $row['generated_dice_result'];
+//
+//  // Return the result as JSON
+//  $response = array('generated_dice_result' => $generatedDiceResult);
+//  echo json_encode($response);
+//
+global $mysqli;
+$sql = "CALL roll_diceOUT(@generated_dice_result)";
+$st = $mysqli->prepare($sql);
 
-  $st1 -> execute();
-  $res = $st1 -> get_result();
- 
-  header('Content-type: application/json');
-  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-    
+// Execute the stored procedure
+$st->execute();
+
+// Bind the OUT parameter
+$st->bind_result($generatedDiceResult);
+
+// Fetch the result
+$st->fetch();
+
+// Close the statement
+$st->close();
+// Discard the result set
+while ($mysqli->more_results()) {
+    $mysqli->next_result();
+    if ($result = $mysqli->store_result()) {
+        $result->free();
+    }
 }
+
+// Prepare the statement for roll_dice procedure
+$sqlRollDice = "CALL roll_dice(?, @generated_dice_result)";
+$st = $mysqli->prepare($sqlRollDice);
+
+// Check if the prepare statement was successful
+if (!$st) {
+    echo "Error in prepare statement: " . $mysqli->error;
+} else {
+    // Bind the parameter and execute the stored procedure
+    $st->bind_param("i", $piece_num);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}}
+
+
+function roll_dice_Y1() {
+	global $mysqli;
+
+    $sql = 'CALL roll_dice(1, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+ 
 function roll_dice_Y2(){
-
 	global $mysqli;
  
-    // Assuming you have a database connection in $mysqli
-    $sql = "call Y2_dice();";
-    $st1 = $mysqli -> prepare($sql);
+    $sql = 'CALL roll_dice(2, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+	$st->execute();
 
-  $st1 -> execute();
-  $res = $st1 -> get_result();
- 
-  header('Content-type: application/json');
-  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-    
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
+
+
 function roll_dice_Y3(){
-
 	global $mysqli;
- 
-    // Assuming you have a database connection in $mysqli
-    $sql = "call Y3_dice();";
-    $st1 = $mysqli -> prepare($sql);
+	
+    $sql = 'CALL roll_dice(3, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+	$st->execute();
 
-  $st1 -> execute();
-  $res = $st1 -> get_result();
- 
-  header('Content-type: application/json');
-  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-    
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
 
 function roll_dice_Y4(){
-
 	global $mysqli;
- 
-    // Assuming you have a database connection in $mysqli
-    $sql = "call Y4_dice();";
-    $st1 = $mysqli -> prepare($sql);
+	
+    $sql = 'CALL roll_dice(4, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
 
-  $st1 -> execute();
-  $res = $st1 -> get_result();
- 
-  header('Content-type: application/json');
-  print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-    
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
 function roll_dice_R1(){
-
 	global $mysqli;
+	
+    $sql = 'CALL roll_dice(111, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
 
-   // Assuming you have a database connection in $mysqli
-   $sql = "call R1_dice();";
-   $st = $mysqli -> prepare($sql);
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
 
- $st -> execute();
- $res = $st -> get_result();
-
- header('Content-type: application/json');
- print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-   
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
 function roll_dice_R2(){
-
 	global $mysqli;
+	
+    $sql = 'CALL roll_dice(222, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+	$st->execute();
 
-   // Assuming you have a database connection in $mysqli
-   $sql = "call R2_dice();";
-   $st = $mysqli -> prepare($sql);
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
 
- $st -> execute();
- $res = $st -> get_result();
-
- header('Content-type: application/json');
- print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-   
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
+
 function roll_dice_R3(){
-
 	global $mysqli;
+	
+    $sql = 'CALL roll_dice(333, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+	$st->execute();
 
-   // Assuming you have a database connection in $mysqli
-   $sql = "call R3_dice();";
-   $st = $mysqli -> prepare($sql);
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
 
- $st -> execute();
- $res = $st -> get_result();
-
- header('Content-type: application/json');
- print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-   
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
+
 function roll_dice_R4(){
-
 	global $mysqli;
+	
+    $sql = 'CALL roll_dice(444, @generated_dice_result);';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
 
-   // Assuming you have a database connection in $mysqli
-   $sql = "call R4_dice();";
-   $st = $mysqli -> prepare($sql);
+    // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
 
- $st -> execute();
- $res = $st -> get_result();
-
- header('Content-type: application/json');
- print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-   
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
 }
 
 

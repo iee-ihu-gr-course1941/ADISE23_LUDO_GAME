@@ -36,8 +36,8 @@
                     Δώσε κίνηση (x1 y1 x2 y2): <input id='the_move'> 
                      <button id='do_move' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ</button> </div>
 
-                     <select id='the_move_dest'></select>
-<button id='do_move2' class='btn btn-primary'>ΚΑΝΕ ΤΗΝ ΚΙΝΗΣΗ 2</button><br>
+                 
+ 
                      
                      <div id='move_div_roll'>
     Έτυχες: <span id='the_move_roll'> </span>

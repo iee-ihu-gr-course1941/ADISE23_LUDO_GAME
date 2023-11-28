@@ -18,6 +18,7 @@ $(function(){
     $('#move_div').hide();
     $('#do_move_roll').click(roll_dice);
     $('#move_div_roll').hide();
+    $('YY1.png').click(roll_dice_Y1);
 
 
    // $('#the_move_src').change( update_moves_selector);
@@ -200,57 +201,76 @@ function fill_board_by_data(data) {
             
         } 
 
-        function roll_dice(data){
-        //  last_update=new Date().getTime();
-        //  var game_stat_old = game_status;
-        //   game_status=data[0];
-        //   update_info();
-        //   clearTimeout(timer);
-              if(game_status.p_turn=='Y' ) {
-                roll_dice_Y1();
-        }else{
-            roll_dice_R1();
-        }}
+        function roll_dice(){
+//    
+//           // Send an AJAX request to the server to update the database
+//       $.ajax({
+//           url: 'ludo.php/roll/', // Adjust the path to your server-side script
+//           method: 'GET',
+//ataType: "json",
+//eaders: { "X-Token": me.token },
+//           contentType: 'application/json',
+//           data: { action: 'roll_dice' }, 
+//           
+//           
+//           // Pass the action as part of the data
+//           success: function(data) {
+//               console.log("Success Response:", data);
+//               if ('generated_dice_result' in data) {
+//                   $("#diceResult").text("Dice Result: " + data.generated_dice_result);
+                         if (game_status.p_turn == 'Y') {
+               roll_dice_Y1();
+            } else {
+              roll_dice_R1();
+            }
+          
+//               }
+//           },
+//           error: function() {
+//               alert('Error occurred while rolling the dice.');
+//           }
+//       });
+//   // game_status_update();
+            }
+///
 //
 
-
 function roll_dice_Y1() {
-   // $('#do_move_roll').prop('disabled', true);
-    // Make an AJAX call to the server to perform the move
     $.ajax({
         url: "ludo.php/roll/Y/Y1",
         method: 'GET',
         dataType: "json",
         contentType: 'application/json',
-        data: { action: 'roll_dice_Y1' },
+        data: { action: 'roll_dice' , piece_num:1 },
         headers: { "X-Token": me.token },
         success: function (data) {
-            // Handle the success response
+           
             console.log("Success Response:", data);
 
-            // Access the 'dice' property of the last element
-            if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+         
+           if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                
-
+          
                  // Check if the dice result is 6
-                 if (data[data.length - 1].dice === 6) {
+                 if ('dice' in data && data[data.length - 1].dice === 6) {
                     makeImagesClickableY();
                     makeImagesUnclickableR();
                 } else {
-                    makeImagesUnclickableY();
+                   makeImagesClickableY();
+
                     makeImagesUnclickableR();
-                    do_move();
+              //    do_move();
                 }
 
-              $("#the_move").val(
-                  " " + data[data.length - 1].prev_x +
-                  " " + data[data.length - 1].prev_y +
-                  " " + data[data.length - 1].new_x +
-                  "  " + data[data.length - 1].new_y
-              );
-
-             // do_move();
+            
+                
+       
+                $("#the_move").val(
+                    " " + data[data.length - 1].prev_x +
+                    " " + data[data.length - 1].prev_y +
+                    " " + data[data.length - 1].new_x +
+                    "  " + data[data.length - 1].new_y
+                );
           } else {
               console.error("Invalid dice result:", data);
               // Handle the case where 'dice' is not present or invalid
@@ -263,35 +283,34 @@ function roll_dice_Y1() {
       }
   }); }
 
+
   function roll_dice_Y2() {
-    // $('#do_move_roll').prop('disabled', true);
+   
      // Make an AJAX call to the server to perform the move
      $.ajax({
          url: "ludo.php/roll/Y/Y2",
          method: 'GET',
          dataType: "json",
          contentType: 'application/json',
-         data: { action: 'roll_dice_Y2' },
+         data: { action: 'roll_dice' , piece_num:2 },
          headers: { "X-Token": me.token },
          success: function (data) {
-             // Handle the success response
-             console.log("Success Response:", data);
- 
-             // Access the 'dice' property of the last element
-             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                 
- 
-                  // Check if the dice result is 6
-                  if (data[data.length - 1].dice === 6) {
-                     makeImagesClickableY();
-                     makeImagesUnclickableR();
-                 } else {
-                     makeImagesUnclickableY();
-                     makeImagesUnclickableR();
-                     do_move();
-                 }
- 
+            console.log("Success Response:", data);
+
+         
+           if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+          
+                 // Check if the dice result is 6
+                 if ('dice' in data && data[data.length - 1].dice === 6) {
+                    makeImagesClickableY();
+                    makeImagesUnclickableR();
+                } else {
+                   makeImagesClickableY();
+
+                    makeImagesUnclickableR();
+              //    do_move();
+                }
                $("#the_move").val(
                    " " + data[data.length - 1].prev_x +
                    " " + data[data.length - 1].prev_y +
@@ -299,7 +318,7 @@ function roll_dice_Y1() {
                    "  " + data[data.length - 1].new_y
                );
  
-              // do_move();
+             
            } else {
                console.error("Invalid dice result:", data);
                // Handle the case where 'dice' is not present or invalid
@@ -313,42 +332,38 @@ function roll_dice_Y1() {
    }); }
 
    function roll_dice_Y3() {
-    // $('#do_move_roll').prop('disabled', true);
-     // Make an AJAX call to the server to perform the move
+    
      $.ajax({
          url: "ludo.php/roll/Y/Y3",
          method: 'GET',
          dataType: "json",
          contentType: 'application/json',
-         data: { action: 'roll_dice_Y3' },
+         data: { action: 'roll_dice' , piece_num:3 },
          headers: { "X-Token": me.token },
          success: function (data) {
              // Handle the success response
              console.log("Success Response:", data);
- 
-             // Access the 'dice' property of the last element
+
              if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                 
- 
-                  // Check if the dice result is 6
-                  if (data[data.length - 1].dice === 6) {
-                     makeImagesClickableY();
-                     makeImagesUnclickableR();
-                 } else {
-                     makeImagesUnclickableY();
-                     makeImagesUnclickableR();
-                     do_move();
-                 }
+                $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+          
+                 // Check if the dice result is 6
+                 if ('dice' in data && data[data.length - 1].dice === 6) {
+                    makeImagesClickableY();
+                    makeImagesUnclickableR();
+                } else {
+                   makeImagesClickableY();
+
+                    makeImagesUnclickableR();
+              //    do_move();
+                }
  
                $("#the_move").val(
                    " " + data[data.length - 1].prev_x +
                    " " + data[data.length - 1].prev_y +
                    " " + data[data.length - 1].new_x +
                    "  " + data[data.length - 1].new_y
-               );
- 
-              // do_move();
+               ); 
            } else {
                console.error("Invalid dice result:", data);
                // Handle the case where 'dice' is not present or invalid
@@ -362,32 +377,30 @@ function roll_dice_Y1() {
    }); }
 
    function roll_dice_Y4() {
-    // $('#do_move_roll').prop('disabled', true);
-     // Make an AJAX call to the server to perform the move
-     $.ajax({
+       $.ajax({
          url: "ludo.php/roll/Y/Y4",
          method: 'GET',
          dataType: "json",
          contentType: 'application/json',
-         data: { action: 'roll_dice_Y4' },
+         data: { action: 'roll_dice' , piece_num:4 },
          headers: { "X-Token": me.token },
          success: function (data) {
-             // Handle the success response
+            
              console.log("Success Response:", data);
  
-             // Access the 'dice' property of the last element
-             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+          
+            if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
                  $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                 
- 
+           
                   // Check if the dice result is 6
-                  if (data[data.length - 1].dice === 6) {
+                  if ('dice' in data && data[data.length - 1].dice === 6) {
                      makeImagesClickableY();
                      makeImagesUnclickableR();
                  } else {
-                     makeImagesUnclickableY();
+                    makeImagesClickableY();
+ 
                      makeImagesUnclickableR();
-                     do_move();
+               //    do_move();
                  }
  
                $("#the_move").val(
@@ -396,8 +409,6 @@ function roll_dice_Y1() {
                    " " + data[data.length - 1].new_x +
                    "  " + data[data.length - 1].new_y
                );
- 
-              // do_move();
            } else {
                console.error("Invalid dice result:", data);
                // Handle the case where 'dice' is not present or invalid
@@ -417,25 +428,24 @@ function roll_dice_Y1() {
              method: 'GET',
              dataType: "json",
              contentType: 'application/json',
-             data: { action: 'roll_dice_R1' },
+             data: { action: 'roll_dice' , piece_num:111 },
              headers: { "X-Token": me.token },
              success: function (data) {
-                 // Handle the success response
+              
                  console.log("Success Response:", data);
-     
-                 // Access the 'dice' property of the last element
-                 if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                     $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                     
-                            // Check if the dice result is 6
-                 if (data[data.length - 1].dice === 6) {
-                    
+      
+                         
+           if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+            $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+      
+             // Check if the dice result is 6
+             if ('dice' in data && data[data.length - 1].dice === 6) {
                     makeImagesClickableR();
                     makeImagesUnclickableY();
                 } else {
-                    makeImagesUnclickableR();
+                    makeImagesClickableR();
                     makeImagesUnclickableY();
-                    do_move();
+                //    do_move();
                                }
         
                    $("#the_move").val(
@@ -463,25 +473,24 @@ function roll_dice_Y1() {
             method: 'GET',
             dataType: "json",
             contentType: 'application/json',
-            data: { action: 'roll_dice_R2' },
+            data: { action: 'roll_dice' , piece_num:222 },
             headers: { "X-Token": me.token },
             success: function (data) {
-                // Handle the success response
+             
                 console.log("Success Response:", data);
-    
-                // Access the 'dice' property of the last element
-                if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                    $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                    
-                           // Check if the dice result is 6
-                if (data[data.length - 1].dice === 6) {
-                   
+     
+                        
+          if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+           $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+     
+            // Check if the dice result is 6
+            if ('dice' in data && data[data.length - 1].dice === 6) {
                    makeImagesClickableR();
                    makeImagesUnclickableY();
                } else {
-                   makeImagesUnclickableR();
+                   makeImagesClickableR();
                    makeImagesUnclickableY();
-                   do_move();
+               //   do_move();
                               }
        
                   $("#the_move").val(
@@ -502,6 +511,7 @@ function roll_dice_Y1() {
               // You might want to handle errors and display an appropriate message
           }
       }); }
+      
       function roll_dice_R3() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
@@ -509,25 +519,24 @@ function roll_dice_Y1() {
             method: 'GET',
             dataType: "json",
             contentType: 'application/json',
-            data: { action: 'roll_dice_R3' },
+            data: { action: 'roll_dice' , piece_num:333 },
             headers: { "X-Token": me.token },
-            success: function (data) {
-                // Handle the success response
-                console.log("Success Response:", data);
-    
-                // Access the 'dice' property of the last element
-                if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                    $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                    
-                           // Check if the dice result is 6
-                if (data[data.length - 1].dice === 6) {
-                   
-                   makeImagesClickableR();
-                   makeImagesUnclickableY();
-               } else {
-                   makeImagesUnclickableR();
-                   makeImagesUnclickableY();
-                   do_move();
+             success: function (data) {
+              
+                 console.log("Success Response:", data);
+      
+                         
+           if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+            $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+      
+             // Check if the dice result is 6
+             if ('dice' in data && data[data.length - 1].dice === 6) {
+                    makeImagesClickableR();
+                    makeImagesUnclickableY();
+                } else {
+                    makeImagesClickableR();
+                    makeImagesUnclickableY();
+             //      do_move();
                               }
        
                   $("#the_move").val(
@@ -548,6 +557,8 @@ function roll_dice_Y1() {
               // You might want to handle errors and display an appropriate message
           }
       }); }
+
+
       function roll_dice_R4() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
@@ -555,26 +566,25 @@ function roll_dice_Y1() {
             method: 'GET',
             dataType: "json",
             contentType: 'application/json',
-            data: { action: 'roll_dice_R4' },
+            data: { action: 'roll_dice' , piece_num:444},
             headers: { "X-Token": me.token },
             success: function (data) {
-                // Handle the success response
                 console.log("Success Response:", data);
-    
-                // Access the 'dice' property of the last element
+      
+                         
                 if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                    $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-                    
-                           // Check if the dice result is 6
-                if (data[data.length - 1].dice === 6) {
-                   
-                   makeImagesClickableR();
-                   makeImagesUnclickableY();
-               } else {
-                   makeImagesUnclickableR();
-                   makeImagesUnclickableY();
-                   do_move();
-                              }
+                 $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+           
+                  // Check if the dice result is 6
+                  if ('dice' in data && data[data.length - 1].dice === 6) {
+                         makeImagesClickableR();
+                         makeImagesUnclickableY();
+                     } else {
+                         makeImagesClickableR();
+                         makeImagesUnclickableY();
+                     //    do_move();
+                                    }
+             
        
                   $("#the_move").val(
                       " " + data[data.length - 1].prev_x +
@@ -613,30 +623,38 @@ function roll_dice_Y1() {
         if (imageName && imageName.startsWith('images/RR')) {
             // Extract the number from the image name (assuming it follows the RR1, RR2 pattern)
             var imageNumber = imageName.replace('images/RR', '').replace('.png', '');
-    
+          
             // Use a switch statement to distinguish different actions based on the image number
             switch (imageNumber) {
                 case '1':
                     // Action for RR1
                     console.log('Clicked on RR1:', imageName);
+                 //   do_move();
                     roll_dice_R1();
+                   // do_move();
                     break;
                 case '2':
                     // Action for RR2
                     console.log('Clicked on RR2:', imageName);
+                   // do_move();
                     roll_dice_R2();
+                 //   do_move();
                     // Add your custom logic for RR2
                     break;
                 case '3':
                     // Action for RR3
                     console.log('Clicked on RR3:', imageName);
+                //    do_move();
                     roll_dice_R3();
+                  //  do_move();
                     // Add your custom logic for RR3
                     break;
                 case '4':
                     // Action for RR4
                     console.log('Clicked on RR4:', imageName);
+                 //   do_move();
                     roll_dice_R4();
+                 //  do_move();
                     // Add your custom logic for RR4
                     break;
                 default:
@@ -668,30 +686,38 @@ function roll_dice_Y1() {
         if (imageName && imageName.startsWith('images/YY')) {
              
             var imageNumber = imageName.replace('images/YY', '').replace('.png', '');
-    
+          
             // Use a switch statement to distinguish different actions based on the image number
             switch (imageNumber) {
                 case '1':
                     // Action for YY1
                     console.log('Clicked on YY1:', imageName);
+                 //   do_move();
                     roll_dice_Y1();
+                //   do_move();
                     break;
                 case '2':
                     // Action for YY2
                     console.log('Clicked on YY2:', imageName);
-                    roll_dice_Y2();
+        //           do_move();
+              roll_dice_Y2();
+            //     do_move();
                     // Add your custom logic for YY2
                     break;
                 case '3':
                     // Action for YY3
                     console.log('Clicked on YY3:', imageName);
-                    roll_dice_Y3();
+                   // do_move();
+                  roll_dice_Y3();
+              //      do_move();
                     // Add your custom logic for YY3
                     break;
                 case '4':
                     // Action for YY4
                     console.log('Clicked on YY4:', imageName);
+                  //  do_move();
                     roll_dice_Y4();
+                //    do_move();
                     // Add your custom logic for YY4
                     break;
                 default:

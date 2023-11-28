@@ -51,12 +51,12 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 	break;
 
 
-	 case 'roll': 
+	 case 'roll':     
 	 switch ($b=array_shift($request)) {
 		case 'Y': 
 		switch ($b=array_shift($request)) {
  
-			case 'Y1':handle_roll_Y1($method); break;
+			case 'Y1':   handle_roll_Y1($method); break;
 			case 'Y2':handle_roll_Y2($method); break;
 			case 'Y3':handle_roll_Y3($method); break;
 			case 'Y4':handle_roll_Y4($method); break;
@@ -91,59 +91,67 @@ function handle_delete_players($method) {
     }  else {header('HTTP/1.1 405 Method Not Allowed');}
     
 }
+
+
+//function handle_roll($method) {
+//    if($method=='GET') {
+//		roll_dice();
+// 
+//     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+//    
+// }
  function handle_roll_Y1($method) {
     if($method=='GET') {
-		roll_dice_Y1();
+		roll_dice(1);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_Y2($method) {
     if($method=='GET') {
-		roll_dice_Y2();
+		roll_dice(2);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_Y3($method) {
     if($method=='GET') {
-		roll_dice_Y3();
+		roll_dice(3);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_Y4($method) {
     if($method=='GET') {
-		roll_dice_Y4();
+		roll_dice(4);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_R1($method) {
     if($method=='GET') {
- 		roll_dice_R1();
+		roll_dice(111);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_R2($method) {
     if($method=='GET') {
- 		roll_dice_R2();
+		roll_dice(222);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_R3($method) {
     if($method=='GET') {
- 		roll_dice_R3();
+		roll_dice(333);
  
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
  function handle_roll_R4($method) {
     if($method=='GET') {
- 		roll_dice_R4();
- 
+		roll_dice(444);
      }    else {header('HTTP/1.1 405 Method Not Allowed');}
     
  }
