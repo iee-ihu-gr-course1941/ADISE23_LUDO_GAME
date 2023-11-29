@@ -202,75 +202,73 @@ function fill_board_by_data(data) {
         } 
 
         function roll_dice(){
-//    
-//           // Send an AJAX request to the server to update the database
-//       $.ajax({
-//           url: 'ludo.php/roll/', // Adjust the path to your server-side script
-//           method: 'GET',
-//ataType: "json",
-//eaders: { "X-Token": me.token },
-//           contentType: 'application/json',
-//           data: { action: 'roll_dice' }, 
-//           
-//           
-//           // Pass the action as part of the data
-//           success: function(data) {
-//               console.log("Success Response:", data);
-//               if ('generated_dice_result' in data) {
-//                   $("#diceResult").text("Dice Result: " + data.generated_dice_result);
-                         if (game_status.p_turn == 'Y') {
-               roll_dice_Y1();
-            } else {
-              roll_dice_R1();
+    
+           // Send an AJAX request to the server to update the database
+       $.ajax({
+           url: 'ludo.php/roll/', // Adjust the path to your server-side script
+           method: 'GET',
+  dataType: "json",
+headers: { "X-Token": me.token },
+           contentType: 'application/json',
+           data: { action: 'roll' }, 
+           
+           
+           // Pass the action as part of the data
+           success: function(data) {
+               console.log("Success Response:", data);
+               
+                   $("#diceResult").text("Dice Result: " +data[0].generated_dice_result); 
+                      if (game_status.p_turn == 'Y') {
+                        makeImagesClickableY();
+         } else {
+            makeImagesClickableR();
+         }
+      
+                 
+            },
+            error: function() {
+                alert('Error occurred while rolling the dice.');
             }
-          
-//               }
-//           },
-//           error: function() {
-//               alert('Error occurred while rolling the dice.');
-//           }
-//       });
-//   // game_status_update();
-            }
-///
-//
+        });
+    // game_status_update();
+           }
+  
+ 
 
 function roll_dice_Y1() {
     $.ajax({
-        url: "ludo.php/roll/Y/Y1",
+        url: "ludo.php/rollY1",
         method: 'GET',
         dataType: "json",
         contentType: 'application/json',
         data: { action: 'roll_dice' , piece_num:1 },
+      
         headers: { "X-Token": me.token },
         success: function (data) {
-           
-            console.log("Success Response:", data);
+           console.log("Success Response:", data);
 
+        
+          if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+               $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
          
-           if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
-                $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
-          
-                 // Check if the dice result is 6
-                 if ('dice' in data && data[data.length - 1].dice === 6) {
-                    makeImagesClickableY();
-                    makeImagesUnclickableR();
-                } else {
+                // Check if the dice result is 6
+                if ('dice' in data && data[data.length - 1].dice === 6) {
                    makeImagesClickableY();
+                   makeImagesUnclickableR();
+               } else {
+                  makeImagesClickableY();
 
-                    makeImagesUnclickableR();
-              //    do_move();
-                }
+                   makeImagesUnclickableR();
+             //    do_move();
+               }
+              $("#the_move").val(
+                  " " + data[data.length - 1].prev_x +
+                  " " + data[data.length - 1].prev_y +
+                  " " + data[data.length - 1].new_x +
+                  "  " + data[data.length - 1].new_y
+              );
 
             
-                
-       
-                $("#the_move").val(
-                    " " + data[data.length - 1].prev_x +
-                    " " + data[data.length - 1].prev_y +
-                    " " + data[data.length - 1].new_x +
-                    "  " + data[data.length - 1].new_y
-                );
           } else {
               console.error("Invalid dice result:", data);
               // Handle the case where 'dice' is not present or invalid
@@ -288,7 +286,7 @@ function roll_dice_Y1() {
    
      // Make an AJAX call to the server to perform the move
      $.ajax({
-         url: "ludo.php/roll/Y/Y2",
+         url: "ludo.php/rollY2",
          method: 'GET',
          dataType: "json",
          contentType: 'application/json',
@@ -334,7 +332,7 @@ function roll_dice_Y1() {
    function roll_dice_Y3() {
     
      $.ajax({
-         url: "ludo.php/roll/Y/Y3",
+         url: "ludo.php/rollY3",
          method: 'GET',
          dataType: "json",
          contentType: 'application/json',
@@ -378,7 +376,7 @@ function roll_dice_Y1() {
 
    function roll_dice_Y4() {
        $.ajax({
-         url: "ludo.php/roll/Y/Y4",
+         url: "ludo.php/rollY4",
          method: 'GET',
          dataType: "json",
          contentType: 'application/json',
@@ -424,7 +422,7 @@ function roll_dice_Y1() {
      function roll_dice_R1() {
          // Make an AJAX call to the server to perform the move
          $.ajax({
-             url: "ludo.php/roll/R/R1",
+             url: "ludo.php/rollR1",
              method: 'GET',
              dataType: "json",
              contentType: 'application/json',
@@ -466,10 +464,12 @@ function roll_dice_Y1() {
                // You might want to handle errors and display an appropriate message
            }
        }); }
+
+       
        function roll_dice_R2() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
-            url: "ludo.php/roll/R/R2",
+            url: "ludo.php/rollR2",
             method: 'GET',
             dataType: "json",
             contentType: 'application/json',
@@ -515,7 +515,7 @@ function roll_dice_Y1() {
       function roll_dice_R3() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
-            url: "ludo.php/roll/R/R3",
+            url: "ludo.php/rollR3",
             method: 'GET',
             dataType: "json",
             contentType: 'application/json',
@@ -562,7 +562,7 @@ function roll_dice_Y1() {
       function roll_dice_R4() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
-            url: "ludo.php/roll/R/R4",
+            url: "ludo.php/rollR4",
             method: 'GET',
             dataType: "json",
             contentType: 'application/json',

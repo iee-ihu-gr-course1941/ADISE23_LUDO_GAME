@@ -61,7 +61,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 2, 'W', 'Y', 'Y4', NULL, NULL, NULL, NULL),
-	(3, 3, 'W', 'Y', 'Y2', NULL, NULL, NULL, NULL),
+	(3, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 5, 'W', NULL, NULL, 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
@@ -74,15 +74,15 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 2, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 3, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 5, 'W', NULL, NULL, 4, 13, 22, 31),
+	(4, 5, 'W', 'Y', 'Y2', 4, 13, 22, 31),
 	(4, 6, 'G', NULL, NULL, NULL, NULL, NULL, 38),
-	(4, 7, 'W', NULL, NULL, 12, 21, 30, 3),
+	(4, 7, 'W', 'Y', 'Y1', 12, 21, 30, 3),
 	(4, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 9, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 1, 'W', NULL, NULL, NULL, 9, 18, 27),
-	(5, 2, 'Y', 'Y', 'Y1', 1, 10, 19, 28),
+	(5, 2, 'Y', NULL, NULL, 1, 10, 19, 28),
 	(5, 3, 'W', NULL, NULL, 2, 11, 20, 29),
 	(5, 4, 'W', NULL, NULL, 3, 12, 21, 30),
 	(5, 5, 'GY', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -92,7 +92,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(5, 9, 'W', NULL, NULL, 14, 23, 32, 5),
 	(5, 10, 'W', NULL, NULL, 15, 24, 33, 6),
 	(5, 11, 'W', NULL, NULL, 16, 25, 34, 7),
-	(6, 1, 'W', NULL, NULL, 35, 8, 17, 26),
+	(6, 1, 'W', 'R', 'R1', 35, 8, 17, 26),
 	(6, 2, 'Y', NULL, NULL, 36, NULL, NULL, NULL),
 	(6, 3, 'Y', NULL, NULL, 37, NULL, NULL, NULL),
 	(6, 4, 'Y', NULL, NULL, 38, NULL, NULL, NULL),
@@ -112,7 +112,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', 'R', 'R4', 19, 28, 1, 10),
+	(7, 10, 'R', 'R', 'R3', 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -133,8 +133,8 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(9, 6, 'B', NULL, NULL, NULL, 37, NULL, NULL),
 	(9, 7, 'W', NULL, NULL, 32, 5, 27, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
-	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
-	(9, 10, 'W', 'R', 'R1', NULL, NULL, NULL, NULL),
+	(9, 9, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 2, 'W', 'B', 'B4', NULL, NULL, NULL, NULL),
@@ -144,7 +144,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(10, 6, 'B', NULL, NULL, NULL, 36, NULL, NULL),
 	(10, 7, 'W', NULL, NULL, 24, 33, 6, 15),
 	(10, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
-	(10, 9, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(10, 9, 'W', 'R', 'R4', NULL, NULL, NULL, NULL),
 	(10, 10, 'W', 'R', 'R2', NULL, NULL, NULL, NULL),
 	(10, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -351,14 +351,14 @@ CREATE TABLE IF NOT EXISTS `dice` (
 -- Dumping data for table adise23_ludo_game.dice: ~8 rows (approximately)
 DELETE FROM `dice`;
 INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`) VALUES
-	(9, 10, 7, 10, '2023-11-28 14:36:27', 'R', 'R1', 3),
-	(10, 10, 7, 10, '2023-11-28 14:36:27', 'R', 'R2', 3),
-	(9, 9, 7, 10, '2023-11-28 14:36:27', 'R', 'R3', 3),
-	(10, 9, 7, 10, '2023-11-28 14:36:27', 'R', 'R4', 3),
-	(5, 2, 4, 5, '2023-11-28 14:36:27', 'Y', 'Y1', 3),
-	(3, 3, 5, 2, '2023-11-28 14:36:27', 'Y', 'Y2', 3),
-	(2, 2, 5, 2, '2023-11-28 14:36:27', 'Y', 'Y3', 3),
-	(3, 2, 5, 2, '2023-11-28 14:36:27', 'Y', 'Y4', 3);
+	(6, 1, 5, 2, '2023-11-29 10:14:18', 'R', 'R1', 2),
+	(10, 10, 7, 10, '2023-11-29 10:14:18', 'R', 'R2', 2),
+	(7, 10, 7, 8, '2023-11-29 10:14:18', 'R', 'R3', 2),
+	(10, 9, 7, 10, '2023-11-29 10:14:18', 'R', 'R4', 2),
+	(2, 7, 4, 7, '2023-11-29 10:14:18', 'Y', 'Y1', 2),
+	(4, 5, 2, 5, '2023-11-29 10:14:18', 'Y', 'Y2', 2),
+	(2, 2, 5, 2, '2023-11-29 10:14:18', 'Y', 'Y3', 2),
+	(3, 2, 5, 2, '2023-11-29 10:14:18', 'Y', 'Y4', 2);
 
 -- Dumping structure for πίνακας adise23_ludo_game.error_log
 DROP TABLE IF EXISTS `error_log`;
@@ -386,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 -- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'Y', 'D', '2023-11-28 14:37:23');
+	('started', 'R', 'D', '2023-11-29 10:37:00');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -537,9 +537,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	('red', 'R', '1ea5a5f8efb87dd1e0202df23cd34e0b', '2023-11-28 14:36:36'),
+	('red', 'R', '221daea2cbcbcea4fd05c951472e7d1c', '2023-11-29 10:22:34'),
 	(NULL, 'G', NULL, NULL),
-	('tet', 'Y', '078727436a2c7502f4ff97d41fdb319c', '2023-11-28 14:36:41');
+	('rerr', 'Y', '9fd3557d878c30e3ecc97715a8b66049', '2023-11-29 10:22:41');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -604,7 +604,7 @@ DROP PROCEDURE IF EXISTS `roll_dice`;
 DELIMITER //
 CREATE PROCEDURE `roll_dice`(
 	IN `piece_num` VARCHAR(10),
-	IN `diceresult` INT
+	IN `@generated_dice_result` INT
 )
 BEGIN
     DECLARE current_x TINYINT;
@@ -630,12 +630,12 @@ BEGIN
 -- CALL roll_diceOUT(@generated_dice_result);
 
 -- Debugging: Print the generated dice result
--- SELECT @generated_dice_result AS debug_dice_result;
+ -- SELECT @generated_dice_result AS debug_dice_result;
 
--- SET generated_dice_result = @generated_dice_result;
+SET  generated_dice_result = @generated_dice_result;
 
 -- Update the dice table with the generated dice result
-UPDATE dice SET dice = @generated_dice_result;
+UPDATE dice SET dice =  generated_dice_result;
   CASE piece_num
         WHEN 1 THEN
             -- Get the current coordinates of the piece
@@ -679,7 +679,7 @@ END IF;
    -- CALL `move_piece`(current_x, current_y, new_x, new_y);
 -- Commit the transaction if everything is successful
 
-            CALL Y1_dice();
+        -- CALL Y1_dice();
 COMMIT;
             -- Rest of your Y1 case...
 
@@ -720,7 +720,7 @@ ELSE
         dice =  @generated_dice_result
     WHERE piece = 'Y2';
 END IF;
-         CALL Y2_dice();
+         -- CALL Y2_dice();
 
         WHEN 3 THEN
              -- Get the current coordinates of the piece
@@ -759,7 +759,7 @@ ELSE
         dice =  @generated_dice_result
     WHERE piece = 'Y3';
 END IF;
-           CALL Y3_dice();
+         --  CALL Y3_dice();
 
         WHEN 4 THEN
               -- Get the current coordinates of the piece
@@ -798,7 +798,7 @@ ELSE
         dice =  @generated_dice_result
     WHERE piece = 'Y4';
 END IF;
-           CALL Y4_dice();
+         -- CALL Y4_dice();
         WHEN 111 THEN
         SELECT x, y, r_path INTO current_x, current_y, current_rpath
 FROM board
@@ -839,7 +839,7 @@ ELSE
     WHERE piece = 'R1';
 END IF;
 
-             CALL R1_dice();
+         --   CALL R1_dice();
 
         WHEN 222 THEN
                 SELECT x, y, r_path INTO current_x, current_y, current_rpath
@@ -881,7 +881,7 @@ ELSE
     WHERE piece = 'R2';
 END IF;
 
-            CALL R2_dice();
+          --  CALL R2_dice();
 
         WHEN 333 THEN
                 SELECT x, y, r_path INTO current_x, current_y, current_rpath
@@ -923,7 +923,7 @@ ELSE
     WHERE piece = 'R3';
 END IF;
 
-              CALL R3_dice();
+             -- CALL R3_dice();
 
         WHEN 444 THEN
         
@@ -966,7 +966,7 @@ ELSE
     WHERE piece = 'R4';
 END IF;
 
-         CALL R4_dice();
+       -- CALL R4_dice();
         ELSE
             -- Default case
             ROLLBACK;
@@ -987,8 +987,22 @@ CREATE PROCEDURE `roll_diceOUT`(
 BEGIN
   
     -- Generate a random number between 1 and 6
-    SET generated_dice_result = FLOOR(1 + RAND() * 6);
- SELECT generated_dice_result ;
+    SET  generated_dice_result = FLOOR(1 + RAND() * 6);
+ SELECT  generated_dice_result ;
+ 
+ 
+ CALL roll_dice(1, generated_dice_result);
+ 
+ CALL roll_dice(2,generated_dice_result);
+ 
+ CALL roll_dice(3, generated_dice_result);
+ CALL roll_dice(4, generated_dice_result);
+ CALL roll_dice(111, generated_dice_result);
+ CALL roll_dice(222, generated_dice_result);
+ CALL roll_dice(333, generated_dice_result);
+ CALL roll_dice(444, generated_dice_result);
+ 
+ 
 END//
 DELIMITER ;
 
