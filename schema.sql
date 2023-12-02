@@ -61,7 +61,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 2, 'W', 'Y', 'Y4', NULL, NULL, NULL, NULL),
-	(3, 3, 'W', 'Y', 'Y2', NULL, NULL, NULL, NULL),
+	(3, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 5, 'W', 'Y', 'Y1', 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
@@ -82,7 +82,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 1, 'W', NULL, NULL, NULL, 9, 18, 27),
-	(5, 2, 'Y', NULL, NULL, 1, 10, 19, 28),
+	(5, 2, 'Y', 'Y', 'Y2', 1, 10, 19, 28),
 	(5, 3, 'W', NULL, NULL, 2, 11, 20, 29),
 	(5, 4, 'W', NULL, NULL, 3, 12, 21, 30),
 	(5, 5, 'GY', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -131,7 +131,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(9, 4, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 5, 'W', NULL, NULL, 29, 2, 11, 20),
 	(9, 6, 'B', NULL, NULL, NULL, 37, NULL, NULL),
-	(9, 7, 'W', NULL, NULL, 32, 5, 27, 14),
+	(9, 7, 'W', NULL, NULL, 23, 32, 5, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
 	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -490,14 +490,14 @@ CREATE TABLE IF NOT EXISTS `dice` (
 -- Dumping data for table adise23_ludo_game.dice: ~8 rows (approximately)
 DELETE FROM `dice`;
 INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`, `prev_path`, `new_path`) VALUES
-	(8, 7, 11, 6, '2023-12-02 13:33:35', 'R', 'R1', 4, 4, 8),
-	(10, 10, 7, 10, '2023-12-02 13:33:35', 'R', 'R2', 4, NULL, 1),
-	(9, 9, 7, 10, '2023-12-02 13:33:35', 'R', 'R3', 4, NULL, 1),
-	(10, 9, 7, 10, '2023-12-02 13:33:35', 'R', 'R4', 4, NULL, 1),
-	(3, 5, 1, 7, '2023-12-02 13:33:35', 'Y', 'Y1', 4, 5, 9),
-	(3, 3, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y2', 4, NULL, 1),
-	(2, 2, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y3', 4, NULL, 1),
-	(3, 2, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y4', 4, NULL, 1);
+	(8, 7, 10, 5, '2023-12-02 13:33:35', 'R', 'R1', 6, 4, 10),
+	(10, 10, 7, 10, '2023-12-02 13:33:35', 'R', 'R2', 6, NULL, 1),
+	(9, 9, 7, 10, '2023-12-02 13:33:35', 'R', 'R3', 6, NULL, 1),
+	(10, 9, 7, 10, '2023-12-02 13:33:35', 'R', 'R4', 6, NULL, 1),
+	(3, 5, 3, 7, '2023-12-02 13:33:35', 'Y', 'Y1', 6, 5, 11),
+	(5, 2, 1, 5, '2023-12-02 13:33:35', 'Y', 'Y2', 6, 1, 7),
+	(2, 2, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y3', 6, NULL, 1),
+	(3, 2, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y4', 6, NULL, 1);
 
 -- Dumping structure for πίνακας adise23_ludo_game.error_log
 DROP TABLE IF EXISTS `error_log`;
@@ -525,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 -- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'R', 'D', '2023-12-02 13:34:26');
+	('started', 'R', 'D', '2023-12-02 14:03:50');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -676,9 +676,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	('red', 'R', '0b41a4b3b3fc3916a971b3aa7772bf2c', '2023-12-02 13:26:01'),
+	('red', 'R', 'a63a1bf214deeb3276b3860716f0e1ec', '2023-12-02 14:03:35'),
 	(NULL, 'G', NULL, NULL),
-	('y', 'Y', '3c5ced1ac121ead2dcf0d1075d7de9b9', '2023-12-02 13:26:09');
+	('ye', 'Y', '2860d9b44544c8944509c5200e48210e', '2023-12-02 14:03:41');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
