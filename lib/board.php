@@ -140,7 +140,23 @@ function do_move($x,$y,$x2,$y2) {
 //	 
 //
 //
+function show_board_by_player($b) {
 
+	global $mysqli;
+
+	$orig_board=read_board();
+	$board=convert_board($orig_board);
+	$status = read_status();
+	if($status['status']=='started' && $status['p_turn']==$b && $b!=null) {
+		// It my turn !!!!
+		$n = add_valid_moves_to_board($board,$b);
+		
+		// Εάν n==0, τότε έχασα !!!!!
+		// Θα πρέπει να ενημερωθεί το game_status.
+	}
+	header('Content-type: application/json');
+	print json_encode($orig_board, JSON_PRETTY_PRINT);
+}
  
 function roll() {
     global $mysqli;
@@ -179,31 +195,16 @@ $st -> close();
 }
 
  function roll_dice($piece_num) {
-//    global $mysqli;
-//    
-//     $sqlRollDice = "CALL roll_dice(?,  '@generated_dice_result')";
-//     $st = $mysqli->prepare($sqlRollDice);
-//    
-//     // Check if the prepare statement was successful
-//     if (!$st) {
-//         echo "Error in prepare statement: " . $mysqli->error;
-//     } else {
-//         // Bind the parameter and execute the stored procedure
-//         $st->bind_param("i", $piece_num);
-//         $st->execute();
-//         $st->close();
-//    
-//         // Return the data as JSON
-//         header('Content-type: application/json');
+ 
 	switch ($piece_num) {
-		case 1: roll_dice_Y1(); break;
-		case 2: roll_dice_Y2(); break;
-		case 3: roll_dice_Y3(); break;
-		case 4: roll_dice_Y4(); break;
+		case 1: roll_dice_Y1();  break;
+		case 2: roll_dice_Y2();  break;
+		case 3: roll_dice_Y3();   break;
+		case 4: roll_dice_Y4();  break;
 		case 111: roll_dice_R1(); break;
 		case 222: roll_dice_R2(); break;
 		case 333: roll_dice_R3(); break;
-		case 444: roll_dice_R4(); break;
+		case 444: roll_dice_R4();   break;
 		default:
 			echo "Invalid piece number.";
 			break;
@@ -215,6 +216,20 @@ function roll_dice_Y1() {
 	global $mysqli;
 
     $sql = 'CALL  Y1_dice() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+function Y1_highlight() {
+	global $mysqli;
+
+    $sql = 'CALL  Y1_highlight() ; ';
     $st = $mysqli->prepare($sql);
     $st->execute();
 
@@ -241,7 +256,20 @@ function roll_dice_Y2(){
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
+function Y2_highlight() {
+	global $mysqli;
 
+    $sql = 'CALL  Y2_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
 
 function roll_dice_Y3(){
 	global $mysqli;
@@ -251,6 +279,20 @@ function roll_dice_Y3(){
 	$st->execute();
 
     // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+function Y3_highlight() {
+	global $mysqli;
+
+    $sql = 'CALL  Y3_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
     $result = $st->get_result();
     $data = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -274,6 +316,20 @@ function roll_dice_Y4(){
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
+function Y4_highlight() {
+	global $mysqli;
+
+    $sql = 'CALL  Y4_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
 function roll_dice_R1(){
 	global $mysqli;
 	
@@ -282,6 +338,20 @@ function roll_dice_R1(){
     $st->execute();
 
     // Fetch the results
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
+function R1_highlight() {
+	global $mysqli;
+
+    $sql = 'CALL  R1_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
     $result = $st->get_result();
     $data = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -304,7 +374,20 @@ function roll_dice_R2(){
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
+function R2_highlight() {
+	global $mysqli;
 
+    $sql = 'CALL  R1_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
 function roll_dice_R3(){
 	global $mysqli;
 	
@@ -320,7 +403,20 @@ function roll_dice_R3(){
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
+function R3_highlight() {
+	global $mysqli;
 
+    $sql = 'CALL  R3_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
 function roll_dice_R4(){
 	global $mysqli;
 	
@@ -336,7 +432,20 @@ function roll_dice_R4(){
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
+function R4_highlight() {
+	global $mysqli;
 
+    $sql = 'CALL  R4_highlight() ; ';
+    $st = $mysqli->prepare($sql);
+    $st->execute();
+
+    $result = $st->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Return the data as JSON
+    header('Content-type: application/json');
+    echo json_encode($data, JSON_PRETTY_PRINT);
+}
 
 function show_board(){
   global $mysqli;
@@ -354,25 +463,25 @@ function show_board(){
 
 
 //ελεγχος ποιος χρηστης μας ζηταει το Board & ποιος εχει σειρα να παιξει
-function show_board_by_player($b) {
-
-	global $mysqli;
-
-	//orig_board->ολος ο πινακας απο την βαση(read_board: select * from board)
-	$orig_board=read_board();
-	$board=convert_board($orig_board);
-	$status = read_status();
-	//p_turn=$b -> ειναι η σειρα του παικτη που εκανε την αιτηση να παιξει
-	if($status['status']=='started' && $status['p_turn']==$b && $b!=null) {
-		// It my turn !!!!
-		$n = add_valid_moves_to_board($board,$b);
-		
-		// Εάν n==0, τότε έχασα !!!!!
-		// Θα πρέπει να ενημερωθεί το game_status.
-	}
-	header('Content-type: application/json');
-	print json_encode($orig_board, JSON_PRETTY_PRINT);
-}
+//  function show_board_by_player($b) {
+//
+//	global $mysqli;
+//
+//	//orig_board->ολος ο πινακας απο την βαση(read_board: select * from board)
+//	$orig_board=read_board();
+//	$board=convert_board($orig_board);
+//	$status = read_status();
+//	//p_turn=$b -> ειναι η σειρα του παικτη που εκανε την αιτηση να παιξει
+//	if($status['status']=='started' && $status['p_turn']==$b && $b!=null) {
+//		// It my turn !!!!
+//		$n = add_valid_moves_to_board($board,$b);
+//		
+//		// Εάν n==0, τότε έχασα !!!!!
+//		// Θα πρέπει να ενημερωθεί το game_status.
+//	}
+//	header('Content-type: application/json');
+//	print json_encode($orig_board, JSON_PRETTY_PRINT);
+//  }
 
 //call by reference: τα στοιχεια του νεου πινακα δεν υπαρχουν στην πραγματικοτητα σαν obj
 //δειχνουν στην αντιστοιχη θεση του αρχικου πινακα
@@ -385,6 +494,65 @@ function convert_board(&$orig_board) {
 }
 
 
+function read_board() {
+	global $mysqli;
+	$sql = 'select * from board';
+	$st = $mysqli->prepare($sql);
+	$st->execute();
+	$res = $st->get_result();  
+	return($res->fetch_all(MYSQLI_ASSOC));
+}
+
+// function add_valid_moves_to_board(&$board,$b) {
+//	$number_of_moves=0;
+//	
+//	for($x=1;$x<12;$x++) {
+//		for($y=1;$y<12;$y++) {
+//			$number_of_moves+=add_valid_moves_to_piece($board,$b,$x,$y);
+//		}
+//	}
+//	return($number_of_moves);
+//  }
+//
+//  function add_valid_moves_to_piece(&$board,$b,$x,$y) {
+//	$number_of_moves=0;
+//	if($board[$x][$y]['piece_color']==$b) {
+//		switch($board[$x][$y]['piece']){
+//			case 'Y': $number_of_moves+=y_moves($board,$b,$x,$y);break;
+//			case 'R': $number_of_moves+=r_moves($board,$b,$x,$y);break;
+//			 
+//		}
+//	} 
+//	return($number_of_moves);
+// }
+//
+// function y_moves(&$board,$b,$x,$y) {
+//	$m = [
+//		[2,1],
+//		[1,2],
+//		[2,-1],
+//		[1,-2],
+//		[-2,1],
+//		[-1,2],
+//		[-2,-1],
+//		[-1,-2],
+//	];
+//	$moves=[];
+//	foreach($m as $k=>$t) {
+//		$x2=$x+$t[0];
+//		$y2=$y+$t[1];
+//		if( $x2>=1 && $x2<=11 && $y2>=1 && $y2<=11 &&
+//			$board[$x2][$y2]['piece_color'] !=$b ) {
+//			// Αν ο προορισμός είναι εντός σκακιέρας και δεν υπάρχει δικό μου πιόνι
+//			$move=['x'=>$x2, 'y'=>$y2];
+//			$moves[]=$move;
+//		}
+//	}
+//	$board[$x][$y]['moves'] = $moves;
+//	return(sizeof($moves));
+// }
+//
+
 function reset_board(){
   global $mysqli;
 
@@ -393,13 +561,6 @@ function reset_board(){
   show_board();
 } 
 
-function read_board() {
-	global $mysqli;
-	$sql = 'select * from board';
-	$st = $mysqli->prepare($sql);
-	$st->execute();
-	$res = $st->get_result();
-	return($res->fetch_all(MYSQLI_ASSOC));
-}
+
  
 ?>

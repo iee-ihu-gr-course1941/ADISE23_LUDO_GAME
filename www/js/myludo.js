@@ -12,14 +12,14 @@ $(function(){
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
-
+ 
 
     $('#do_move').click(do_move);
     $('#move_div').hide();
     $('#do_move_roll').click(roll_dice);
     $('#move_div_roll').hide();
     $('YY1.png').click(roll_dice_Y1);
-
+ 
 
    // $('#the_move_src').change( update_moves_selector);
 	//$('#do_move2').click( do_move2);
@@ -71,7 +71,7 @@ function draw_empty_board(p) {
     t += '</table>';
 
     $('#ludo_board').html(t);
-   // $('ludo_square').click(click_on_piece);
+ 
 }
 
  
@@ -197,6 +197,7 @@ function fill_board_by_data(data) {
                   //to token απο ορισμα, το βαζω στους headers(αλλαγη ludo.php)
                     headers: {"X-Token": me.token},
                     success: move_result,
+                    
                     error: login_error});
             
         } 
@@ -279,7 +280,37 @@ function roll_dice_Y1() {
           console.error("Error Response:", xhr.responseText);
           // You might want to handle errors and display an appropriate message
       }
-  }); }
+      }); 
+       $.ajax({
+         url: "ludo.php/highlightY1",
+         method: 'GET',
+         dataType: "json",
+         contentType: 'application/json',
+         data: { action: 'Y1_highlight'  },
+       
+         headers: { "X-Token": me.token },
+         success: function (data) {
+            console.log("highlight coordinates : ", data);
+
+            data.forEach(function(item) {
+                var squareId = 'square_' + item.x + '_' + item.y;
+                $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+              
+             // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+               setTimeout(function() {
+                 $('#' + squareId).removeClass('highlight');
+              },  1000);
+              });
+            }
+              ,
+       error: function (xhr, status, error) {
+           // Handle the error response
+           console.error("Error Response:", xhr.responseText);
+           // You might want to handle errors and display an appropriate message
+       }
+     } );
+    }
+     
 
 
   function roll_dice_Y2() {
@@ -327,7 +358,36 @@ function roll_dice_Y1() {
            console.error("Error Response:", xhr.responseText);
            // You might want to handle errors and display an appropriate message
        }
-   }); }
+   });        
+   $.ajax({
+     url: "ludo.php/highlightY2",
+     method: 'GET',
+     dataType: "json",
+     contentType: 'application/json',
+     data: { action: 'Y2_highlight'  },
+   
+     headers: { "X-Token": me.token },
+     success: function (data) {
+        console.log("highlight coordinates : ", data);
+
+        data.forEach(function(item) {
+            var squareId = 'square_' + item.x + '_' + item.y;
+            $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+          
+         // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+           setTimeout(function() {
+             $('#' + squareId).removeClass('highlight');
+          },  1000);
+          });
+        }
+          ,
+   error: function (xhr, status, error) {
+       // Handle the error response
+       console.error("Error Response:", xhr.responseText);
+       // You might want to handle errors and display an appropriate message
+   }
+ } );
+}
 
    function roll_dice_Y3() {
     
@@ -372,7 +432,36 @@ function roll_dice_Y1() {
            console.error("Error Response:", xhr.responseText);
            // You might want to handle errors and display an appropriate message
        }
-   }); }
+   });         
+   $.ajax({
+     url: "ludo.php/highlightY3",
+     method: 'GET',
+     dataType: "json",
+     contentType: 'application/json',
+     data: { action: 'Y3_highlight'  },
+   
+     headers: { "X-Token": me.token },
+     success: function (data) {
+        console.log("highlight coordinates : ", data);
+
+        data.forEach(function(item) {
+            var squareId = 'square_' + item.x + '_' + item.y;
+            $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+          
+         // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+           setTimeout(function() {
+             $('#' + squareId).removeClass('highlight');
+          },  1000);
+          });
+        }
+          ,
+   error: function (xhr, status, error) {
+       // Handle the error response
+       console.error("Error Response:", xhr.responseText);
+       // You might want to handle errors and display an appropriate message
+   }
+ } );
+} 
 
    function roll_dice_Y4() {
        $.ajax({
@@ -416,8 +505,38 @@ function roll_dice_Y1() {
            // Handle the error response
            console.error("Error Response:", xhr.responseText);
            // You might want to handle errors and display an appropriate message
-       }
-   }); }
+        }
+    });         
+    $.ajax({
+      url: "ludo.php/highlightY4",
+      method: 'GET',
+      dataType: "json",
+      contentType: 'application/json',
+      data: { action: 'Y4_highlight'  },
+    
+      headers: { "X-Token": me.token },
+      success: function (data) {
+         console.log("highlight coordinates : ", data);
+ 
+         data.forEach(function(item) {
+             var squareId = 'square_' + item.x + '_' + item.y;
+             $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+           
+          // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+            setTimeout(function() {
+              $('#' + squareId).removeClass('highlight');
+           },  1000);
+           });
+         }
+           ,
+    error: function (xhr, status, error) {
+        // Handle the error response
+        console.error("Error Response:", xhr.responseText);
+        // You might want to handle errors and display an appropriate message
+    }
+  } );
+ } 
+ 
 
      function roll_dice_R1() {
          // Make an AJAX call to the server to perform the move
@@ -462,10 +581,40 @@ function roll_dice_Y1() {
                // Handle the error response
                console.error("Error Response:", xhr.responseText);
                // You might want to handle errors and display an appropriate message
-           }
-       }); }
+            }
+        });         
+        $.ajax({
+          url: "ludo.php/highlightR1",
+          method: 'GET',
+          dataType: "json",
+          contentType: 'application/json',
+          data: { action: 'R1_highlight'  },
+        
+          headers: { "X-Token": me.token },
+          success: function (data) {
+             console.log("highlight coordinates : ", data);
+     
+             data.forEach(function(item) {
+                 var squareId = 'square_' + item.x + '_' + item.y;
+                 $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+               
+              // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+                setTimeout(function() {
+                  $('#' + squareId).removeClass('highlight');
+               },  1000);
+               });
+             }
+               ,
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error("Error Response:", xhr.responseText);
+            // You might want to handle errors and display an appropriate message
+        }
+      } );
+     } 
+     
 
-       
+
        function roll_dice_R2() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
@@ -509,9 +658,38 @@ function roll_dice_Y1() {
               // Handle the error response
               console.error("Error Response:", xhr.responseText);
               // You might want to handle errors and display an appropriate message
-          }
-      }); }
-      
+            }
+        });         
+        $.ajax({
+          url: "ludo.php/highlightR2",
+          method: 'GET',
+          dataType: "json",
+          contentType: 'application/json',
+          data: { action: 'R2_highlight'  },
+        
+          headers: { "X-Token": me.token },
+          success: function (data) {
+             console.log("highlight coordinates : ", data);
+     
+             data.forEach(function(item) {
+                 var squareId = 'square_' + item.x + '_' + item.y;
+                 $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+               
+              // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+                setTimeout(function() {
+                  $('#' + squareId).removeClass('highlight');
+               },  1000);
+               });
+             }
+               ,
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error("Error Response:", xhr.responseText);
+            // You might want to handle errors and display an appropriate message
+        }
+      } );
+     } 
+     
       function roll_dice_R3() {
         // Make an AJAX call to the server to perform the move
         $.ajax({
@@ -555,8 +733,38 @@ function roll_dice_Y1() {
               // Handle the error response
               console.error("Error Response:", xhr.responseText);
               // You might want to handle errors and display an appropriate message
-          }
-      }); }
+            }
+        });         
+        $.ajax({
+          url: "ludo.php/highlightR3",
+          method: 'GET',
+          dataType: "json",
+          contentType: 'application/json',
+          data: { action: 'R3_highlight'  },
+        
+          headers: { "X-Token": me.token },
+          success: function (data) {
+             console.log("highlight coordinates : ", data);
+     
+             data.forEach(function(item) {
+                 var squareId = 'square_' + item.x + '_' + item.y;
+                 $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+               
+              // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+                setTimeout(function() {
+                  $('#' + squareId).removeClass('highlight');
+               },  1000);
+               });
+             }
+               ,
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error("Error Response:", xhr.responseText);
+            // You might want to handle errors and display an appropriate message
+        }
+      } );
+     } 
+     
 
 
       function roll_dice_R4() {
@@ -602,8 +810,38 @@ function roll_dice_Y1() {
               // Handle the error response
               console.error("Error Response:", xhr.responseText);
               // You might want to handle errors and display an appropriate message
-          }
-      }); }
+            }
+        });         
+        $.ajax({
+          url: "ludo.php/highlightR4",
+          method: 'GET',
+          dataType: "json",
+          contentType: 'application/json',
+          data: { action: 'R4_highlight'  },
+        
+          headers: { "X-Token": me.token },
+          success: function (data) {
+             console.log("highlight coordinates : ", data);
+     
+             data.forEach(function(item) {
+                 var squareId = 'square_' + item.x + '_' + item.y;
+                 $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
+               
+              // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+                setTimeout(function() {
+                  $('#' + squareId).removeClass('highlight');
+               },  1000);
+               });
+             }
+               ,
+        error: function (xhr, status, error) {
+            // Handle the error response
+            console.error("Error Response:", xhr.responseText);
+            // You might want to handle errors and display an appropriate message
+        }
+      } );
+     } 
+     
 
 
        function makeImagesClickableR() {
@@ -731,36 +969,7 @@ function roll_dice_Y1() {
         }
     }
 
- //        $.ajax({
- //           url: "ludo.php/move_y/",
- //           method: 'PUT',
- //           dataType: "json",
- //           contentType: 'application/json',
- //           data: { action: 'do_move_yellow' },
- //           headers: { "X-Token": me.token },
- //           success:  fill_board_by_data,
- //           error: function (xhr, status, error) {
- //               // Handle the error response
- //               console.error("Error Response:", xhr.responseText);
- //               // You might want to handle errors and display an appropriate message
- //           }
- //       });}
- //
- //            /*     // Use the fetched coordinates in the PUT request
- //               $.ajax({
- //                   url: "ludo.php/board/piece/" + data.prev_x + '/' + data.prev_y,
- //                   method: 'PUT',
- //                   dataType: "json",
- //                   contentType: 'application/json',
- //                   data: JSON.stringify({ x: data.new_x, y: data.new_y }),
- //                   headers: { "X-Token": me.token },
- //                   success: move_result,
- //                   error: login_error
- //               });
- //          
- //           }*/
- //  
- //
+ 
 
         function move_result(data){
           //  fill_board_by_data
@@ -769,47 +978,9 @@ function roll_dice_Y1() {
             game_status_update();
         }
         
-////
-////      function click_on_piece(e) {
-////          var o=e.target;
-////         if(o.tagName!='TD') {o=o.parentNode;}
-////        if(o.tagName!='TD') {return;}
-////          
-////         var id=o.id;
-////         var a=id.split(/_/);
-////         $('#the_move_src').val(a[1]+' ' +a[2]);
-////         update_moves_selector();
-////     }
-//
-//
-//function click_on_piece(e) {
-//    var o = e.target;
-//    if (o.tagName != 'TD') {
-//        o = o.parentNode;
-//    }
-//    if (o.tagName != 'TD') {
-//        return;
-//    }  console.log('Clicked on', o.id);}
-//
-//
-//
-//        function update_moves_selector() {
-//            $('.ludo_square').removeClass('pmove').removeClass('tomove');
-//            var s = $('#the_move_src').val();
-//            var a = s.trim().split(/[ ]+/);
-//            $('#the_move_dest').html('');
-//            if(a.length!=2) {
-//                return;
-//            }
-//            var id = '#square_'+ a[0]+'_'+a[1];
-//            $(id).addClass('tomove');
-//            for(i=0;i<board.length;i++) {
-//                if(board[i].x==a[0] && board[i].y==a[1] && board[i].moves && Array.isArray(board[i].moves)) {
-//                    for(m=0;m<board[i].moves.length;m++) {
-//                        $('#the_move_dest').append('<option value="'+board[i].moves[m].x+' '+board[i].moves[m].y+'">'+board[i].moves[m].x+' '+board[i].moves[m].y+'</option>');
-//                        var id = '#square_'+ board[i].moves[m].x +'_' + board[i].moves[m].y;
-//                        $(id).addClass('pmove');
-//                    }
-//                }
-//            }
-//        }
+ 
+        
+
+ 
+         
+        

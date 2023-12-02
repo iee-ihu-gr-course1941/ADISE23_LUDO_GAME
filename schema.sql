@@ -61,9 +61,9 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 2, 'W', 'Y', 'Y4', NULL, NULL, NULL, NULL),
-	(3, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 3, 'W', 'Y', 'Y2', NULL, NULL, NULL, NULL),
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 5, 'W', NULL, NULL, 5, 14, 23, 32),
+	(3, 5, 'W', 'Y', 'Y1', 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
 	(3, 7, 'W', NULL, NULL, 11, 20, 29, 2),
 	(3, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -74,9 +74,9 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 2, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 3, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(4, 5, 'W', 'Y', 'Y2', 4, 13, 22, 31),
+	(4, 5, 'W', NULL, NULL, 4, 13, 22, 31),
 	(4, 6, 'G', NULL, NULL, NULL, NULL, NULL, 38),
-	(4, 7, 'W', 'Y', 'Y1', 12, 21, 30, 3),
+	(4, 7, 'W', NULL, NULL, 12, 21, 30, 3),
 	(4, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 9, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -92,7 +92,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(5, 9, 'W', NULL, NULL, 14, 23, 32, 5),
 	(5, 10, 'W', NULL, NULL, 15, 24, 33, 6),
 	(5, 11, 'W', NULL, NULL, 16, 25, 34, 7),
-	(6, 1, 'W', 'R', 'R1', 35, 8, 17, 26),
+	(6, 1, 'W', NULL, NULL, 35, 8, 17, 26),
 	(6, 2, 'Y', NULL, NULL, 36, NULL, NULL, NULL),
 	(6, 3, 'Y', NULL, NULL, 37, NULL, NULL, NULL),
 	(6, 4, 'Y', NULL, NULL, 38, NULL, NULL, NULL),
@@ -112,7 +112,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', 'R', 'R3', 19, 28, 1, 10),
+	(7, 10, 'R', NULL, NULL, 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -120,7 +120,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(8, 4, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 5, 'W', NULL, NULL, 30, 3, 12, 21),
 	(8, 6, 'B', NULL, NULL, NULL, 38, NULL, NULL),
-	(8, 7, 'W', NULL, NULL, 22, 31, 4, 13),
+	(8, 7, 'W', 'R', 'R1', 22, 31, 4, 13),
 	(8, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 9, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 10, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -133,7 +133,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(9, 6, 'B', NULL, NULL, NULL, 37, NULL, NULL),
 	(9, 7, 'W', NULL, NULL, 32, 5, 27, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
-	(9, 9, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
 	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -299,6 +299,143 @@ INSERT INTO `board_empty` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`
 	(11, 10, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL);
 
+-- Dumping structure for procedure adise23_ludo_game.check_spot
+DROP PROCEDURE IF EXISTS `check_spot`;
+DELIMITER //
+CREATE PROCEDURE `check_spot`(
+	IN `new_x` INT,
+	IN `new_y` INT
+)
+BEGIN
+    DECLARE other_piece VARCHAR(255);
+  DECLARE p, p_color, piece_val VARCHAR(3);
+     DECLARE prev_xspot_of_other_piece , prev_yspot_of_other_piece , destx, desty  INT;
+     
+     SET destx=new_x ;
+     SET desty=new_y ;
+   SELECT destx, desty;
+	
+    SELECT piece , prev_x, prev_y
+    INTO other_piece , prev_xspot_of_other_piece, prev_yspot_of_other_piece
+    FROM dice
+    WHERE  prev_xspot_of_other_piece =  destx AND prev_yspot_of_other_piece = desty 
+    LIMIT 1;
+    
+    -- If another piece is found, update its coordinates
+    IF other_piece  = 'Y1' THEN
+    CALL move_piece(destx,desty,2,3);
+        UPDATE dice
+        SET
+        prev_x =destx,
+        prev_y= desty,
+            new_x = 2,  
+            new_y = 3 
+        WHERE piece  = 'Y1' ;
+ 
+    END IF;
+ 
+    
+    
+    
+    
+       IF other_piece  = 'Y2' THEN
+  CALL move_piece(destx,desty,3,3);
+        UPDATE dice
+        SET
+       prev_x =destx,
+        prev_y= desty,
+            new_x = 3,  
+            new_y = 3  
+        WHERE piece  = 'Y2' ;
+    END IF;
+    
+    
+    
+     
+           IF other_piece  = 'Y3' THEN
+  CALL move_piece(destx,desty,2,2);
+        UPDATE dice
+        SET
+           prev_x =destx,
+        prev_y= desty,
+            new_x = 2,  
+            new_y = 2  
+        WHERE piece  = 'Y3' ;
+     END IF;
+    
+    
+    
+           IF other_piece  = 'Y4' THEN
+  CALL move_piece(destx,desty,3,2);
+        UPDATE dice
+        SET
+             prev_x =destx,
+        prev_y= desty,
+            new_x = 3,  
+            new_y = 2  
+        WHERE piece  = 'Y4' ;
+
+    END IF;
+    
+    
+    
+    
+    
+    
+           IF other_piece  = 'R1' THEN
+  CALL move_piece(destx,desty,9,10);
+        UPDATE dice
+        SET
+           prev_x =destx,
+        prev_y= desty,
+            new_x = 9,  
+            new_y = 10  
+        WHERE piece  = 'R1' ;
+    END IF;
+ 
+    
+               IF other_piece  = 'R2' THEN
+  CALL move_piece(destx,desty,10,10);
+        UPDATE dice
+        SET
+                prev_x =destx,
+        prev_y= desty,
+            new_x = 10,  
+            new_y = 10  
+        WHERE piece  = 'R2' ;
+    END IF;
+ 
+    
+    
+           IF other_piece  = 'R3'  THEN
+  CALL move_piece(destx,desty,9,9);
+        UPDATE dice
+        SET
+           prev_x =destx,
+        prev_y= desty,
+            new_x = 9,  
+            new_y = 9  
+        WHERE piece  = 'R3'  ;
+    END IF;
+  
+    
+    
+    
+    
+           IF other_piece  = 'R4' THEN
+  CALL move_piece(destx,desty,10,9);
+        UPDATE dice
+        SET
+               prev_x =destx,
+        prev_y= desty,
+            new_x = 10,  
+            new_y = 9  
+        WHERE piece  = 'R4' ;
+ 
+    END IF;
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure adise23_ludo_game.clean_board
 DROP PROCEDURE IF EXISTS `clean_board`;
 DELIMITER //
@@ -345,20 +482,22 @@ CREATE TABLE IF NOT EXISTS `dice` (
   `p_turn` enum('R','G','B','Y') DEFAULT NULL,
   `piece` varchar(3) NOT NULL,
   `dice` tinyint(4) DEFAULT NULL,
+  `prev_path` tinyint(4) DEFAULT NULL,
+  `new_path` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`piece`,`created_at`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table adise23_ludo_game.dice: ~8 rows (approximately)
 DELETE FROM `dice`;
-INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`) VALUES
-	(6, 1, 5, 2, '2023-11-29 10:14:18', 'R', 'R1', 2),
-	(10, 10, 7, 10, '2023-11-29 10:14:18', 'R', 'R2', 2),
-	(7, 10, 7, 8, '2023-11-29 10:14:18', 'R', 'R3', 2),
-	(10, 9, 7, 10, '2023-11-29 10:14:18', 'R', 'R4', 2),
-	(2, 7, 4, 7, '2023-11-29 10:14:18', 'Y', 'Y1', 2),
-	(4, 5, 2, 5, '2023-11-29 10:14:18', 'Y', 'Y2', 2),
-	(2, 2, 5, 2, '2023-11-29 10:14:18', 'Y', 'Y3', 2),
-	(3, 2, 5, 2, '2023-11-29 10:14:18', 'Y', 'Y4', 2);
+INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`, `prev_path`, `new_path`) VALUES
+	(8, 7, 11, 6, '2023-12-02 13:33:35', 'R', 'R1', 4, 4, 8),
+	(10, 10, 7, 10, '2023-12-02 13:33:35', 'R', 'R2', 4, NULL, 1),
+	(9, 9, 7, 10, '2023-12-02 13:33:35', 'R', 'R3', 4, NULL, 1),
+	(10, 9, 7, 10, '2023-12-02 13:33:35', 'R', 'R4', 4, NULL, 1),
+	(3, 5, 1, 7, '2023-12-02 13:33:35', 'Y', 'Y1', 4, 5, 9),
+	(3, 3, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y2', 4, NULL, 1),
+	(2, 2, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y3', 4, NULL, 1),
+	(3, 2, 5, 2, '2023-12-02 13:33:35', 'Y', 'Y4', 4, NULL, 1);
 
 -- Dumping structure for πίνακας adise23_ludo_game.error_log
 DROP TABLE IF EXISTS `error_log`;
@@ -386,7 +525,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 -- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'R', 'D', '2023-11-29 10:37:00');
+	('started', 'R', 'D', '2023-12-02 13:34:26');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -537,9 +676,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	('red', 'R', '221daea2cbcbcea4fd05c951472e7d1c', '2023-11-29 10:22:34'),
+	('red', 'R', '0b41a4b3b3fc3916a971b3aa7772bf2c', '2023-12-02 13:26:01'),
 	(NULL, 'G', NULL, NULL),
-	('rerr', 'Y', '9fd3557d878c30e3ecc97715a8b66049', '2023-11-29 10:22:41');
+	('y', 'Y', '3c5ced1ac121ead2dcf0d1075d7de9b9', '2023-12-02 13:26:09');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -569,6 +708,20 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.R1_highlight
+DROP PROCEDURE IF EXISTS `R1_highlight`;
+DELIMITER //
+CREATE PROCEDURE `R1_highlight`()
+BEGIN
+SELECT b.x, b.y, b.r_path
+FROM board b
+JOIN dice d ON b.r_path >= d.prev_path AND b.r_path <= ( d.new_path)
+WHERE d.piece='R1'
+ORDER BY b.r_path ASC; 
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure adise23_ludo_game.R2_dice
 DROP PROCEDURE IF EXISTS `R2_dice`;
 DELIMITER //
@@ -576,6 +729,20 @@ CREATE PROCEDURE `R2_dice`()
 BEGIN
    SELECT * FROM  dice WHERE piece = 'R2' ORDER BY `created_at` DESC LIMIT 1 ;
  
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.R2_highlight
+DROP PROCEDURE IF EXISTS `R2_highlight`;
+DELIMITER //
+CREATE PROCEDURE `R2_highlight`()
+BEGIN
+SELECT b.x, b.y, b.r_path
+FROM board b
+JOIN dice d ON b.r_path >= d.prev_path AND b.r_path <= ( d.new_path)
+WHERE d.piece='R2'
+ORDER BY b.r_path ASC;
+
 END//
 DELIMITER ;
 
@@ -589,6 +756,20 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.R3_highlight
+DROP PROCEDURE IF EXISTS `R3_highlight`;
+DELIMITER //
+CREATE PROCEDURE `R3_highlight`()
+BEGIN
+SELECT b.x, b.y, b.r_path
+FROM board b
+JOIN dice d ON b.r_path >= d.prev_path AND b.r_path <= ( d.new_path)
+WHERE d.piece='R3'
+ORDER BY b.r_path ASC;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure adise23_ludo_game.R4_dice
 DROP PROCEDURE IF EXISTS `R4_dice`;
 DELIMITER //
@@ -596,6 +777,20 @@ CREATE PROCEDURE `R4_dice`()
 BEGIN
    SELECT * FROM  dice WHERE piece = 'R4' ORDER BY `created_at` DESC LIMIT 1 ;
  
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.R4_highlight
+DROP PROCEDURE IF EXISTS `R4_highlight`;
+DELIMITER //
+CREATE PROCEDURE `R4_highlight`()
+BEGIN
+SELECT b.x, b.y, b.r_path
+FROM board b
+JOIN dice d ON b.r_path >= d.prev_path AND b.r_path <= ( d.new_path)
+WHERE d.piece='R4'
+ORDER BY b.r_path ASC;
+
 END//
 DELIMITER ;
 
@@ -613,6 +808,8 @@ BEGIN
     DECLARE current_rpath INT;
     DECLARE new_x TINYINT;
     DECLARE new_y TINYINT;
+        DECLARE new_path INT;
+         DECLARE prev_path INT;
     DECLARE new_ypath INT;
     DECLARE new_rpath INT;
     DECLARE dice_result INT;
@@ -645,6 +842,9 @@ UPDATE dice SET dice =  generated_dice_result;
 IF (current_ypath IS NULL) THEN
     SET new_x = 5;
     SET new_y = 2;
+    SET new_path=1;
+    
+  -- call check_spot(new_x, new_y);
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -653,7 +853,9 @@ IF (current_ypath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+        dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'Y1';
      
 ELSE
@@ -663,7 +865,7 @@ ELSE
     SELECT X, Y INTO new_x, new_y
     FROM `board`
     WHERE y_path = new_ypath;
-
+   call check_spot(new_x, new_y);
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -672,7 +874,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+        dice =  @generated_dice_result,
+        prev_path=current_ypath,
+        new_path=new_ypath
     WHERE piece = 'Y1'  ;
   
 END IF;
@@ -691,6 +895,8 @@ COMMIT;
 IF (current_ypath IS NULL) THEN
     SET new_x = 5;
     SET new_y = 2;
+        SET new_path=1;
+    --   call check_spot(new_x, new_y);
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -699,7 +905,9 @@ IF (current_ypath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+         dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'Y2';
 ELSE
     SET new_ypath = current_ypath +  @generated_dice_result;
@@ -708,7 +916,9 @@ ELSE
     SELECT X, Y INTO new_x, new_y
     FROM `board`
     WHERE y_path = new_ypath;
-
+    
+   call check_spot(new_x, new_y);
+   
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -717,7 +927,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path=current_ypath,
+        new_path=new_ypath
     WHERE piece = 'Y2';
 END IF;
          -- CALL Y2_dice();
@@ -730,6 +942,8 @@ END IF;
 IF (current_ypath IS NULL) THEN
     SET new_x = 5;
     SET new_y = 2;
+        SET new_path=1;
+   --    call check_spot(new_x, new_y);
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -738,7 +952,9 @@ IF (current_ypath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+         dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'Y3';
 ELSE
     SET new_ypath = current_ypath +  @generated_dice_result;
@@ -747,6 +963,8 @@ ELSE
     SELECT X, Y INTO new_x, new_y
     FROM `board`
     WHERE y_path = new_ypath;
+    
+       call check_spot(new_x, new_y);
 
     -- Update the existing record in the dice table
     UPDATE dice
@@ -756,7 +974,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+         dice =  @generated_dice_result,
+        prev_path=current_ypath,
+        new_path=new_ypath
     WHERE piece = 'Y3';
 END IF;
          --  CALL Y3_dice();
@@ -769,6 +989,9 @@ END IF;
 IF (current_ypath IS NULL) THEN
     SET new_x = 5;
     SET new_y = 2;
+        SET new_path=1;
+      -- call check_spot(new_x, new_y);
+       
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -777,7 +1000,9 @@ IF (current_ypath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'Y4';
 ELSE
     SET new_ypath = current_ypath +  @generated_dice_result;
@@ -787,6 +1012,9 @@ ELSE
     FROM `board`
     WHERE y_path = new_ypath;
 
+   call check_spot(new_x, new_y);
+   
+   
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -795,7 +1023,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'Y',
-        dice =  @generated_dice_result
+      dice =  @generated_dice_result,
+        prev_path=current_ypath,
+        new_path=new_ypath
     WHERE piece = 'Y4';
 END IF;
          -- CALL Y4_dice();
@@ -809,6 +1039,11 @@ WHERE piece_color = 'R' AND piece = 'R1';
 IF (current_rpath IS NULL) THEN
     SET new_x = 7;
     SET new_y = 10;
+      SET new_path=1;
+    
+      -- call check_spot(new_x, new_y);
+       
+       
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -817,7 +1052,9 @@ IF (current_rpath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'R1';
 ELSE
     SET new_rpath = current_rpath +  @generated_dice_result;
@@ -827,6 +1064,9 @@ ELSE
     FROM `board`
     WHERE r_path = new_rpath;
 
+
+   call check_spot(new_x, new_y);
+   
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -835,7 +1075,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path= current_rpath,
+        new_path=new_rpath
     WHERE piece = 'R1';
 END IF;
 
@@ -851,6 +1093,11 @@ WHERE piece_color = 'R' AND piece = 'R2';
 IF (current_rpath IS NULL) THEN
     SET new_x = 7;
     SET new_y = 10;
+        SET new_path=1;
+    
+     --  call check_spot(new_x, new_y);
+       
+       
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -859,7 +1106,9 @@ IF (current_rpath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'R2';
 ELSE
     SET new_rpath = current_rpath +  @generated_dice_result;
@@ -869,6 +1118,9 @@ ELSE
     FROM `board`
     WHERE r_path = new_rpath;
 
+
+   call check_spot(new_x, new_y);
+   
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -877,7 +1129,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path=current_rpath,
+        new_path=new_rpath
     WHERE piece = 'R2';
 END IF;
 
@@ -893,6 +1147,9 @@ WHERE piece_color = 'R' AND piece = 'R3';
 IF (current_rpath IS NULL) THEN
     SET new_x = 7;
     SET new_y = 10;
+        SET new_path=1;
+      -- call check_spot(new_x, new_y);
+       
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -901,7 +1158,9 @@ IF (current_rpath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+        dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'R3';
 ELSE
     SET new_rpath = current_rpath +  @generated_dice_result;
@@ -911,6 +1170,9 @@ ELSE
     FROM `board`
     WHERE r_path = new_rpath;
 
+
+   call check_spot(new_x, new_y);
+   
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -919,7 +1181,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+        dice =  @generated_dice_result,
+        prev_path=current_rpath,
+        new_path=new_rpath
     WHERE piece = 'R3';
 END IF;
 
@@ -936,6 +1200,9 @@ WHERE piece_color = 'R' AND piece = 'R4';
 IF (current_rpath IS NULL) THEN
     SET new_x = 7;
     SET new_y = 10;
+      SET new_path=1;
+     --  call check_spot(new_x, new_y);
+       
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -944,7 +1211,9 @@ IF (current_rpath IS NULL) THEN
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice =  @generated_dice_result
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
     WHERE piece = 'R4';
 ELSE
     SET new_rpath = current_rpath +  @generated_dice_result;
@@ -953,6 +1222,9 @@ ELSE
     SELECT X, Y INTO new_x, new_y
     FROM `board`
     WHERE r_path = new_rpath;
+    
+       call check_spot(new_x, new_y);
+       
 
     -- Update the existing record in the dice table
     UPDATE dice
@@ -962,7 +1234,9 @@ ELSE
         new_x = new_x,
         new_y = new_y,
         p_turn = 'R',
-        dice = @generated_dice_result
+        dice =  @generated_dice_result,
+        prev_path=current_rpath,
+        new_path=new_rpath
     WHERE piece = 'R4';
 END IF;
 
@@ -1060,6 +1334,20 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.Y1_highlight
+DROP PROCEDURE IF EXISTS `Y1_highlight`;
+DELIMITER //
+CREATE PROCEDURE `Y1_highlight`()
+BEGIN
+SELECT b.x, b.y, b.y_path
+FROM board b
+JOIN dice d ON b.y_path >= d.prev_path AND b.y_path <= ( d.new_path)
+WHERE d.piece='Y1'
+ORDER BY b.y_path ASC;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure adise23_ludo_game.Y2_dice
 DROP PROCEDURE IF EXISTS `Y2_dice`;
 DELIMITER //
@@ -1067,6 +1355,20 @@ CREATE PROCEDURE `Y2_dice`()
 BEGIN
    SELECT * FROM  dice WHERE piece = 'Y2' ORDER BY `created_at` DESC LIMIT 1 ;
  
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.Y2_highlight
+DROP PROCEDURE IF EXISTS `Y2_highlight`;
+DELIMITER //
+CREATE PROCEDURE `Y2_highlight`()
+BEGIN
+SELECT b.x, b.y, b.y_path
+FROM board b
+JOIN dice d ON b.y_path >= d.prev_path AND b.y_path <= ( d.new_path)
+WHERE d.piece='Y2'
+ORDER BY b.y_path ASC;
+
 END//
 DELIMITER ;
 
@@ -1080,6 +1382,20 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.Y3_highlight
+DROP PROCEDURE IF EXISTS `Y3_highlight`;
+DELIMITER //
+CREATE PROCEDURE `Y3_highlight`()
+BEGIN
+SELECT b.x, b.y, b.y_path
+FROM board b
+JOIN dice d ON b.y_path >= d.prev_path AND b.y_path <= ( d.new_path)
+WHERE d.piece='Y3'
+ORDER BY b.y_path ASC;
+
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure adise23_ludo_game.Y4_dice
 DROP PROCEDURE IF EXISTS `Y4_dice`;
 DELIMITER //
@@ -1087,6 +1403,20 @@ CREATE PROCEDURE `Y4_dice`()
 BEGIN
    SELECT * FROM  dice WHERE piece = 'Y4' ORDER BY `created_at` DESC LIMIT 1 ;
  
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.Y4_highlight
+DROP PROCEDURE IF EXISTS `Y4_highlight`;
+DELIMITER //
+CREATE PROCEDURE `Y4_highlight`()
+BEGIN
+SELECT b.x, b.y, b.y_path
+FROM board b
+JOIN dice d ON b.y_path >= d.prev_path AND b.y_path <= ( d.new_path)
+WHERE d.piece='Y4'
+ORDER BY b.y_path ASC;
+
 END//
 DELIMITER ;
 
