@@ -226,7 +226,7 @@ function roll_dice_Y1() {
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
 }
-function Y1_highlight() {
+  function Y1_highlight() {
 	global $mysqli;
 
     $sql = 'CALL  Y1_highlight() ; ';
@@ -239,7 +239,7 @@ function Y1_highlight() {
     // Return the data as JSON
     header('Content-type: application/json');
     echo json_encode($data, JSON_PRETTY_PRINT);
-}
+  }
  
 function roll_dice_Y2(){
 	global $mysqli;
@@ -377,7 +377,7 @@ function roll_dice_R2(){
 function R2_highlight() {
 	global $mysqli;
 
-    $sql = 'CALL  R1_highlight() ; ';
+    $sql = 'CALL  R2_highlight() ; ';
     $st = $mysqli->prepare($sql);
     $st->execute();
 
