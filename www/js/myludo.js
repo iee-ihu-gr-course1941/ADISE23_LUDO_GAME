@@ -57,7 +57,7 @@ headers: { "X-Token": me.token },
 // game_status_update();
     }
 
-
+//dice anmimation 
 
 $('#play').click(function(){
     $('#platform').removeClass('stop').addClass('playing');
@@ -129,13 +129,79 @@ headers: { "X-Token": me.token },
          alert('Error occurred while rolling the dice.');
      }
 
-// game_status_update();
+ // game_status_update();
 });
  
     
   });
 
  
+//methodos elegxou iparksis kitrinwn pioniwn sto destination pioniou  pou paizei
+function checkYYImagesBeforeMove() {
+    // Extract the last 2 digits from the input #the_move
+    var moveInputValue = $('#the_move').val().trim();
+    var moveValues = moveInputValue.split(/\s+/);
+
+            
+    var x = moveValues[2];
+    var y = moveValues[3];
+
+    // Build the square ID
+    var squareId = 'square_' + x + '_' + y  ;
+    var tdElement = $('#square_' + x + '_' + y  );
+
+    var imageName = $(tdElement).find('img').attr('src'); // Get the image source
+    
+    // Check if the image name starts with "YY"
+    if (imageName && imageName.startsWith('images/YY')) {
+       
+
+    
+        console.log('Image with src starting with "YY" exists!YOU CANT MOVE');
+        return true;
+    } else {
+        // There is no such image inside the <td>
+        console.log('No image with src starting with "YY" found.');
+        return false;
+    }}
+ 
+
+
+
+//methodos elegxou iparksis kokkinwn pioniwn sto destination pioniou  pou paizei
+    function checkRRImagesBeforeMove() {
+        // Extract the last 2 digits from the input #the_move
+        var moveInputValue = $('#the_move').val().trim();
+        var moveValues = moveInputValue.split(/\s+/);
+    
+                
+        var x = moveValues[2];
+        var y = moveValues[3];
+    
+        // Build the square ID
+        var squareId = 'square_' + x + '_' + y  ;
+        var tdElement = $('#square_' + x + '_' + y  );
+        var tdElement = $('#square_' + x + '_' + y  );
+
+    var imageName = $(tdElement).find('img').attr('src'); // Get the image source
+    
+    // Check if the image name starts with "YY"
+    if (imageName && imageName.startsWith('images/RR')) {
+       
+
+    
+        console.log('Image with src starting with "RR" exists!YOU CANT MOVE');
+        return true;
+    } else {
+        // There is no such image inside the <td>
+        console.log('No image with src starting with "RR" found.');
+        return false;
+    }} 
+
+
+ 
+
+
  function reset_players() {
     
         // Send an AJAX request to the server to update the database
@@ -296,7 +362,10 @@ function fill_board_by_data(data) {
              //   alert('Must give 4 numbers');
                 return;
             }
-            $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
+            var hasRRImage=checkRRImagesBeforeMove();
+            var hasYYImage = checkYYImagesBeforeMove(); 
+            if (hasYYImage === false && game_status.p_turn === 'Y' || hasRRImage === false && game_status.p_turn === 'R') {
+                $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
                     method: 'PUT',
                     dataType: "json",
                     contentType: 'application/json',
@@ -308,7 +377,11 @@ function fill_board_by_data(data) {
                     
                     error: login_error});
             
-        } 
+        }else {
+            // Alert the user that the move is not allowed
+            alert('ILLEGAL MOVE!');
+        }
+    }
 
      
   
