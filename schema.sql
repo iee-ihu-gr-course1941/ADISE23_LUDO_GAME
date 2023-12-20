@@ -50,20 +50,20 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(1, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 2, 'W', 'Y', 'Y3', NULL, NULL, NULL, NULL),
-	(2, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 3, 'W', 'Y', 'Y1', NULL, NULL, NULL, NULL),
 	(2, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 5, 'W', NULL, NULL, 6, 15, 24, 33),
 	(2, 6, 'G', NULL, NULL, NULL, NULL, NULL, 36),
-	(2, 7, 'G', 'Y', 'Y1', 10, 19, 28, 1),
+	(2, 7, 'G', NULL, NULL, 10, 19, 28, 1),
 	(2, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 9, 'W', 'G', 'G3', NULL, NULL, NULL, NULL),
 	(2, 10, 'W', 'G', 'G1', NULL, NULL, NULL, NULL),
 	(2, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 2, 'W', 'Y', 'Y4', NULL, NULL, NULL, NULL),
-	(3, 3, 'W', 'Y', 'Y2', NULL, NULL, NULL, NULL),
+	(3, 2, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 5, 'W', NULL, NULL, 5, 14, 23, 32),
+	(3, 5, 'W', 'Y', 'Y4', 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
 	(3, 7, 'W', NULL, NULL, 11, 20, 29, 2),
 	(3, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -106,13 +106,13 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 1, 'W', NULL, NULL, 34, 7, 16, 25),
 	(7, 2, 'W', NULL, NULL, 33, 6, 15, 24),
 	(7, 3, 'W', NULL, NULL, 32, 5, 14, 23),
-	(7, 4, 'W', 'R', 'R1', 31, 4, 13, 22),
+	(7, 4, 'W', NULL, NULL, 31, 4, 13, 22),
 	(7, 5, 'BY', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 6, 'B', NULL, NULL, NULL, 39, NULL, NULL),
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', NULL, NULL, 19, 28, 1, 10),
+	(7, 10, 'R', 'R', 'R3', 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -133,19 +133,19 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(9, 6, 'B', NULL, NULL, NULL, 37, NULL, NULL),
 	(9, 7, 'W', NULL, NULL, 23, 32, 5, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
-	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
+	(9, 9, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 2, 'W', 'B', 'B4', NULL, NULL, NULL, NULL),
 	(10, 3, 'W', 'B', 'B2', NULL, NULL, NULL, NULL),
 	(10, 4, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
-	(10, 5, 'B', NULL, NULL, 28, 1, 10, 19),
+	(10, 5, 'B', 'R', 'R1', 28, 1, 10, 19),
 	(10, 6, 'B', NULL, NULL, NULL, 36, NULL, NULL),
 	(10, 7, 'W', NULL, NULL, 24, 33, 6, 15),
 	(10, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 9, 'W', 'R', 'R4', NULL, NULL, NULL, NULL),
-	(10, 10, 'W', 'R', 'R2', NULL, NULL, NULL, NULL),
+	(10, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(11, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -458,7 +458,8 @@ BEGIN
 		  
 		  
 		  ;
-   
+   	DELETE FROM missing_pieces;
+   		DELETE FROM yellow_losers;
 END//
 DELIMITER ;
 
@@ -490,14 +491,14 @@ CREATE TABLE IF NOT EXISTS `dice` (
 -- Dumping data for table adise23_ludo_game.dice: ~8 rows (approximately)
 DELETE FROM `dice`;
 INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`, `prev_path`, `new_path`) VALUES
-	(7, 4, 7, 1, '2023-12-03 10:25:11', 'R', 'R1', 3, 13, 16),
-	(10, 10, 7, 10, '2023-12-03 10:25:11', 'R', 'R2', 3, NULL, 1),
-	(9, 9, 7, 10, '2023-12-03 10:25:11', 'R', 'R3', 3, NULL, 1),
-	(10, 9, 7, 10, '2023-12-03 10:25:11', 'R', 'R4', 3, NULL, 1),
-	(2, 7, 5, 8, '2023-12-03 10:25:11', 'Y', 'Y1', 3, 10, 13),
-	(3, 3, 5, 2, '2023-12-03 10:25:11', 'Y', 'Y2', 3, NULL, 1),
-	(2, 2, 5, 2, '2023-12-03 10:25:11', 'Y', 'Y3', 3, NULL, 1),
-	(3, 2, 5, 2, '2023-12-03 10:25:11', 'Y', 'Y4', 3, NULL, 1);
+	(10, 5, 7, 3, '2023-12-20 14:44:35', 'R', 'R1', 4, 10, 14),
+	(NULL, NULL, 7, 10, '2023-12-20 14:44:35', 'R', 'R2', 4, NULL, 1),
+	(7, 10, 9, 7, '2023-12-20 14:44:35', 'R', 'R3', 4, 1, 5),
+	(10, 9, 7, 10, '2023-12-20 14:44:35', 'R', 'R4', 4, NULL, 1),
+	(2, 3, 5, 2, '2023-12-20 14:44:35', 'Y', 'Y1', 4, NULL, 1),
+	(NULL, NULL, 5, 2, '2023-12-20 14:44:35', 'Y', 'Y2', 4, NULL, 1),
+	(2, 2, 5, 2, '2023-12-20 14:44:35', 'Y', 'Y3', 4, NULL, 1),
+	(5, 2, 3, 5, '2023-12-20 14:44:35', 'Y', 'Y4', 4, 1, 5);
 
 -- Dumping structure for πίνακας adise23_ludo_game.error_log
 DROP TABLE IF EXISTS `error_log`;
@@ -508,10 +509,60 @@ CREATE TABLE IF NOT EXISTS `error_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.error_log: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.error_log: ~0 rows (approximately)
 DELETE FROM `error_log`;
 INSERT INTO `error_log` (`id`, `message`, `created_at`) VALUES
 	(1, 'Invalid piece parameter.', '2023-11-27 11:42:17');
+
+-- Dumping structure for procedure adise23_ludo_game.fill_losers_table
+DROP PROCEDURE IF EXISTS `fill_losers_table`;
+DELIMITER //
+CREATE PROCEDURE `fill_losers_table`()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE missingPiece VARCHAR(10);
+
+    -- Declare a cursor to select all possible pieces
+    DECLARE allPiecesCursor CURSOR FOR
+        SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
+        UNION SELECT 'R1' UNION SELECT 'R2' UNION SELECT 'R3' UNION SELECT 'R4';
+
+    -- Declare continue handler to exit loop
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Open the cursor
+    OPEN allPiecesCursor;
+
+    -- Loop through all possible pieces
+    read_loop: LOOP
+        -- Fetch the next piece
+        FETCH allPiecesCursor INTO missingPiece;
+
+        -- Check if the piece is missing in the 'board' table
+       IF NOT EXISTS (SELECT 1 FROM board WHERE piece = missingPiece) 
+    AND NOT EXISTS (SELECT 1 FROM missing_pieces WHERE missing_piece = missingPiece) THEN
+            -- Insert the missing piece into the 'missing_pieces' table
+            INSERT INTO missing_pieces (missing_piece) VALUES (missingPiece);
+              
+            IF (missingPiece LIKE 'Y%' AND NOT EXISTS (SELECT 1 FROM yellow_lost_pieces WHERE piece = missingPiece)) THEN
+                INSERT INTO yellow_lost_pieces (piece, piece_color) VALUES (missingPiece, 'Y');
+            END IF;
+              IF (missingPiece LIKE 'R%' AND NOT EXISTS (SELECT 1 FROM red_lost_pieces WHERE piece = missingPiece)) THEN
+                INSERT INTO red_lost_pieces (piece, piece_color) VALUES (missingPiece, 'R');
+            END IF;
+      END IF;
+                
+ 
+        -- Check if we are done
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE allPiecesCursor;
+END//
+DELIMITER ;
 
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 DROP TABLE IF EXISTS `game_status`;
@@ -522,10 +573,24 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'Y', 'D', '2023-12-03 10:30:25');
+	('started', 'R', 'D', '2023-12-20 14:47:54');
+
+-- Dumping structure for πίνακας adise23_ludo_game.missing_pieces
+DROP TABLE IF EXISTS `missing_pieces`;
+CREATE TABLE IF NOT EXISTS `missing_pieces` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `missing_piece` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.missing_pieces: ~0 rows (approximately)
+DELETE FROM `missing_pieces`;
+INSERT INTO `missing_pieces` (`id`, `missing_piece`) VALUES
+	(1, 'Y2'),
+	(2, 'R2');
 
 -- Dumping structure for procedure adise23_ludo_game.move_piece
 DROP PROCEDURE IF EXISTS `move_piece`;
@@ -584,84 +649,6 @@ UPDATE game_status SET p_turn=if(p_color='Y','R','Y');
 END//
 DELIMITER ;
 
--- Dumping structure for procedure adise23_ludo_game.move_y_piece
-DROP PROCEDURE IF EXISTS `move_y_piece`;
-DELIMITER //
-CREATE PROCEDURE `move_y_piece`()
-BEGIN
-    DECLARE current_x TINYINT;
-    DECLARE current_y TINYINT;
-    DECLARE current_ypath INT;
-    DECLARE new_x  TINYINT;
-    DECLARE new_y  TINYINT;
-    DECLARE new_ypath INT;
-DECLARE dice_result INT;
-    -- Use exception handling to rollback on error
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
-   
-    -- Start the transaction
-    START TRANSACTION;
-    -- Get the current coordinates of the yellow piece
-    SELECT x, y, y_path INTO current_x, current_y, current_ypath
-    FROM board
-    WHERE piece_color = 'Y' AND piece = 'Y1';
- SET dice_result =  roll_dice() ;
-         SELECT dice_result;
-    -- If the piece exists, move it
-    IF  (current_ypath IS NULL)   THEN
-        -- Move the piece to the destination coordinates
-        UPDATE `board`
-        SET piece = NULL, piece_color = NULL
-        WHERE X = current_x AND Y = current_y;
-        UPDATE `board`
-        SET piece = 'Y1', piece_color = 'Y'  
-        WHERE X= 5 AND Y= 2 ;
-       INSERT INTO dice(prev_x, prev_y, new_x, new_y,p_turn, dice)
-        VALUES (current_x, current_y, 5, 2, p_turn, dice_result);
-UPDATE game_status SET p_turn= 'R' ;
-        -- Debugging information
-  SELECT * FROM `board` WHERE X = 2 AND Y = 3;
-        SELECT * FROM `board` WHERE y_path=1 ;
-        -- Commit the transaction if everything is successful
- COMMIT;
-       
-        ELSEIF current_ypath IS NOT NULL THEN
-         
-    SET new_ypath=current_ypath + dice_result;
-   
-        -- Move the piece to the destination coordinates
-        UPDATE `board`
-        SET piece = NULL, piece_color = NULL
-        WHERE X = current_x AND Y = current_y;
-        
-        
-        UPDATE `board`
-        SET piece = 'Y1', piece_color = 'Y'  
-        WHERE y_path= new_ypath;
-        
- -- Get the new coordinates
-    SELECT X, Y INTO new_x, new_y
-    FROM `board`
-    WHERE piece_color = 'Y' AND piece = 'Y1' AND y_path = new_ypath;
-
-    -- Debugging information
-    SELECT * FROM `board` WHERE X = current_x AND Y = current_y;
-    SELECT * FROM `board` WHERE y_path = new_ypath;
-
-    -- Commit the transaction if everything is successful
-    INSERT INTO dice (prev_x, prev_y, new_x, new_y, p_turn, dice)
-    VALUES (current_x, current_y, new_x, new_y , p_turn, dice_result);
-
-    COMMIT;
-    ELSE
-   ROLLBACK;
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Piece does not exist at the specified coordinates.';
-  
-    END IF;
-END//
-DELIMITER ;
-
 -- Dumping structure for πίνακας adise23_ludo_game.players
 DROP TABLE IF EXISTS `players`;
 CREATE TABLE IF NOT EXISTS `players` (
@@ -676,9 +663,9 @@ CREATE TABLE IF NOT EXISTS `players` (
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
 	(NULL, 'B', NULL, NULL),
-	('red', 'R', 'b722d2da238b5f9e0b0db53bcf453941', '2023-12-03 10:26:00'),
+	('red', 'R', 'dfa6872df49f836e7e41ed0f59a6ad4b', '2023-12-20 14:44:39'),
 	(NULL, 'G', NULL, NULL),
-	('yeeee', 'Y', '5538b06c94c64b310abce38afb19cf55', '2023-12-03 10:26:06');
+	('ye', 'Y', 'fa8e7af24258ed52c6b7fc04da88b706', '2023-12-20 14:44:46');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -793,6 +780,20 @@ ORDER BY b.r_path ASC;
 
 END//
 DELIMITER ;
+
+-- Dumping structure for πίνακας adise23_ludo_game.red_lost_pieces
+DROP TABLE IF EXISTS `red_lost_pieces`;
+CREATE TABLE IF NOT EXISTS `red_lost_pieces` (
+  `piece` varchar(50) DEFAULT NULL,
+  `piece_color` varchar(50) DEFAULT NULL,
+  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.red_lost_pieces: ~0 rows (approximately)
+DELETE FROM `red_lost_pieces`;
+INSERT INTO `red_lost_pieces` (`piece`, `piece_color`, `id`) VALUES
+	('R2', 'R', 1);
 
 -- Dumping structure for procedure adise23_ludo_game.roll_dice
 DROP PROCEDURE IF EXISTS `roll_dice`;
@@ -1419,6 +1420,20 @@ ORDER BY b.y_path ASC;
 
 END//
 DELIMITER ;
+
+-- Dumping structure for πίνακας adise23_ludo_game.yellow_lost_pieces
+DROP TABLE IF EXISTS `yellow_lost_pieces`;
+CREATE TABLE IF NOT EXISTS `yellow_lost_pieces` (
+  `piece` varchar(50) DEFAULT NULL,
+  `piece_color` varchar(50) DEFAULT NULL,
+  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.yellow_lost_pieces: ~0 rows (approximately)
+DELETE FROM `yellow_lost_pieces`;
+INSERT INTO `yellow_lost_pieces` (`piece`, `piece_color`, `id`) VALUES
+	('Y2', 'Y', 1);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 DROP TRIGGER IF EXISTS `game_status_update`;
