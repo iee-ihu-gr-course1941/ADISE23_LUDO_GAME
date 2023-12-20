@@ -206,7 +206,7 @@ function handle_delete_players($method) {
  function handle_highlight_R4($method) {
     if($method=='GET') {
 		R4_highlight();
-     }    else {header('HTTP/1.1 405 Method Not Allowed');}
+     }    else {header('HTTP/1.1 4050 Method Not Allowed');}
     
  }
  
