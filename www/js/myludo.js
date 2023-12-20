@@ -364,6 +364,9 @@ function fill_board_by_data(data) {
             }
             var hasRRImage=checkRRImagesBeforeMove();
             var hasYYImage = checkYYImagesBeforeMove(); 
+
+
+            //elegxw ama o paiktis pou paizei exei pioni sti thesi pou thelei na paei
             if (hasYYImage === false && game_status.p_turn === 'Y' || hasRRImage === false && game_status.p_turn === 'R') {
                 $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
                     method: 'PUT',
@@ -381,8 +384,35 @@ function fill_board_by_data(data) {
             // Alert the user that the move is not allowed
             alert('ILLEGAL MOVE!');
         }
-    }
+        var imageContainer = $("#imageContainer");
+        //elegxw an o paiktis poy paizei paei na faei pioni antipalou
+        if (hasYYImage === true && game_status.p_turn === 'R'){
+           
+            alert('FAGATE TO PIONI TOU ANTIPALOU!');
+            addImage("images/YY.jpg");
 
+        
+    }
+    if (hasRRImage === true && game_status.p_turn === 'Y') {
+        alert('FAGATE TO PIONI TOU ANTIPALOU!');
+        addImage("images/RR.jpg");
+
+    }
+}
+// Function to add images to the container
+function addImage(imageSrc) {
+    // Create an img element using jQuery
+    var imgElement = $("<img>");
+
+    // Set the image source
+    imgElement.attr("src", imageSrc);
+
+    // Add a class to the image for styling
+    imgElement.addClass("dynamicImage");
+
+    // Append the image to the container using jQuery
+    imageContainer.append(imgElement);
+}
      
   
  

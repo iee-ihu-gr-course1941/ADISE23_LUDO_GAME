@@ -12,6 +12,10 @@
 
         <div id='ludo_board'></div>
         <div id="background"></div>
+        //image container
+
+<div id="imageContainer"> hello </div>
+
 <div id="wrapper">
   <p id="point">0</p>
   <button id="play">Play</button>
@@ -62,6 +66,10 @@
     </div>
   </div>
 </div>
+
+
+
+
 
         <div id='ui_Chat'>
             <a id='game_info'>
