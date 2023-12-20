@@ -158,11 +158,11 @@ function checkYYImagesBeforeMove() {
 
     
         console.log('Image with src starting with "YY" exists!YOU CANT MOVE');
-        return true;
+        return { hasYYImage: true, imageName: imageName };
     } else {
         // There is no such image inside the <td>
         console.log('No image with src starting with "YY" found.');
-        return false;
+        return { hasYYImage: false, imageName: null };
     }}
  
 
@@ -191,11 +191,11 @@ function checkYYImagesBeforeMove() {
 
     
         console.log('Image with src starting with "RR" exists!YOU CANT MOVE');
-        return true;
+        return { hasRRImage: true, imageName: imageName };
     } else {
         // There is no such image inside the <td>
         console.log('No image with src starting with "RR" found.');
-        return false;
+        return { hasRRImage: false, imageName: null };
     }} 
 
 
@@ -362,8 +362,17 @@ function fill_board_by_data(data) {
              //   alert('Must give 4 numbers');
                 return;
             }
-            var hasRRImage=checkRRImagesBeforeMove();
-            var hasYYImage = checkYYImagesBeforeMove(); 
+
+            var result_Y = checkYYImagesBeforeMove();
+            var result_R = checkRRImagesBeforeMove();
+
+
+            var hasYYImage =result_Y.hasYYImage;
+            var hasRRImage=result_R.hasRRImage;
+
+            var imageY= result_Y.imageName;
+            var imageR= result_R.imageName;
+
 
 
             //elegxw ama o paiktis pou paizei exei pioni sti thesi pou thelei na paei
@@ -384,36 +393,27 @@ function fill_board_by_data(data) {
             // Alert the user that the move is not allowed
             alert('ILLEGAL MOVE!');
         }
-        var imageContainer = $("#imageContainer");
-        //elegxw an o paiktis poy paizei paei na faei pioni antipalou
-        if (hasYYImage === true && game_status.p_turn === 'R'){
-           
-            alert('FAGATE TO PIONI TOU ANTIPALOU!');
-            addImage("images/YY.jpg");
 
+
+        var imageContainer = $("#imageContainer");
+
+
+        //elegxw an o kokkinos paei na faei pioni tou kitrinou
+        if (hasYYImage === true && game_status.p_turn === 'R'){
+                       alert('FAGATE TO PIONI TOU ANTIPALOU!');
+                       
+         //   imageContainer.addImage("images/" + imageY + ".png"  );
+            $("#imageContainer").append(`<img src="${imageY}"  >`);
+        }
         
-    }
+      //elegxw an o kitrinos paei na faei pioni tou kokkinou
     if (hasRRImage === true && game_status.p_turn === 'Y') {
         alert('FAGATE TO PIONI TOU ANTIPALOU!');
-        addImage("images/RR.jpg");
-
+      //  addImage("images/" + imageR + ".png"  );
+      $("#imageContainer").append(`<img src="${imageR}"  >`);
     }
 }
-// Function to add images to the container
-function addImage(imageSrc) {
-    // Create an img element using jQuery
-    var imgElement = $("<img>");
-
-    // Set the image source
-    imgElement.attr("src", imageSrc);
-
-    // Add a class to the image for styling
-    imgElement.addClass("dynamicImage");
-
-    // Append the image to the container using jQuery
-    imageContainer.append(imgElement);
-}
-     
+  
   
  
 
