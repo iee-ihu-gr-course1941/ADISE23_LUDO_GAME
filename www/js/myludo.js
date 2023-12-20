@@ -63,17 +63,31 @@ $('#play').click(function(){
     $('#platform').removeClass('stop').addClass('playing');
 
       
-    // Send an AJAX request to the server to update the database
-roll_dice();
-if (game_status.p_turn == 'Y') {
-    makeImagesClickableY();
-} else {
-makeImagesClickableR();
-}
-    $('#dice')
+      // Send an AJAX request to the server to update the database
+$.ajax({
+    url: 'ludo.php/roll/', // Adjust the path to your server-side script
+    method: 'GET',
+dataType: "json",
+headers: { "X-Token": me.token },
+    contentType: 'application/json',
+    data: { action: 'roll' }, 
+    
+    
+    // Pass the action as part of the data
+    success: function(data) {
+        console.log("Success Response:", data);
+        
+            $("#diceResult").text("Dice Result: " +data[0].generated_dice_result); 
+               if (game_status.p_turn == 'Y') {
+                 makeImagesClickableY();
+  } else {
+     makeImagesClickableR();
+  }
+  $('#dice')
     setTimeout(function(){
       $('#platform').removeClass('playing').addClass('stop');
       var number = data[0].generated_dice_result ;
+    
       //var number  = 6;
       var x = 0, y = 20, z = -20;
       switch(number){
@@ -108,6 +122,17 @@ makeImagesClickableR();
       $('#point').html(number);
       
     }, 1000);
+
+          
+     },
+     error: function() {
+         alert('Error occurred while rolling the dice.');
+     }
+
+// game_status_update();
+});
+ 
+    
   });
 
  
