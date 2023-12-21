@@ -8,8 +8,8 @@ var timer=null;
 $(function(){
     draw_empty_board();
     fill_board();
-    fill_red_lost();
-    fill_yellow_lost();
+  //  fill_red_lost();
+   //  fill_yellow_lost();
 
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
@@ -327,6 +327,10 @@ function reset_board() {
 	$('#move_div').hide();
     $('#move_div_roll').hide(); 
 	$('#game_initializer').show(2000);
+    // Clear and reload the red and yellow lost pieces
+    $('#red_lost_pieces').empty();
+    $('#yellow_lost_pieces').empty();
+
 }
 
 
@@ -342,6 +346,8 @@ function fill_board_by_data(data) {
 		$(id).addClass(o.b_color+'_square').html(im);
     //    $(id).click(click_on_piece);
     }
+    fill_red_lost();
+    fill_yellow_lost();
     }
     
     function login_to_game() {
@@ -401,7 +407,10 @@ function fill_board_by_data(data) {
           }
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
+
            fill_board_by_data(data);
+         //  fill_red_lost();
+          // fill_yellow_lost();
            timer=setTimeout(function() { game_status_update();}, 4000);
           
         } else {
@@ -409,6 +418,8 @@ function fill_board_by_data(data) {
             $('#move_div_roll').hide(5000);
           $('#move_div').hide(5000);
             fill_board_by_data(data);
+          //  fill_red_lost();
+          //  fill_yellow_lost();
          timer=setTimeout(function() { game_status_update();}, 4000);
          
         }
@@ -485,30 +496,36 @@ function fill_board_by_data(data) {
 }
   
   
- function fill_red_lost(){
+function fill_red_lost() {
     $.ajax({
         url: "ludo.php/red_lost_pieces",
         method: 'GET',
         dataType: "json",
         contentType: 'application/json',
-        data: { action: 'fill_red_lost_pieces'   },
-      
+        data: { action: 'fill_red_lost_pieces' },
         headers: { "X-Token": me.token },
         success: function (response) {
-            if (response.pieceValue) {
-                var imageUrl = 'images/R' + response.pieceValue + '.png';
-                $('#red_lost_pieces').html('<img src="' + imageUrl + '" alt="' + response.pieceValue + '">');
+            var container = $('#red_lost_pieces');
+            
+            // Clear the existing images
+            container.empty();
+
+            // Check if response has pieceValues and it's an array
+            if (response.pieceValues && Array.isArray(response.pieceValues)) {
+                // Iterate through the pieces and add new images
+                $.each(response.pieceValues, function (index, pieceValue) {
+                    var imageUrl = 'images/R' + pieceValue + '.png';
+                    container.append('<img src="' + imageUrl + '" alt="' + pieceValue + '">');
+                });
             } else {
-                console.error("Piece not found");
+                console.error("Pieces not found");
             }
         },
-      error: function (xhr, status, error) {
-          // Handle the error response
-          console.error("Error Response:", xhr.responseText);
-          // You might want to handle errors and display an appropriate message
+        error: function (xhr, status, error) {
+            console.error("Error Response:", xhr.responseText);
         }
-    } );
-   }
+    });
+}
 
    function fill_yellow_lost(){
     $.ajax({
@@ -520,11 +537,20 @@ function fill_board_by_data(data) {
       
         headers: { "X-Token": me.token },
         success: function (response) {
-            if (response.pieceValue) {
-                var imageUrl = 'images/Y' + response.pieceValue + '.png';
-                $('#yellow_lost_pieces').html('<img src="' + imageUrl + '" alt="' + response.pieceValue + '">');
+            var container = $('#yellow_lost_pieces');
+            
+            // Clear the existing images
+            container.empty();
+           
+            // Check if response has pieceValues and it's an array
+            if (response.pieceValues && Array.isArray(response.pieceValues)) {
+                // Iterate through the pieces and add new images
+                $.each(response.pieceValues, function (index, pieceValue) {
+                    var imageUrl = 'images/Y' + pieceValue + '.png';
+                    container.append('<img src="' + imageUrl + '" alt="' + pieceValue + '">');
+                });
             } else {
-                console.error("Piece not found");
+                console.error("Pieces not found");
             }
         },
       error: function (xhr, status, error) {

@@ -466,18 +466,21 @@ function fill_yellow_lost_pieces() {
     // Call the stored procedure
     $mysqli->query("CALL fill_losers_table();");
 
-    $sql = 'SELECT piece FROM yellow_lost_pieces';
-    
+    $sql = 'SELECT DISTINCT piece FROM yellow_lost_pieces';
     $result = $mysqli->query($sql);
+
+    $pieceValues = array();  // Initialize an array to store piece values
 
     if ($result->num_rows > 0) {
         // Output data of each row
-        $row = $result->fetch_assoc();
-        $pieceValue = $row["piece"];
-        echo json_encode(["pieceValue" => $pieceValue]);
-    } else {
-        echo json_encode(["error" => "Piece not found"]);
+        while ($row = $result->fetch_assoc()) {
+            $pieceValues[] = $row["piece"];
+        }
     }
+
+    header('Content-type: application/json');
+    // Return an associative array with the pieceValues
+    echo json_encode(['pieceValues' => $pieceValues], JSON_PRETTY_PRINT);
 }
 
 function fill_red_lost_pieces() {
@@ -486,17 +489,21 @@ function fill_red_lost_pieces() {
     // Call the stored procedure
     $mysqli->query("CALL fill_losers_table();");
 
-    $sql = 'SELECT piece FROM red_lost_pieces';
+    $sql = 'SELECT DISTINCT piece FROM red_lost_pieces';
     $result = $mysqli->query($sql);
+
+    $pieceValues = array();  // Initialize an array to store piece values
 
     if ($result->num_rows > 0) {
         // Output data of each row
-        $row = $result->fetch_assoc();
-        $pieceValue = $row["piece"];
-        echo json_encode(["pieceValue" => $pieceValue]);
-    } else {
-        echo json_encode(["error" => "Piece not found"]);
+        while ($row = $result->fetch_assoc()) {
+            $pieceValues[] = $row["piece"];
+        }
     }
+
+    header('Content-type: application/json');
+    // Return an associative array with the pieceValues
+    echo json_encode(['pieceValues' => $pieceValues], JSON_PRETTY_PRINT);
 }
 
 //ελεγχος ποιος χρηστης μας ζηταει το Board & ποιος εχει σειρα να παιξει
