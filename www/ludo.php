@@ -72,12 +72,27 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 					case 'highlightR2':handle_highlight_R2($method); break;
 					case 'highlightR3':handle_highlight_R3($method); break;
 					case 'highlightR4':handle_highlight_R4($method); break;
-	 
+
+	 case 'yellow_lost_pieces':handle_yellow_lost_pieces($method);break;
+	 case 'red_lost_pieces':handle_red_lost_pieces($method);break;
 	//case 'move_y':handle_move_y($method);
    // default: 	
 	header("HTTP/1.1 404 Not Found");
     print "<h1>not FOUND</h1>";
 	exit;
+}
+
+
+function handle_yellow_lost_pieces($method) {
+    if($method=='GET') {
+	 fill_yellow_lost_pieces();
+      }  else {header('HTTP/1.1 405 Method Not Allowed');}
+}
+
+function handle_red_lost_pieces($method) {
+    if($method=='GET') {
+		fill_red_lost_pieces(); 
+    }  else {header('HTTP/1.1 405 Method Not Allowed');}
 }
 
 

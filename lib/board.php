@@ -460,7 +460,44 @@ function show_board(){
   print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
 
+function fill_yellow_lost_pieces() {
+    global $mysqli;
 
+    // Call the stored procedure
+    $mysqli->query("CALL fill_losers_table();");
+
+    $sql = 'SELECT piece FROM yellow_lost_pieces';
+    
+    $result = $mysqli->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        $row = $result->fetch_assoc();
+        $pieceValue = $row["piece"];
+        echo json_encode(["pieceValue" => $pieceValue]);
+    } else {
+        echo json_encode(["error" => "Piece not found"]);
+    }
+}
+
+function fill_red_lost_pieces() {
+    global $mysqli;
+
+    // Call the stored procedure
+    $mysqli->query("CALL fill_losers_table();");
+
+    $sql = 'SELECT piece FROM red_lost_pieces';
+    $result = $mysqli->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        $row = $result->fetch_assoc();
+        $pieceValue = $row["piece"];
+        echo json_encode(["pieceValue" => $pieceValue]);
+    } else {
+        echo json_encode(["error" => "Piece not found"]);
+    }
+}
 
 //ελεγχος ποιος χρηστης μας ζηταει το Board & ποιος εχει σειρα να παιξει
 //  function show_board_by_player($b) {

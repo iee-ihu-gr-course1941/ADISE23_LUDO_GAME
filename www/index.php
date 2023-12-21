@@ -11,9 +11,12 @@
     <section id='main_body'>
 
         <div id='ludo_board'></div>
+        
         <div id="background"></div>
        
 <div id="imageContainer">  </div>
+<div id='yellow_lost_pieces'></div>
+        <div id='red_lost_pieces'></div>
 
 <div id="wrapper">
   <p id="point">0</p>

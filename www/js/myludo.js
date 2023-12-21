@@ -8,6 +8,8 @@ var timer=null;
 $(function(){
     draw_empty_board();
     fill_board();
+    fill_red_lost();
+    fill_yellow_lost();
 
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
@@ -247,8 +249,73 @@ function draw_empty_board(p) {
     $('#ludo_board').html(t);
  
 }
-
- 
+//    //dimiourgia kenou pinaka gia ta xamena kommatia tou kitrinoy paikti
+//    function draw_empty_board_yellow_lost_pieces() {
+//        var t = '<table id="yellow_lost_pieces_table">';
+//        for (var i = 1; i <= 2; i += 1) {
+//            t += '<tr>';  
+//            for (var j = 1; j <= 2; j += 1) {
+//                t += '<td class="yellow_lost_piece" id="square_' + j + '_' + i + '">' + j + ',' + i + '</td>';
+//            }
+//            t += '</tr>';  
+//        }
+//        t += '</table>';
+//        $('#yellow_lost_pieces').html(t);
+//    }
+//    
+//    
+//    //dimiourgia kenou pinaka gia ta xamena kommatia tou kokkinou paikti
+//    function draw_empty_board_red_lost_pieces() {
+//        var t = '<table id="red_lost_pieces_table">';
+//        for (var i = 1; i <= 2; i += 1) {
+//            t += '<tr>';  
+//            for (var j = 1; j <= 2; j += 1) {
+//                t += '<td class="red_lost_piece" id="square_' + j + '_' + i + '">' + j + ',' + i + '</td>';
+//            }
+//            t += '</tr>';  
+//        }
+//    
+//        t += '</table>';
+//        $('#red_lost_pieces').html(t);
+//    }
+//    
+//    function fill_yellow_lost_pieces_board() {
+//    	$.ajax({url: "ludo.php/yellow_lost_pieces/", 
+//    		headers: {"X-Token": me.token},
+//    		success: fill_board_by_yellow_lost_pieces });
+//    }
+//    function fill_red_lost_pieces_board() {
+//    	$.ajax({url: "ludo.php/red_lost_pieces/", 
+//    		headers: {"X-Token": me.token},
+//    		success: fill_board_by_red_lost_pieces });
+//    }
+//    
+//    function fill_board_by_red_lost_pieces(data) {
+//        board=data;
+//        for(var i=0;i<data.length;i++) {
+//    		var o = data[i];
+//    		var id = '#square_'+ o.x +'_' + o.y;
+//    		var c = (o.piece!=null)?o.piece_color + o.piece:'';
+//    		var pc= (o.piece!=null)?'piece'+o.piece_color:'';
+//    		var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
+//    		$(id).addClass(o.b_color+'_square').html(im);
+//        //    $(id).click(click_on_piece);
+//        }
+//        }
+//    
+//        function fill_board_by_yellow_lost_pieces(data) {
+//            board=data;
+//            for(var i=0;i<data.length;i++) {
+//                var o = data[i];
+//                var id = '#square_'+ o.x +'_' + o.y;
+//                var c = (o.piece!=null)?o.piece_color + o.piece:'';
+//                var pc= (o.piece!=null)?'piece'+o.piece_color:'';
+//                var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
+//                $(id).addClass(o.b_color+'_square').html(im);
+//            //    $(id).click(click_on_piece);
+//            }
+//            }
+//    
 function fill_board() {
 	$.ajax({url: "ludo.php/board/", 
 		headers: {"X-Token": me.token},
@@ -261,6 +328,8 @@ function reset_board() {
     $('#move_div_roll').hide(); 
 	$('#game_initializer').show(2000);
 }
+
+
 
 function fill_board_by_data(data) {
     board=data;
@@ -393,29 +462,78 @@ function fill_board_by_data(data) {
             // Alert the user that the move is not allowed
             alert('ILLEGAL MOVE!');
         }
-
-
-        var imageContainer = $("#imageContainer");
+                var imageContainer = $("#imageContainer");
 
 
         //elegxw an o kokkinos paei na faei pioni tou kitrinou
         if (hasYYImage === true && game_status.p_turn === 'R'){
                        alert('FAGATE TO PIONI TOU ANTIPALOU!');
                        
-         //   imageContainer.addImage("images/" + imageY + ".png"  );
-            $("#imageContainer").append(`<img src="${imageY}"  >`);
+        
+          //  $("#imageContainer").append(`<img src="${imageY}"  >`);
+          fill_red_lost();
+            fill_yellow_lost();
         }
         
       //elegxw an o kitrinos paei na faei pioni tou kokkinou
     if (hasRRImage === true && game_status.p_turn === 'Y') {
         alert('FAGATE TO PIONI TOU ANTIPALOU!');
-      //  addImage("images/" + imageR + ".png"  );
-      $("#imageContainer").append(`<img src="${imageR}"  >`);
+        fill_red_lost();
+        fill_yellow_lost();
+    //  $("#imageContainer").append(`<img src="${imageR}"  >`);
     }
 }
   
   
- 
+ function fill_red_lost(){
+    $.ajax({
+        url: "ludo.php/red_lost_pieces",
+        method: 'GET',
+        dataType: "json",
+        contentType: 'application/json',
+        data: { action: 'fill_red_lost_pieces'   },
+      
+        headers: { "X-Token": me.token },
+        success: function (response) {
+            if (response.pieceValue) {
+                var imageUrl = 'images/R' + response.pieceValue + '.png';
+                $('#red_lost_pieces').html('<img src="' + imageUrl + '" alt="' + response.pieceValue + '">');
+            } else {
+                console.error("Piece not found");
+            }
+        },
+      error: function (xhr, status, error) {
+          // Handle the error response
+          console.error("Error Response:", xhr.responseText);
+          // You might want to handle errors and display an appropriate message
+        }
+    } );
+   }
+
+   function fill_yellow_lost(){
+    $.ajax({
+        url: "ludo.php/yellow_lost_pieces",
+        method: 'GET',
+        dataType: "json",
+        contentType: 'application/json',
+        data: { action: 'fill_yellow_lost_pieces'},
+      
+        headers: { "X-Token": me.token },
+        success: function (response) {
+            if (response.pieceValue) {
+                var imageUrl = 'images/Y' + response.pieceValue + '.png';
+                $('#yellow_lost_pieces').html('<img src="' + imageUrl + '" alt="' + response.pieceValue + '">');
+            } else {
+                console.error("Piece not found");
+            }
+        },
+      error: function (xhr, status, error) {
+          // Handle the error response
+          console.error("Error Response:", xhr.responseText);
+          // You might want to handle errors and display an appropriate message
+        }
+    } );
+   }
 
 function roll_dice_Y1() {
     $.ajax({
