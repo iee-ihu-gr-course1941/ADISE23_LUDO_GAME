@@ -264,8 +264,8 @@ function reset_board() {
 	$('#game_initializer').show(2000);
 
     //reload ta pieces
-    $('#red_lost_pieces').empty();
-    $('#yellow_lost_pieces').empty();
+    $('#red_win_pieces').empty();
+    $('#yellow_win_pieces').empty();
 
 }
 
@@ -282,8 +282,8 @@ function fill_board_by_data(data) {
 		$(id).addClass(o.b_color+'_square').html(im);
     //    $(id).click(click_on_piece);
     }
-    fill_red_lost();
-    fill_yellow_lost();
+    fill_red_win();
+    fill_yellow_win();
     }
     
     function login_to_game() {
@@ -376,6 +376,8 @@ function fill_board_by_data(data) {
             
             
         }
+   
+   
         function do_move() {
             var s = $('#the_move').val();
             
@@ -397,7 +399,7 @@ function fill_board_by_data(data) {
 
 
 
-            //elegxw ama o paiktis pou paizei exei pioni sti thesi pou thelei na paei
+            //elegxw ama o paiktis pou paizei exei diko tou pioni sti thesi pou thelei na paei an oxi kanei thn kinisi
             if (hasYYImage === false && game_status.p_turn === 'Y' || hasRRImage === false && game_status.p_turn === 'R') {
                 $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
                     method: 'PUT',
@@ -412,7 +414,7 @@ function fill_board_by_data(data) {
                     error: login_error});
             
         }else {
-            // Alert the user that the move is not allowed
+            //alliws an iparxeei diko tou pioni sti thesi poy thelei na paei apagorevetai
             alert('ILLEGAL MOVE!');
         }
                 var imageContainer = $("#imageContainer");
@@ -424,29 +426,29 @@ function fill_board_by_data(data) {
                        
         
           //  $("#imageContainer").append(`<img src="${imageY}"  >`);
-          fill_red_lost();
-            fill_yellow_lost();
+          fill_red_win();
+            fill_yellow_win();
         }
         
       //elegxw an o kitrinos paei na faei pioni tou kokkinou
     if (hasRRImage === true && game_status.p_turn === 'Y') {
         alert('FAGATE TO PIONI TOU ANTIPALOU!');
-        fill_red_lost();
-        fill_yellow_lost();
+        fill_red_win();
+        fill_yellow_win();
     //  $("#imageContainer").append(`<img src="${imageR}"  >`);
     }
 }
   
-function fill_red_lost() {
+function fill_red_win() {
     $.ajax({
-        url: "ludo.php/red_lost_pieces",
+        url: "ludo.php/red_win_pieces",
         method: 'GET',
         dataType: "json",
         contentType: 'application/json',
-        data: { action: 'fill_red_lost_pieces' },
+        data: { action: 'fill_red_win_pieces' },
         headers: { "X-Token": me.token },
         success: function (response) {
-            var container = $('#red_lost_pieces');
+            var container = $('#red_win_pieces');
             
             // Clear the existing images
             container.empty();
@@ -468,17 +470,17 @@ function fill_red_lost() {
     });
 }
 
-   function fill_yellow_lost(){
+   function fill_yellow_win(){
     $.ajax({
-        url: "ludo.php/yellow_lost_pieces",
+        url: "ludo.php/yellow_win_pieces",
         method: 'GET',
         dataType: "json",
         contentType: 'application/json',
-        data: { action: 'fill_yellow_lost_pieces'},
+        data: { action: 'fill_yellow_win_pieces'},
       
         headers: { "X-Token": me.token },
         success: function (response) {
-            var container = $('#yellow_lost_pieces');
+            var container = $('#yellow_win_pieces');
             
             // Clear the existing images
             container.empty();

@@ -15,8 +15,8 @@
         <div id="background"></div>
        
 <div id="imageContainer">  </div>
-<div id='yellow_lost_pieces'></div>
-        <div id='red_lost_pieces'></div>
+<div id='yellow_win_pieces'></div>
+        <div id='red_win_pieces'></div>
 
 <div id="wrapper">
   <p id="point">0</p>

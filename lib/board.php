@@ -460,13 +460,13 @@ function show_board(){
   print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
 
-function fill_yellow_lost_pieces() {
+function fill_yellow_win_pieces() {
     global $mysqli;
 
-    // Call the stored procedure
-    $mysqli->query("CALL fill_losers_table();");
+    // methodos pou gemizei tous 4 pinakes ton 4 xrwmatwn me ta kerdismena pieces tous
+    $mysqli->query("CALL fill_winners_table();");
 
-    $sql = 'SELECT DISTINCT piece FROM yellow_lost_pieces';
+    $sql = 'SELECT DISTINCT piece FROM yellow_win_pieces';
     $result = $mysqli->query($sql);
 
     $pieceValues = array();  // Initialize an array to store piece values
@@ -483,13 +483,13 @@ function fill_yellow_lost_pieces() {
     echo json_encode(['pieceValues' => $pieceValues], JSON_PRETTY_PRINT);
 }
 
-function fill_red_lost_pieces() {
+function fill_red_win_pieces() {
     global $mysqli;
 
-    // Call the stored procedure
-    $mysqli->query("CALL fill_losers_table();");
+    // methodos pou gemizei tous 4 pinakes ton 4 xrwmatwn me ta kerdismena pieces tous
+    $mysqli->query("CALL fill_winners_table();");
 
-    $sql = 'SELECT DISTINCT piece FROM red_lost_pieces';
+    $sql = 'SELECT DISTINCT piece FROM red_win_pieces';
     $result = $mysqli->query($sql);
 
     $pieceValues = array();  // Initialize an array to store piece values
