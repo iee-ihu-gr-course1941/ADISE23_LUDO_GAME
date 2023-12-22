@@ -75,6 +75,7 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 
 	 case 'yellow_win_pieces':handle_yellow_win_pieces($method);break;
 	 case 'red_win_pieces':handle_red_win_pieces($method);break;
+	 case 'return_losers_home' : handle_losers($method);break;
 	//case 'move_y':handle_move_y($method);
    // default: 	
 	header("HTTP/1.1 404 Not Found");
@@ -82,6 +83,11 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 	exit;
 }
 
+function handle_losers($method) {
+    if($method=='GET') {
+	 return_home();
+      }  else {header('HTTP/1.1 405 Method Not Allowed');}
+}
 
 function handle_yellow_win_pieces($method) {
     if($method=='GET') {

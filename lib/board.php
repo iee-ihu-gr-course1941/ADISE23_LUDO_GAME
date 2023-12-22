@@ -460,6 +460,19 @@ function show_board(){
   print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
 
+function return_home(){
+    global $mysqli;
+  
+    $sql = 'CALL return_losers_home();';
+    $st = $mysqli -> prepare($sql);
+  
+    $st -> execute();
+    $res = $st -> get_result();
+  
+    header('Content-type: application/json');
+    print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
+  }
+
 function fill_yellow_win_pieces() {
     global $mysqli;
 
