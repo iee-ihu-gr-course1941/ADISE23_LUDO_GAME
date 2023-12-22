@@ -467,11 +467,16 @@ function return_home(){
     $st = $mysqli -> prepare($sql);
   
     $st -> execute();
-    $res = $st -> get_result();
-  
-    header('Content-type: application/json');
-    print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-  }
+
+    // You might want to check for errors after execution
+    if ($st->errno) {
+        header('Content-type: application/json');
+        print json_encode(['error' => $st->error], JSON_PRETTY_PRINT);
+    } else {
+        header('Content-type: application/json');
+        print json_encode(['success' => true], JSON_PRETTY_PRINT);
+    }
+}
 
 function fill_yellow_win_pieces() {
     global $mysqli;

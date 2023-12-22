@@ -7,6 +7,7 @@ var timer=null;
 
 $(function(){
     draw_empty_board();
+
     fill_board();
   //  fill_red_lost();
    //  fill_yellow_lost();
@@ -22,6 +23,8 @@ $(function(){
     $('#move_div_roll').hide();
     $('YY1.png').click(roll_dice_Y1);
  
+
+   
 
    // $('#the_move_src').change( update_moves_selector);
 	//$('#do_move2').click( do_move2);
@@ -201,7 +204,6 @@ function checkYYImagesBeforeMove() {
     }} 
 
 
- 
 
 
  function reset_players() {
@@ -272,6 +274,9 @@ function reset_board() {
 
 
 function fill_board_by_data(data) {
+    return_losers_home();
+    fill_red_win();
+    fill_yellow_win();
     board=data;
     for(var i=0;i<data.length;i++) {
 		var o = data[i];
@@ -282,8 +287,7 @@ function fill_board_by_data(data) {
 		$(id).addClass(o.b_color+'_square').html(im);
     //    $(id).click(click_on_piece);
     }
-    fill_red_win();
-    fill_yellow_win();
+
     }
     
     function login_to_game() {
@@ -339,14 +343,17 @@ function fill_board_by_data(data) {
            x=0;
             // do play
          if(game_stat_old.p_turn!=game_status.p_turn) {
-                fill_board();
+            
+          return_losers_home();    
+            fill_board();
           }
   
-
+          return_losers_home();
+          fill_board_by_data(data);
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
 
-           fill_board_by_data(data);
+          
          //  fill_red_lost();
           // fill_yellow_lost();
            timer=setTimeout(function() { game_status_update();}, 4000);
@@ -357,10 +364,13 @@ function fill_board_by_data(data) {
           var theMoveInput = document.getElementById("the_move");
 
           // Clear the input value
+          return_losers_home();
+          fill_board_by_data(data);
+
           theMoveInput.value = "";
             $('#move_div_roll').hide(5000);
           $('#move_div').hide(5000);
-            fill_board_by_data(data);
+           
           //  fill_red_lost();
           //  fill_yellow_lost();
          timer=setTimeout(function() { game_status_update();}, 4000);
@@ -371,6 +381,7 @@ function fill_board_by_data(data) {
     }
  
       function update_info(){
+        return_losers_home();
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.'  );
             
@@ -422,23 +433,48 @@ function fill_board_by_data(data) {
 
         //elegxw an o kokkinos paei na faei pioni tou kitrinou
         if (hasYYImage === true && game_status.p_turn === 'R'){
-                       alert('FAGATE TO PIONI TOU ANTIPALOU!');
+                       alert('FAGATE TO PIONI TOU kitrinou! EPISTREFEI STIN ARXIKI THESI');
                        
-        
-          //  $("#imageContainer").append(`<img src="${imageY}"  >`);
-          fill_red_win();
-            fill_yellow_win();
+        return_losers_home();
+        fill_board();
+      //    fill_red_win();
+       //     fill_yellow_win();
         }
         
       //elegxw an o kitrinos paei na faei pioni tou kokkinou
     if (hasRRImage === true && game_status.p_turn === 'Y') {
-        alert('FAGATE TO PIONI TOU ANTIPALOU!');
-        fill_red_win();
-        fill_yellow_win();
+        alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+          
+        return_losers_home();
+        fill_board();
+
+        //   fill_red_win();
+     //   fill_yellow_win();
     //  $("#imageContainer").append(`<img src="${imageR}"  >`);
     }
 }
-  
+   
+function return_losers_home(){
+    $.ajax({
+        url: "ludo.php/return_losers_home",
+        method: 'GET',
+        dataType: "json",
+        contentType: 'application/json',
+        data: { action: 'return_home' },
+        headers: { "X-Token": me.token },
+        success: function(response) {
+            // Handle the success response
+          fill_board_by_data();
+        //  fill_board_by_data(data);
+        },
+        error: function(xhr, status, error) {
+            // Handle errors
+            console.error(xhr.responseText);
+        }
+    });
+
+}
+
 function fill_red_win() {
     $.ajax({
         url: "ludo.php/red_win_pieces",
