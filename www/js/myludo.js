@@ -275,8 +275,8 @@ function reset_board() {
 
 function fill_board_by_data(data) {
     return_losers_home();
-    fill_red_win();
-    fill_yellow_win();
+   // fill_red_win();
+   // fill_yellow_win();
     board=data;
     for(var i=0;i<data.length;i++) {
 		var o = data[i];
@@ -287,7 +287,7 @@ function fill_board_by_data(data) {
 		$(id).addClass(o.b_color+'_square').html(im);
     //    $(id).click(click_on_piece);
     }
-
+    
     }
     
     function login_to_game() {
@@ -349,7 +349,7 @@ function fill_board_by_data(data) {
           }
   
           return_losers_home();
-          fill_board_by_data(data);
+          fill_board();
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
 
@@ -365,7 +365,7 @@ function fill_board_by_data(data) {
 
           // Clear the input value
           return_losers_home();
-          fill_board_by_data(data);
+          fill_board();
 
           theMoveInput.value = "";
             $('#move_div_roll').hide(5000);
@@ -464,8 +464,8 @@ function return_losers_home(){
         headers: { "X-Token": me.token },
         success: function(response) {
             // Handle the success response
-          fill_board_by_data();
-        //  fill_board_by_data(data);
+          //fill_board_by_data();
+          //fill_board();
         },
         error: function(xhr, status, error) {
             // Handle errors
