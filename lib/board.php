@@ -482,7 +482,7 @@ function fill_yellow_win_pieces() {
     global $mysqli;
 
     // methodos pou gemizei tous 4 pinakes ton 4 xrwmatwn me ta kerdismena pieces tous
-    $mysqli->query("CALL fill_winners_table();");
+   // $mysqli->query("CALL fill_winners_table();");
 
     $sql = 'SELECT DISTINCT piece FROM yellow_win_pieces';
     $result = $mysqli->query($sql);
@@ -505,7 +505,7 @@ function fill_red_win_pieces() {
     global $mysqli;
 
     // methodos pou gemizei tous 4 pinakes ton 4 xrwmatwn me ta kerdismena pieces tous
-    $mysqli->query("CALL fill_winners_table();");
+  //  $mysqli->query("CALL fill_winners_table();");
 
     $sql = 'SELECT DISTINCT piece FROM red_win_pieces';
     $result = $mysqli->query($sql);

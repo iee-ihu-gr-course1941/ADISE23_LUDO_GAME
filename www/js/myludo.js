@@ -12,6 +12,9 @@ $(function(){
   //  fill_red_lost();
    //  fill_yellow_lost();
 
+   fill_red_win();
+   fill_yellow_win();
+
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
@@ -275,6 +278,8 @@ function reset_board() {
 
 function fill_board_by_data(data) {
     return_losers_home();
+    fill_red_win();
+    fill_yellow_win();
    // fill_red_win();
    // fill_yellow_win();
     board=data;
@@ -343,11 +348,13 @@ function fill_board_by_data(data) {
            x=0;
             // do play
          if(game_stat_old.p_turn!=game_status.p_turn) {
-            
+            fill_red_win();
+            fill_yellow_win();
           return_losers_home();    
             fill_board();
           }
-  
+          fill_red_win();
+          fill_yellow_win();
           return_losers_home();
           fill_board();
           $('#move_div_roll').show(1000);
@@ -437,7 +444,7 @@ function fill_board_by_data(data) {
                        
         return_losers_home();
         fill_board();
-      //    fill_red_win();
+    //       fill_red_win();
        //     fill_yellow_win();
         }
         
@@ -448,8 +455,8 @@ function fill_board_by_data(data) {
         return_losers_home();
         fill_board();
 
-        //   fill_red_win();
-     //   fill_yellow_win();
+     //      fill_red_win();
+      // fill_yellow_win();
     //  $("#imageContainer").append(`<img src="${imageR}"  >`);
     }
 }
@@ -1304,7 +1311,8 @@ function reset_red_img_click_status() {
 
         function move_result(data){
           //  fill_board_by_data
-         
+            fill_red_win();
+            fill_yellow_win();
             fill_board_by_data(data);
             game_status_update();
         }
