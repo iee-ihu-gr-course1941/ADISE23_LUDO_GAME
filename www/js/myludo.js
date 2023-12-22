@@ -154,7 +154,7 @@ function checkYYImagesBeforeMove() {
 
     var imageName = $(tdElement).find('img').attr('src'); // Get the image source
     
-    // Check if the image name starts with "YY"
+    // elegxos an ksekina to image me YY
     if (imageName && imageName.startsWith('images/YY')) {
        
 
@@ -249,73 +249,8 @@ function draw_empty_board(p) {
     $('#ludo_board').html(t);
  
 }
-//    //dimiourgia kenou pinaka gia ta xamena kommatia tou kitrinoy paikti
-//    function draw_empty_board_yellow_lost_pieces() {
-//        var t = '<table id="yellow_lost_pieces_table">';
-//        for (var i = 1; i <= 2; i += 1) {
-//            t += '<tr>';  
-//            for (var j = 1; j <= 2; j += 1) {
-//                t += '<td class="yellow_lost_piece" id="square_' + j + '_' + i + '">' + j + ',' + i + '</td>';
-//            }
-//            t += '</tr>';  
-//        }
-//        t += '</table>';
-//        $('#yellow_lost_pieces').html(t);
-//    }
-//    
-//    
-//    //dimiourgia kenou pinaka gia ta xamena kommatia tou kokkinou paikti
-//    function draw_empty_board_red_lost_pieces() {
-//        var t = '<table id="red_lost_pieces_table">';
-//        for (var i = 1; i <= 2; i += 1) {
-//            t += '<tr>';  
-//            for (var j = 1; j <= 2; j += 1) {
-//                t += '<td class="red_lost_piece" id="square_' + j + '_' + i + '">' + j + ',' + i + '</td>';
-//            }
-//            t += '</tr>';  
-//        }
-//    
-//        t += '</table>';
-//        $('#red_lost_pieces').html(t);
-//    }
-//    
-//    function fill_yellow_lost_pieces_board() {
-//    	$.ajax({url: "ludo.php/yellow_lost_pieces/", 
-//    		headers: {"X-Token": me.token},
-//    		success: fill_board_by_yellow_lost_pieces });
-//    }
-//    function fill_red_lost_pieces_board() {
-//    	$.ajax({url: "ludo.php/red_lost_pieces/", 
-//    		headers: {"X-Token": me.token},
-//    		success: fill_board_by_red_lost_pieces });
-//    }
-//    
-//    function fill_board_by_red_lost_pieces(data) {
-//        board=data;
-//        for(var i=0;i<data.length;i++) {
-//    		var o = data[i];
-//    		var id = '#square_'+ o.x +'_' + o.y;
-//    		var c = (o.piece!=null)?o.piece_color + o.piece:'';
-//    		var pc= (o.piece!=null)?'piece'+o.piece_color:'';
-//    		var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
-//    		$(id).addClass(o.b_color+'_square').html(im);
-//        //    $(id).click(click_on_piece);
-//        }
-//        }
-//    
-//        function fill_board_by_yellow_lost_pieces(data) {
-//            board=data;
-//            for(var i=0;i<data.length;i++) {
-//                var o = data[i];
-//                var id = '#square_'+ o.x +'_' + o.y;
-//                var c = (o.piece!=null)?o.piece_color + o.piece:'';
-//                var pc= (o.piece!=null)?'piece'+o.piece_color:'';
-//                var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
-//                $(id).addClass(o.b_color+'_square').html(im);
-//            //    $(id).click(click_on_piece);
-//            }
-//            }
-//    
+ 
+    
 function fill_board() {
 	$.ajax({url: "ludo.php/board/", 
 		headers: {"X-Token": me.token},
@@ -327,7 +262,8 @@ function reset_board() {
 	$('#move_div').hide();
     $('#move_div_roll').hide(); 
 	$('#game_initializer').show(2000);
-    // Clear and reload the red and yellow lost pieces
+
+    //reload ta pieces
     $('#red_lost_pieces').empty();
     $('#yellow_lost_pieces').empty();
 
@@ -405,6 +341,8 @@ function fill_board_by_data(data) {
          if(game_stat_old.p_turn!=game_status.p_turn) {
                 fill_board();
           }
+  
+
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
 
@@ -415,6 +353,11 @@ function fill_board_by_data(data) {
           
         } else {
             // must wait for something
+                 
+          var theMoveInput = document.getElementById("the_move");
+
+          // Clear the input value
+          theMoveInput.value = "";
             $('#move_div_roll').hide(5000);
           $('#move_div').hide(5000);
             fill_board_by_data(data);
@@ -433,8 +376,7 @@ function fill_board_by_data(data) {
             
             
         }
-
-       function do_move() {
+        function do_move() {
             var s = $('#the_move').val();
             
             var a = s.trim().split(/[ ]+/);
@@ -494,7 +436,6 @@ function fill_board_by_data(data) {
     //  $("#imageContainer").append(`<img src="${imageR}"  >`);
     }
 }
-  
   
 function fill_red_lost() {
     $.ajax({
@@ -1178,7 +1119,10 @@ function roll_dice_Y1() {
         // Remove clickability and highlighting from image td elements
         $('.piece').parent('td').removeClass('clickableR').off('click', onImageClickR);
     }
+
+    var isOnImageClickRCalled = false;
     function onImageClickR(e) {
+        isOnImageClickRCalled = true;
         var clickedTd = e.currentTarget;
         var imageName = $(clickedTd).find('img').attr('src'); // Get the image source
     
@@ -1241,7 +1185,10 @@ function roll_dice_Y1() {
         // Remove clickability and highlighting from image td elements
         $('.piece').parent('td').removeClass('clickableY').off('click', onImageClickY);
     }
+
+    var isOnImageClickYCalled = false;
     function onImageClickY(e) {
+        isOnImageClickYCalled = true;
         var clickedTd = e.currentTarget;
         var imageName = $(clickedTd).find('img').attr('src'); // Get the image source
     
@@ -1294,6 +1241,27 @@ function roll_dice_Y1() {
         }
     }
 
+  // Define a variable to track if onImageClickY is called
+
+
+  function is_yellow_image_clicked() {
+    return isOnImageClickYCalled;
+}
+
+function reset_yellow_img_click_status() {
+    isOnImageClickYCalled = false;
+}
+
+
+ 
+function is_red_image_clicked() {
+    return isOnImageClickRCalled;
+}
+
+function reset_red_img_click_status() {
+    isOnImageClickRCalled = false;
+}
+    
  
 
         function move_result(data){

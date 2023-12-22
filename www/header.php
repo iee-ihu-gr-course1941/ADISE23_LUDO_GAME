@@ -63,4 +63,7 @@
          </ul>
         </div>
     </nav>
+
+            </body>
+            </html> 
          <!--finish navybox-->
