@@ -33,11 +33,149 @@ $(function(){
 	//$('#do_move2').click( do_move2);
 });
 
+
+// var time = document.getElementById("time");
+// var minute = document.getElementById("min");
+// var second = document.getElementById("sec");
+// var startButton = document.getElementById("start");
+// var resetButton = document.getElementById("reset");
+// var seti = undefined;
+// var mm = "25";
+// var ss = "00";
+// 
+// startButton.addEventListener("click", function start () {
+//   if (startButton.innerHTML === "START") {
+//     startButton.innerHTML = "PAUSE";
+//     mm = minute.value;
+//     ss = second.value;
+//     if (minute.value === "") minute.value = "00";
+//     if (second.value === "") second.value = "00";
+//     minute.setAttribute("disabled", true);
+//     second.setAttribute("disabled", true);
+//     seti = setInterval(function () {
+//       if (second.value > 0) {
+//         second.value -= 1;
+//         if (second.value < 10 && second.value >= 0) {
+//           second.value = "0" + second.value;
+//         }
+//       }
+//       else if (minute.value > 0) {
+//         second.value = "59";
+//         minute.value -= 1;
+//         if (minute.value < 10 && minute.value >= 0) {
+//           minute.value = "0" + minute.value;
+//         }
+//       }
+//       else {
+//         clearInterval(seti);
+//         document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
+//         setTimeout(function() {
+//           alert("Time Out !");
+//           res();
+//         }, 100);
+//       }
+//     }, 1000);
+//   }
+//   else {
+//     minute.removeAttribute("disabled");
+//     second.removeAttribute("disabled");
+//     startButton.innerHTML = "START";
+//     clearInterval(seti);
+//   }
+// });
+// 
+// resetButton.addEventListener("click", res);
+// 
+// function res() {
+//   clearInterval(seti);
+//   minute.value = mm;
+//   second.value = ss;
+//   minute.removeAttribute("disabled");
+//   second.removeAttribute("disabled");
+//   startButton.innerHTML = "START";
+//   document.body.style.backgroundImage = "linear-gradient(to top left, #2980b9, #9b59b6)";
+// }  
+
+function fetchTimerValue() {
+    $.ajax({
+        url: 'ludo.php/timer/',
+        method: 'GET',
+        dataType: 'json',
+        headers: { 'X-Token': me.token },
+        contentType: 'application/json',
+        data: { action: 'get_timer_value' },
+        success: function (data) {
+            // Check if 'data' is not undefined before accessing its properties
+            if (data && data.minute !== undefined && data.second !== undefined) {
+                minute.value = data.minute;
+                second.value = data.second;
+            } else {
+                console.error('Invalid data received from the server.');
+            }
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+// Function to start the timer
+function startTimer() {
+    seti = setInterval(function () {
+        // Your existing timer logic here...
+
+        // Fetch and update the timer value from the database every 1 second
+        fetchTimerValue();
+    }, 1000);
+}
+
+var time = document.getElementById("time");
+var minute = document.getElementById("min");
+var second = document.getElementById("sec");
+var startButton = document.getElementById("start");
+var resetButton = document.getElementById("reset");
+// Event listener for the start button
+startButton.addEventListener("click", function () {
+    if (startButton.innerHTML === "START") {
+        startButton.innerHTML = "PAUSE";
+        mm = minute.value;
+        ss = second.value;
+        if (minute.value === "") minute.value = "00";
+        if (second.value === "") second.value = "00";
+        minute.setAttribute("disabled", true);
+        second.setAttribute("disabled", true);
+
+        // Start the timer
+        startTimer();
+    } else {
+        minute.removeAttribute("disabled");
+        second.removeAttribute("disabled");
+        startButton.innerHTML = "START";
+        clearInterval(seti);
+    }
+});
+
+// Event listener for the reset button
+resetButton.addEventListener("click", function () {
+    clearInterval(seti);
+    // Reset the timer value
+    fetchTimerValue();
+    minute.removeAttribute("disabled");
+    second.removeAttribute("disabled");
+    startButton.innerHTML = "START";
+    document.body.style.backgroundImage = "linear-gradient(to top left, #2980b9, #9b59b6)";
+});
+
+// Fetch the initial timer value when the page loads
+document.addEventListener("DOMContentLoaded", function () {
+    fetchTimerValue();
+});
+
 function roll_dice(){
     
     // Send an AJAX request to the server to update the database
 $.ajax({
-    url: 'ludo.php/roll/', // Adjust the path to your server-side script
+    url: 'ludo.php/roll/',  
     method: 'GET',
 dataType: "json",
 headers: { "X-Token": me.token },

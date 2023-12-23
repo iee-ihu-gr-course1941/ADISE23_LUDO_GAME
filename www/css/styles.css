@@ -107,13 +107,13 @@
     
   }
 
-  input{
+  inputt{
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
     margin-top: 5px;
 
-  }
+  }  
   
   #submit{
     width: 100%; /* Make the button as wide as the input fields */

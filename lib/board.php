@@ -90,56 +90,7 @@ function do_move($x,$y,$x2,$y2) {
 	// show_board();
 }
 
-//function do_move_yellow() {
-//	global $mysqli;
-//	// Assuming you have a database connection in $conn
-//$sql = "CALL move_y_piece()";
-//$st = $mysqli -> prepare($sql);
-//
-//$st -> execute();
-//$res = $st -> get_result();
-//
-//header('Content-type: application/json');
-//print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
-//	 
-//}
-//
-//function roll_dice($b){
-//	global $mysqli;
-//
-//	//orig_board->ολος ο πινακας απο την βαση(read_board: select * from board)
-//	$orig_board=read_board();
-//	$board=convert_board($orig_board);
-//	$status = read_status();
-//	//p_turn=$b -> ειναι η σειρα του παικτη που εκανε την αιτηση να παιξει
-//	if($status['status']=='started' && $status['p_turn']==$b && $b!=null) {
-//		// It my turn !!!!
-//		$n = add_valid_moves_to_board($board,$b);
-//		
-//		// Εάν n==0, τότε έχασα !!!!!
-//		// Θα πρέπει να ενημερωθεί το game_status.
-//	}
-//	header('Content-type: application/json');
-//	print json_encode($orig_board, JSON_PRETTY_PRINT);
-//
-//function add_valid_moves_to_piece(&$board,$b,$x,$y) {
-//	$number_of_moves=0;
-//	//ελεγχος εαν το χρωμα του πιονιου ανηκει στον παικτη που κανει την κινηση
-//	if($board[$x][$y]['piece_color']==$b) {
-//		switch($board[$x][$y]['piece']){
-//			case 'Y1': roll_dice_Y() ;break;
-//			case 'Y2': ;break;
-//			case 'Y3':  ;break;
-//			case 'Y4':  ;break;
-//			case 'R1':roll_dice_R();break;
-//			case 'R2':  ;break;
-//			case 'R3':  ;break;
-//			case 'R4': $number_of_moves+=bishop_moves($board,$b,$x,$y);break;
-//		}
-//	} 
-//	 
-//
-//
+ 
 function show_board_by_player($b) {
 
 	global $mysqli;
@@ -523,6 +474,25 @@ function fill_red_win_pieces() {
     // Return an associative array with the pieceValues
     echo json_encode(['pieceValues' => $pieceValues], JSON_PRETTY_PRINT);
 }
+
+function get_timer_value() {
+    global $mysqli;
+// Call the stored procedure
+$sql = "CALL timer_value()";
+$result = $mysqli->query($sql);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch the result as an associative array
+    $row = $result->fetch_assoc();
+
+    // Return the result as JSON
+    header('Content-Type: application/json');
+    echo json_encode($row);
+} else {
+    // Handle the error if the query fails
+    echo "Error: " . $sql . "<br>" . $mysqli->error;
+}}
 
 //ελεγχος ποιος χρηστης μας ζηταει το Board & ποιος εχει σειρα να παιξει
 //  function show_board_by_player($b) {

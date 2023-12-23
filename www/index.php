@@ -8,8 +8,23 @@
 
         <div id="h1Name"><h1 id="name">γκρινιαρης</h1></div>
 
-    <section id='main_body'>
 
+    <section id='main_body'>
+    <section>
+  <div>
+    <div id="clock">
+      <form>
+        <input id="min" type="number" step="1" min="0" max="59" value="00"></input>
+        <span>:</span>
+        <input id="sec" type="number" step="1" min="0" max="59" value="10"></input>
+      </form>
+      <div id="controls">
+        <button id="start">START</button>
+        <button id="reset">RESET</button>
+      </div>
+    </div>
+  </div>
+</section>
         <div id='ludo_board'></div>
         
         <div id="background"></div>
