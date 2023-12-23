@@ -109,6 +109,15 @@ function fetchTimerValue() {
             if (data && data.minute !== undefined && data.second !== undefined) {
                 minute.value = data.minute;
                 second.value = data.second;
+                if(second.value == "0"){        
+                    clearInterval(seti);
+                      document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
+    setTimeout(function() {
+                   alert("Time Out !");
+                    res();
+                      }, 100);
+     }
+  
             } else {
                 console.error('Invalid data received from the server.');
             }
@@ -147,7 +156,7 @@ startButton.addEventListener("click", function () {
 
         // Start the timer
         startTimer();
-    } else {
+    }else {
         minute.removeAttribute("disabled");
         second.removeAttribute("disabled");
         startButton.innerHTML = "START";

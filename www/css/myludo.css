@@ -92,6 +92,16 @@ TD.tomove {border:3px solid blue; background-color:blue;}
 
  IMG.piece{width: 2.1em; height: 2.1em;}
 
+ #yellow_win_pieces {
+  display: flex;
+  flex-direction: column; /* Display items in a column */
+}
+
+#red_win_pieces {
+  display: flex;
+  flex-direction: column; /* Display items in a column */
+}
+
 
  @keyframes spin {
   0% { transform: translateZ(-100px) rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
