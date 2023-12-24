@@ -19,7 +19,7 @@ $(function(){
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
     $('#resetButton').click(reset_timer);
-
+$('#play').click(play);
     $('#resetButton').click(reset_timer);
 
     $('#do_move').click(do_move);
@@ -107,10 +107,7 @@ function fetchTimerValue() {
 // Function to start the timer
 function startTimer() {
     seti = setInterval(function () {
-        // Your existing timer logic here...
-
-        // Fetch and update the timer value from the database every 1 second
-        fetchTimerValue();
+                fetchTimerValue();
     }, 1000);
 }
 
@@ -195,7 +192,7 @@ headers: { "X-Token": me.token },
 
 //dice anmimation 
 
-$('#play').click(function(){
+ function play(){
     $('#platform').removeClass('stop').addClass('playing');
 
       
@@ -269,7 +266,7 @@ headers: { "X-Token": me.token },
 });
  
     
-  });
+  } 
 
  
 //methodos elegxou iparksis kitrinwn pioniwn sto destination pioniou  pou paizei
@@ -473,6 +470,7 @@ function fill_board_by_data(data) {
         game_status=data[0];
         update_info();
         clearTimeout(timer);
+        $('#play').prop('disabled', false);
          if(game_status.p_turn==me.piece_color &&  me.piece_color!=null) {
            x=0;
             // do play
@@ -481,17 +479,19 @@ function fill_board_by_data(data) {
             fill_yellow_win();
           return_losers_home();    
             fill_board();
+          
+
           }
           fill_red_win();
           fill_yellow_win();
           return_losers_home();
           fill_board();
+          $('#play').prop('disabled', false);
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
            reset_timer();
           startTimer();
-         //  fill_red_lost();
-          // fill_yellow_lost();
+         
            timer=setTimeout(function() { game_status_update();}, 4000);
           
         } else {
@@ -506,7 +506,7 @@ function fill_board_by_data(data) {
           theMoveInput.value = "";
             $('#move_div_roll').hide(5000);
           $('#move_div').hide(5000);
-           
+          $('#play').prop('disabled', true);
           //  fill_red_lost();
           //  fill_yellow_lost();
          timer=setTimeout(function() { game_status_update();}, 4000);
