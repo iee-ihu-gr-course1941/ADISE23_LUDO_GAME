@@ -10,6 +10,9 @@
 
 
     <section id='main_body'>
+    
+        <div id="background"></div>
+
     <section>
   <div>
     <div id="clock">
@@ -25,13 +28,13 @@
     </div>
   </div>
 </section>
-        <div id='ludo_board'></div>
-        
-        <div id="background"></div>
-       
-<div id="imageContainer">  </div>
 <div id='yellow_win_pieces'></div>
         <div id='red_win_pieces'></div>
+        <div id='ludo_board'></div>
+        <div id="imageContainer">  </div>
+
+       
+
 
 <div id="wrapper">
   <p id="point">0</p>

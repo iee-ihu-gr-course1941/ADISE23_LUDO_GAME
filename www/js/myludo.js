@@ -9,9 +9,7 @@ $(function(){
     draw_empty_board();
 
     fill_board();
-  //  fill_red_lost();
-   //  fill_yellow_lost();
-
+ 
    fill_red_win();
    fill_yellow_win();
 

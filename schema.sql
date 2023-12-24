@@ -19,6 +19,112 @@
 CREATE DATABASE IF NOT EXISTS `adise23_ludo_game` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `adise23_ludo_game`;
 
+-- Dumping structure for procedure adise23_ludo_game.B1_dice
+DROP PROCEDURE IF EXISTS `B1_dice`;
+DELIMITER //
+CREATE PROCEDURE `B1_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'B1' ORDER BY `created_at` DESC LIMIT 1 ;
+ 
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B1_highlight
+DROP PROCEDURE IF EXISTS `B1_highlight`;
+DELIMITER //
+CREATE PROCEDURE `B1_highlight`()
+BEGIN
+SELECT b.x, b.y, b.b_path
+FROM board b
+JOIN dice d ON b.b_path >= d.prev_path AND b.b_path <= ( d.new_path)
+WHERE d.piece='B1'
+ORDER BY b.b_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B2_dice
+DROP PROCEDURE IF EXISTS `B2_dice`;
+DELIMITER //
+CREATE PROCEDURE `B2_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'B2' ORDER BY `created_at` DESC LIMIT 1 ; 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B2_highlight
+DROP PROCEDURE IF EXISTS `B2_highlight`;
+DELIMITER //
+CREATE PROCEDURE `B2_highlight`()
+BEGIN
+SELECT b.x, b.y, b.b_path
+FROM board b
+JOIN dice d ON b.b_path >= d.prev_path AND b.b_path <= ( d.new_path)
+WHERE d.piece='B2'
+ORDER BY b.b_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B3_dice
+DROP PROCEDURE IF EXISTS `B3_dice`;
+DELIMITER //
+CREATE PROCEDURE `B3_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'B3' ORDER BY `created_at` DESC LIMIT 1 ; 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B3_highlight
+DROP PROCEDURE IF EXISTS `B3_highlight`;
+DELIMITER //
+CREATE PROCEDURE `B3_highlight`()
+BEGIN
+SELECT b.x, b.y, b.b_path
+FROM board b
+JOIN dice d ON b.b_path >= d.prev_path AND b.b_path <= ( d.new_path)
+WHERE d.piece='B3'
+ORDER BY b.b_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B4_dice
+DROP PROCEDURE IF EXISTS `B4_dice`;
+DELIMITER //
+CREATE PROCEDURE `B4_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'B4' ORDER BY `created_at` DESC LIMIT 1 ; 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.B4_highlight
+DROP PROCEDURE IF EXISTS `B4_highlight`;
+DELIMITER //
+CREATE PROCEDURE `B4_highlight`()
+BEGIN
+SELECT b.x, b.y, b.b_path
+FROM board b
+JOIN dice d ON b.b_path >= d.prev_path AND b.b_path <= ( d.new_path)
+WHERE d.piece='B4'
+ORDER BY b.b_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for πίνακας adise23_ludo_game.blue_win_pieces
+DROP TABLE IF EXISTS `blue_win_pieces`;
+CREATE TABLE IF NOT EXISTS `blue_win_pieces` (
+  `piece` varchar(50) NOT NULL,
+  `piece_color` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`piece`,`piece_color`,`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.blue_win_pieces: ~0 rows (approximately)
+DELETE FROM `blue_win_pieces`;
+
 -- Dumping structure for πίνακας adise23_ludo_game.board
 DROP TABLE IF EXISTS `board`;
 CREATE TABLE IF NOT EXISTS `board` (
@@ -49,7 +155,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(1, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(1, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(2, 2, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 2, 'W', 'Y', 'Y3', NULL, NULL, NULL, NULL),
 	(2, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(2, 5, 'W', NULL, NULL, 6, 15, 24, 33),
@@ -60,8 +166,8 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(2, 10, 'W', 'G', 'G1', NULL, NULL, NULL, NULL),
 	(2, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 1, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 2, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 2, 'W', 'Y', 'Y4', NULL, NULL, NULL, NULL),
+	(3, 3, 'W', 'Y', 'Y2', NULL, NULL, NULL, NULL),
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 5, 'W', NULL, NULL, 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
@@ -82,7 +188,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 1, 'W', NULL, NULL, NULL, 9, 18, 27),
-	(5, 2, 'Y', NULL, NULL, 1, 10, 19, 28),
+	(5, 2, 'Y', 'Y', 'Y1', 1, 10, 19, 28),
 	(5, 3, 'W', NULL, NULL, 2, 11, 20, 29),
 	(5, 4, 'W', NULL, NULL, 3, 12, 21, 30),
 	(5, 5, 'GY', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -112,7 +218,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', NULL, NULL, 19, 28, 1, 10),
+	(7, 10, 'R', 'R', 'R1', 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -134,7 +240,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(9, 7, 'W', NULL, NULL, 23, 32, 5, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
-	(9, 10, 'W', 'R', 'R1', NULL, NULL, NULL, NULL),
+	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 2, 'W', 'B', 'B4', NULL, NULL, NULL, NULL),
@@ -162,10 +268,10 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(30, 2, '', NULL, NULL, NULL, NULL, 42, NULL),
 	(30, 3, '', NULL, NULL, NULL, NULL, 43, NULL),
 	(30, 4, '', NULL, NULL, NULL, NULL, 44, NULL),
-	(100, 1, '', 'Y', 'Y1', 41, NULL, NULL, NULL),
-	(100, 2, '', 'Y', 'Y2', 42, NULL, NULL, NULL),
-	(100, 3, '', 'Y', 'Y3', 43, NULL, NULL, NULL),
-	(100, 4, '', 'Y', 'Y4', 44, NULL, NULL, NULL);
+	(100, 1, '', NULL, NULL, 41, NULL, NULL, NULL),
+	(100, 2, '', NULL, NULL, 42, NULL, NULL, NULL),
+	(100, 3, '', NULL, NULL, 43, NULL, NULL, NULL),
+	(100, 4, '', NULL, NULL, 44, NULL, NULL, NULL);
 
 -- Dumping structure for πίνακας adise23_ludo_game.board_empty
 DROP TABLE IF EXISTS `board_empty`;
@@ -459,10 +565,13 @@ CREATE PROCEDURE `check_winner`()
 BEGIN
 DECLARE count_r_win_pieces INT;
 DECLARE count_y_win_pieces INT;
+DECLARE count_b_win_pieces INT;
+DECLARE count_g_win_pieces INT;
 
     SELECT DISTINCT COUNT(*) INTO count_y_win_pieces FROM yellow_win_pieces  ;
     SELECT DISTINCT COUNT(*) INTO count_r_win_pieces FROM red_win_pieces   ;
-
+ SELECT DISTINCT COUNT(*) INTO count_b_win_pieces FROM blue_win_pieces  ;
+    SELECT DISTINCT COUNT(*) INTO count_g_win_pieces FROM green_win_pieces   ;
     
         
 
@@ -474,7 +583,13 @@ IF count_r_win_pieces=4 THEN
 UPDATE game_status SET `status` ='ended' , result='R';
 END IF;
 
+IF count_b_win_pieces=4 THEN
+UPDATE game_status SET `status` ='ended' , result='B';
+END IF;
 
+IF count_g_win_pieces=4 THEN
+UPDATE game_status SET `status` ='ended' , result='G';
+END IF;
 
 END//
 DELIMITER ;
@@ -494,15 +609,26 @@ BEGIN
         (2,2,5,2,NULL,'Y',0,'Y3'),
         (3,2,5,2,NULL,'Y',0,'Y4'),
         
+        (2, 10, 2, 7,NULL, 'G', 0, 'G1'),
+		  (3, 10, 2, 7,NULL, 'G', 0, 'G2'),
+		  (2, 9, 2, 7,NULL, 'G', 0, 'G3'),
+		  (3, 9, 2, 7,NULL, 'G', 0, 'G4'),
+		  
+		          (9, 3, 10, 5,NULL, 'B', 0, 'B1'),
+		  (10, 3, 10, 5,NULL, 'B', 0, 'B2'),
+		  (9, 2, 10, 5,NULL, 'B', 0, 'B3'),
+		  (10, 2, 10, 5,NULL, 'B', 0, 'B4'),
+        
  (9,10,7,10,NULL,'R',0,'R1'),
         (10,10,7,10,NULL,'R',0,'R2'),
         (9,9,7,10,NULL,'R',0,'R3'),
-        (10,9,7,10,NULL,'R',0,'R4')
-	
-		  ;
+        (10,9,7,10,NULL,'R',0,'R4');
+			  
    	DELETE FROM missing_pieces;
    		DELETE FROM yellow_win_pieces;
    		DELETE FROM red_win_pieces;
+   				DELETE FROM green_win_pieces;
+   		DELETE FROM blue_win_pieces;
 END//
 DELIMITER ;
 
@@ -531,17 +657,25 @@ CREATE TABLE IF NOT EXISTS `dice` (
   PRIMARY KEY (`piece`,`created_at`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.dice: ~8 rows (approximately)
+-- Dumping data for table adise23_ludo_game.dice: ~16 rows (approximately)
 DELETE FROM `dice`;
 INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`, `prev_path`, `new_path`) VALUES
-	(9, 10, 7, 10, '2023-12-24 10:53:34', 'R', 'R1', 6, NULL, 1),
-	(10, 10, 7, 10, '2023-12-24 10:53:34', 'R', 'R2', 6, NULL, 1),
-	(9, 9, 7, 10, '2023-12-24 10:53:34', 'R', 'R3', 6, NULL, 1),
-	(10, 9, 7, 10, '2023-12-24 10:53:34', 'R', 'R4', 6, NULL, 1),
-	(100, 1, 100, 1, '2023-12-24 10:53:34', 'Y', 'Y1', 6, 41, 41),
-	(100, 2, 100, 2, '2023-12-24 10:53:34', 'Y', 'Y2', 6, 42, 42),
-	(100, 3, 100, 3, '2023-12-24 10:53:34', 'Y', 'Y3', 6, 43, 43),
-	(3, 2, 5, 2, '2023-12-24 10:53:34', 'Y', 'Y4', 6, NULL, 1);
+	(9, 3, 10, 5, '2023-12-24 13:26:57', 'B', 'B1', 5, NULL, 1),
+	(10, 3, 10, 5, '2023-12-24 13:26:57', 'B', 'B2', 5, NULL, 1),
+	(9, 2, 10, 5, '2023-12-24 13:26:57', 'B', 'B3', 5, NULL, 1),
+	(10, 2, 10, 5, '2023-12-24 13:26:57', 'B', 'B4', 5, NULL, 1),
+	(2, 10, 2, 7, '2023-12-24 13:26:57', 'G', 'G1', 5, NULL, 1),
+	(3, 10, 2, 7, '2023-12-24 13:26:57', 'G', 'G2', 5, NULL, 1),
+	(2, 9, 2, 7, '2023-12-24 13:26:57', 'G', 'G3', 5, NULL, 1),
+	(3, 9, 2, 7, '2023-12-24 13:26:57', 'G', 'G4', 5, NULL, 1),
+	(9, 10, 7, 10, '2023-12-24 13:26:57', 'R', 'R1', 5, NULL, 1),
+	(10, 10, 7, 10, '2023-12-24 13:26:57', 'R', 'R2', 5, NULL, 1),
+	(9, 9, 7, 10, '2023-12-24 13:26:57', 'R', 'R3', 5, NULL, 1),
+	(10, 9, 7, 10, '2023-12-24 13:26:57', 'R', 'R4', 5, NULL, 1),
+	(5, 2, 2, 5, '2023-12-24 13:26:57', 'Y', 'Y1', 5, 1, 6),
+	(3, 3, 5, 2, '2023-12-24 13:26:57', 'Y', 'Y2', 5, NULL, 1),
+	(2, 2, 5, 2, '2023-12-24 13:26:57', 'Y', 'Y3', 5, NULL, 1),
+	(3, 2, 5, 2, '2023-12-24 13:26:57', 'Y', 'Y4', 5, NULL, 1);
 
 -- Dumping structure for πίνακας adise23_ludo_game.error_log
 DROP TABLE IF EXISTS `error_log`;
@@ -567,7 +701,9 @@ BEGIN
 
     -- Declare a cursor to select all possible pieces
     DECLARE allPiecesCursor CURSOR FOR
-        SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
+        SELECT 'G1' UNION SELECT 'G2' UNION SELECT 'G3' UNION SELECT 'G4'
+        UNION SELECT 'B1' UNION SELECT 'B2' UNION SELECT 'B3' UNION SELECT 'B4'
+      UNION  SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
         UNION SELECT 'R1' UNION SELECT 'R2' UNION SELECT 'R3' UNION SELECT 'R4';
         
     -- Use a NOT FOUND handler to exit the loop
@@ -580,11 +716,8 @@ BEGIN
         -- Fetch the next piece
         FETCH allPiecesCursor INTO winPiece;
         
-   -- an ta pionia einai stis krifes theseis     
-  IF NOT EXISTS (SELECT 1 FROM yellow_win_pieces WHERE piece = winPiece  ) THEN
-    
-
-        -- Check if x is 100, then insert into yellow_win_pieces table
+   -- an ta KITRINA pionia einai stis krifes theseis     
+  IF NOT EXISTS (SELECT 1 FROM yellow_win_pieces WHERE piece = winPiece  ) THEN    
  
             IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 100 AND y = 1 )) THEN
             INSERT INTO yellow_win_pieces (piece, piece_color,id) VALUES ('Y1', 'Y',1);
@@ -601,6 +734,24 @@ BEGIN
         END IF;
         
         
+           -- an ta MPLE pionia einai stis krifes theseis     
+  IF NOT EXISTS (SELECT 1 FROM blue_win_pieces WHERE piece = winPiece  ) THEN    
+ 
+            IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND y = 1 )) THEN
+            INSERT INTO blue_win_pieces (piece, piece_color,id) VALUES ('B1', 'B',1);
+        END IF;
+            IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND Y =   2 )) THEN
+            INSERT INTO blue_win_pieces (piece, piece_color,id) VALUES ('B2', 'B',2);
+        END IF; 
+		      IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND Y = 3 )) THEN
+            INSERT INTO blue_win_pieces (piece, piece_color,id) VALUES ('B3', 'B',3);
+        END IF;
+            IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND Y = 4 )) THEN
+            INSERT INTO blue_win_pieces (piece, piece_color,id) VALUES ('B4', 'B',4);
+        END IF;
+        END IF;
+        
+         -- an ta KOKKINA pionia einai stis krifes theseis   
        IF NOT EXISTS (SELECT 1 FROM red_win_pieces WHERE piece = winPiece  ) THEN  
             IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 30 AND y = 1 )) THEN
             INSERT INTO red_win_pieces (piece, piece_color,id) VALUES ('R1', 'R',1);
@@ -615,6 +766,24 @@ BEGIN
             INSERT INTO red_win_pieces (piece, piece_color,id) VALUES ('R4', 'R',4);
         END IF;
         END IF;
+        
+         -- an ta PRASINA pionia einai stis krifes theseis     
+  IF NOT EXISTS (SELECT 1 FROM green_win_pieces WHERE piece = winPiece  ) THEN    
+ 
+            IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND y = 1 )) THEN
+            INSERT INTO green_win_pieces (piece, piece_color,id) VALUES ('G1', 'G',1);
+        END IF;
+            IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND Y =   2 )) THEN
+            INSERT INTO green_win_pieces (piece, piece_color,id) VALUES ('G2', 'G',2);
+        END IF; 
+		      IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND Y = 3 )) THEN
+            INSERT INTO green_win_pieces (piece, piece_color,id) VALUES ('G3', 'G',3);
+        END IF;
+            IF EXISTS (SELECT 1 FROM board WHERE piece = winPiece AND (X = 20 AND Y = 4 )) THEN
+            INSERT INTO green_win_pieces (piece, piece_color,id) VALUES ('G4', 'G',4);
+        END IF;
+        END IF;
+        
        
 		 CALL check_winner(); 
         
@@ -630,6 +799,106 @@ END
     -- Insert rows into the temporary table//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.G1_dice
+DROP PROCEDURE IF EXISTS `G1_dice`;
+DELIMITER //
+CREATE PROCEDURE `G1_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'G1' ORDER BY `created_at` DESC LIMIT 1 ;
+ 
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G1_highlight
+DROP PROCEDURE IF EXISTS `G1_highlight`;
+DELIMITER //
+CREATE PROCEDURE `G1_highlight`()
+BEGIN
+SELECT b.x, b.y, b.g_path
+FROM board b
+JOIN dice d ON b.g_path >= d.prev_path AND b.g_path <= ( d.new_path)
+WHERE d.piece='G1'
+ORDER BY b.g_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G2_dice
+DROP PROCEDURE IF EXISTS `G2_dice`;
+DELIMITER //
+CREATE PROCEDURE `G2_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'G2' ORDER BY `created_at` DESC LIMIT 1 ;
+ 
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G2_highlight
+DROP PROCEDURE IF EXISTS `G2_highlight`;
+DELIMITER //
+CREATE PROCEDURE `G2_highlight`()
+BEGIN
+SELECT b.x, b.y, b.g_path
+FROM board b
+JOIN dice d ON b.g_path >= d.prev_path AND b.g_path <= ( d.new_path)
+WHERE d.piece='G2'
+ORDER BY b.g_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G3_dice
+DROP PROCEDURE IF EXISTS `G3_dice`;
+DELIMITER //
+CREATE PROCEDURE `G3_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'G3' ORDER BY `created_at` DESC LIMIT 1 ;
+ 
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G3_highlight
+DROP PROCEDURE IF EXISTS `G3_highlight`;
+DELIMITER //
+CREATE PROCEDURE `G3_highlight`()
+BEGIN
+SELECT b.x, b.y, b.g_path
+FROM board b
+JOIN dice d ON b.g_path >= d.prev_path AND b.g_path <= ( d.new_path)
+WHERE d.piece='G3'
+ORDER BY b.g_path ASC; 
+
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G4_dice
+DROP PROCEDURE IF EXISTS `G4_dice`;
+DELIMITER //
+CREATE PROCEDURE `G4_dice`()
+BEGIN
+   SELECT * FROM  dice WHERE piece = 'G4' ORDER BY `created_at` DESC LIMIT 1 ;
+ 
+ 
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.G4_highlight
+DROP PROCEDURE IF EXISTS `G4_highlight`;
+DELIMITER //
+CREATE PROCEDURE `G4_highlight`()
+BEGIN
+SELECT b.x, b.y, b.g_path
+FROM board b
+JOIN dice d ON b.g_path >= d.prev_path AND b.g_path <= ( d.new_path)
+WHERE d.piece='G4'
+ORDER BY b.g_path ASC; 
+
+END//
+DELIMITER ;
+
 -- Dumping structure for πίνακας adise23_ludo_game.game_status
 DROP TABLE IF EXISTS `game_status`;
 CREATE TABLE IF NOT EXISTS `game_status` (
@@ -639,10 +908,22 @@ CREATE TABLE IF NOT EXISTS `game_status` (
   `last_change` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.game_status: ~1 rows (approximately)
+-- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('ended', 'R', 'Y', '2023-12-24 10:55:08');
+	('started', 'B', 'Y', '2023-12-24 15:30:02');
+
+-- Dumping structure for πίνακας adise23_ludo_game.green_win_pieces
+DROP TABLE IF EXISTS `green_win_pieces`;
+CREATE TABLE IF NOT EXISTS `green_win_pieces` (
+  `piece` varchar(50) NOT NULL,
+  `piece_color` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL,
+  PRIMARY KEY (`piece`,`piece_color`,`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table adise23_ludo_game.green_win_pieces: ~0 rows (approximately)
+DELETE FROM `green_win_pieces`;
 
 -- Dumping structure for πίνακας adise23_ludo_game.missing_pieces
 DROP TABLE IF EXISTS `missing_pieces`;
@@ -725,10 +1006,10 @@ CREATE TABLE IF NOT EXISTS `players` (
 -- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	(NULL, 'B', NULL, NULL),
-	('ddd', 'R', '3d8282d9f437d3dd63d003186afea210', '2023-12-24 10:54:00'),
-	(NULL, 'G', NULL, NULL),
-	('y', 'Y', '9f526abb146f9ae9b7185523f6e953bc', '2023-12-24 10:54:06');
+	('b', 'B', 'ff', '2023-12-24 15:18:07'),
+	('fsf', 'R', 'geeg', '2023-12-24 15:29:04'),
+	('deee', 'G', 'ee', '2023-12-24 15:26:16'),
+	(NULL, 'Y', NULL, '2023-12-24 15:29:09');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -865,9 +1146,12 @@ BEGIN
     DECLARE missingPiece VARCHAR(10);
 
     -- Declare a cursor to select all possible pieces
-    DECLARE allPiecesCursor CURSOR FOR
-        SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
+       DECLARE allPiecesCursor CURSOR FOR
+        SELECT 'G1' UNION SELECT 'G2' UNION SELECT 'G3' UNION SELECT 'G4'
+        UNION SELECT 'B1' UNION SELECT 'B2' UNION SELECT 'B3' UNION SELECT 'B4'
+      UNION  SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
         UNION SELECT 'R1' UNION SELECT 'R2' UNION SELECT 'R3' UNION SELECT 'R4';
+        
 
     -- Declare continue handler to exit loop
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
@@ -886,7 +1170,7 @@ BEGIN
             -- Insert the missing piece into the 'missing_pieces' table
             INSERT INTO missing_pieces (missing_piece) VALUES (missingPiece);
          
-			 
+			 -- an efage antipalos  pioni tou kitrinou
 			 
 			    IF missingPiece LIKE 'Y1' THEN
                 -- Move 'Y1' to the board at coordinates (2, 3)
@@ -914,7 +1198,8 @@ BEGIN
 			        SET piece_color='Y', piece= 'Y4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
 					 WHERE  X=3  AND Y=2    ;
 
-          
+       	 -- an efage antipalos  pioni tou kokkinou
+			    
            ELSEIF missingPiece LIKE 'R1' THEN
  UPDATE   board  
                   SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
@@ -936,7 +1221,53 @@ BEGIN
                  SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
 					 WHERE  X=10 AND Y=9    ;
               END IF;
-                     
+                    
+-- an efage antipalos  pioni tou prasinou
+			    
+           ELSEIF missingPiece LIKE 'G1' THEN
+ 				UPDATE   board  
+                  SET piece_color='G', piece= 'G1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=2  AND Y=10    ;
+					 						  
+		           ELSEIF missingPiece LIKE 'G2' THEN
+ 						UPDATE   board  
+                  SET piece_color='G', piece= 'G2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=3  AND Y=10    ;		
+					 
+					   ELSEIF missingPiece LIKE 'G3' THEN
+ 						UPDATE   board  
+                  SET piece_color='G', piece= 'G3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=2  AND Y=9    ;	
+					 
+					  ELSEIF missingPiece LIKE 'G4' THEN
+ 						UPDATE   board  
+                  SET piece_color='G', piece= 'G4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=3  AND Y=9    ;			  
+						  
+						  
+					-- an efage antipalos  pioni tou mple
+			    
+           ELSEIF missingPiece LIKE 'B1' THEN
+ 				UPDATE   board  
+                  SET piece_color='B', piece= 'B1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=9  AND Y=3  ;
+					 						  
+		           ELSEIF missingPiece LIKE 'B2' THEN
+ 						UPDATE   board  
+                  SET piece_color='B', piece= 'B2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=10  AND Y=3    ;		
+					 
+					   ELSEIF missingPiece LIKE 'B3' THEN
+ 						UPDATE   board  
+                  SET piece_color='B', piece= 'B3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=9  AND Y=2    ;	
+					 
+					  ELSEIF missingPiece LIKE 'B4' THEN
+ 						UPDATE   board  
+                  SET piece_color='B', piece= 'B4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					 WHERE  X=10 AND Y=2    ;			  
+						  	  
+						   
       END IF;
                 
  
@@ -963,12 +1294,16 @@ BEGIN
     DECLARE current_y INT;
     DECLARE current_ypath INT;
     DECLARE current_rpath INT;
+      DECLARE current_gpath INT;
+    DECLARE current_bpath INT;
     DECLARE new_x  INT;
     DECLARE new_y  INT;
         DECLARE new_path INT;
          DECLARE prev_path INT;
     DECLARE new_ypath INT;
     DECLARE new_rpath INT;
+        DECLARE new_gpath INT;
+    DECLARE new_bpath INT;
     DECLARE dice_result INT;
     DECLARE generated_dice_result INT;
  
@@ -1259,7 +1594,272 @@ END IF;
      
     END IF;
 END IF;
-         -- CALL Y4_dice();
+ 
+-- pioni 1  tou mple
+WHEN 11 THEN
+            -- Get the current coordinates of the piece
+            SELECT x, y, b_path INTO current_x, current_y, current_bpath
+            FROM board
+            WHERE piece_color = 'B' AND piece = 'B1'; 
+IF (current_bpath IS NULL) THEN
+    SET new_x = 10;
+    SET new_y = 5;
+    SET new_path=1;
+ 
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'B1';
+     
+ELSE
+    SET new_bpath = current_bpath +  @generated_dice_result;
+IF new_bpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE b_path = new_bpath;
+ 
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=new_bpath
+    WHERE piece = 'B1'  ;
+ -- IF new_ypath  = 39 THEN
+ 
+
+
+
+  END IF;
+ 
+ 
+ IF (new_bpath >38 OR (new_x=20 AND new_y=1)) THEN
+    UPDATE dice
+    SET
+    prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 20,
+        new_y = 1,
+        p_turn = 'B',
+       dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=41
+    WHERE piece = 'B1';
+     
+    END IF;
+    
+END IF;
+ 
+-- pioni 2 tou mple
+WHEN 22 THEN
+            -- Get the current coordinates of the piece
+            SELECT x, y, b_path INTO current_x, current_y, current_bpath
+            FROM board
+            WHERE piece_color = 'B' AND piece = 'B2'; 
+IF (current_bpath IS NULL) THEN
+    SET new_x = 10;
+    SET new_y = 5;
+    SET new_path=1;
+    
+  -- call check_spot(new_x, new_y);
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'B2';
+     
+ELSE
+    SET new_bpath = current_bpath +  @generated_dice_result;
+IF new_bpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE b_path = new_bpath;
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=new_bpath
+    WHERE piece = 'B2'  ;
+ 
+  END IF;
+ 
+ 
+ IF (new_bpath >38 OR (new_x=20 AND new_y=2)) THEN
+    UPDATE dice
+    SET
+    prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 20,
+        new_y = 2,
+        p_turn = 'B',
+       dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=42
+    WHERE piece = 'B2';
+     
+    END IF;
+    
+END IF;
+ 
+-- pioni 3 tou mple
+WHEN 33 THEN
+            -- Get the current coordinates of the piece
+            SELECT x, y, b_path INTO current_x, current_y, current_bpath
+            FROM board
+            WHERE piece_color = 'B' AND piece = 'B3'; 
+IF (current_bpath IS NULL) THEN
+    SET new_x = 10;
+    SET new_y = 5;
+    SET new_path=1;
+ 
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'B3';
+     
+ELSE
+    SET new_bpath = current_bpath +  @generated_dice_result;
+IF new_bpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE b_path = new_bpath;
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=new_bpath
+    WHERE piece = 'B3'  ;
+ 
+  END IF;
+ 
+ 
+ IF (new_bpath >38 OR (new_x=20 AND new_y=3)) THEN
+    UPDATE dice
+    SET
+    prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 20,
+        new_y = 3,
+        p_turn = 'B',
+       dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=43
+    WHERE piece = 'B3';
+     
+    END IF;
+    
+END IF;
+ 
+-- pioni 4 tou mple
+WHEN 44 THEN
+            -- Get the current coordinates of the piece
+            SELECT x, y, b_path INTO current_x, current_y, current_bpath
+            FROM board
+            WHERE piece_color = 'B' AND piece = 'B4'; 
+IF (current_bpath IS NULL) THEN
+    SET new_x = 10;
+    SET new_y = 5;
+    SET new_path=1;
+    
+  -- call check_spot(new_x, new_y);
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'B4';
+     
+ELSE
+    SET new_bpath = current_bpath +  @generated_dice_result;
+IF new_bpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE b_path = new_bpath;
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'B',
+        dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=new_bpath
+    WHERE piece = 'B4'  ;
+ 
+
+  END IF;
+ 
+ 
+ IF (new_bpath >38 OR (new_x=20 AND new_y=4)) THEN
+    UPDATE dice
+    SET
+    prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 20,
+        new_y = 4,
+        p_turn = 'B',
+       dice =  @generated_dice_result,
+        prev_path=current_bpath,
+        new_path=44
+    WHERE piece = 'B4';
+     
+    END IF;
+    
+END IF;
+ 
+         -- pioni 1 tou red
         WHEN 111 THEN
         SELECT x, y, r_path INTO current_x, current_y, current_rpath
 FROM board
@@ -1297,7 +1897,7 @@ IF new_rpath <= 39 THEN
 
  
    
-    -- Update the existing record in the dice table
+    
     UPDATE dice
     SET
         prev_x = current_x,
@@ -1325,8 +1925,8 @@ END IF;
      
 END IF;
 END IF;
-         --   CALL R1_dice();
-
+        
+        -- pioni 2 tou red
         WHEN 222 THEN
                 SELECT x, y, r_path INTO current_x, current_y, current_rpath
 FROM board
@@ -1394,8 +1994,8 @@ END IF;
     END IF;
 END IF;
 
-          --  CALL R2_dice();
-
+          
+-- pioni 3 tou red
         WHEN 333 THEN
                 SELECT x, y, r_path INTO current_x, current_y, current_rpath
 FROM board
@@ -1462,7 +2062,7 @@ END IF;
 END IF;
 
              -- CALL R3_dice();
-
+-- pioni 4 tou red
         WHEN 444 THEN
         
                 SELECT x, y, r_path INTO current_x, current_y, current_rpath
@@ -1526,6 +2126,275 @@ END IF;
     
     END IF;
 END IF;
+
+
+
+   -- pioni 1 tou green
+        WHEN 1111 THEN
+        SELECT x, y, g_path INTO current_x, current_y, current_gpath
+FROM board
+WHERE piece_color = 'G' AND piece = 'G1';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_gpath IS NULL) THEN
+    SET new_x = 2;
+    SET new_y = 7;
+      SET new_path=1;
+    
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'G1';
+ELSE
+    SET new_gpath = current_gpath +  @generated_dice_result;
+IF new_gpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE g_path = new_gpath;
+
+ 
+   
+    
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= current_gpath,
+        new_path=new_gpath
+    WHERE piece = 'G1';
+END IF;
+ IF (new_gpath  >38 OR new_x=40    AND new_y=1) THEN
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 40 ,
+        new_y = 1,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path=current_gpath,
+        new_path=41
+    WHERE piece = 'G1';
+     
+END IF;
+END IF;
+ 
+ 
+ 
+   -- pioni 2 tou green
+        WHEN 2222 THEN
+        SELECT x, y, g_path INTO current_x, current_y, current_gpath
+FROM board
+WHERE piece_color = 'G' AND piece = 'G2';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_gpath IS NULL) THEN
+    SET new_x = 2;
+    SET new_y = 7;
+      SET new_path=1;
+    
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'G2';
+ELSE
+    SET new_gpath = current_gpath +  @generated_dice_result;
+IF new_gpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE g_path = new_gpath;
+
+ 
+   
+    
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= current_gpath,
+        new_path=new_gpath
+    WHERE piece = 'G2';
+END IF;
+ IF (new_gpath  >38 OR new_x=40    AND new_y=2) THEN
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 40 ,
+        new_y = 2,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path=current_gpath,
+        new_path=42
+    WHERE piece = 'G2';
+     
+END IF;
+END IF;
+ 
+ 
+ 
+   -- pioni 3 tou green
+        WHEN 3333 THEN
+        SELECT x, y, g_path INTO current_x, current_y, current_gpath
+FROM board
+WHERE piece_color = 'G' AND piece = 'G3';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_gpath IS NULL) THEN
+    SET new_x = 2;
+    SET new_y = 7;
+      SET new_path=1;
+    
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'G3';
+ELSE
+    SET new_gpath = current_gpath +  @generated_dice_result;
+IF new_gpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE g_path = new_gpath;
+
+ 
+   
+    
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= current_gpath,
+        new_path=new_gpath
+    WHERE piece = 'G3';
+END IF;
+ IF (new_gpath  >38 OR new_x=40    AND new_y=3) THEN
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 40 ,
+        new_y = 3,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path=current_gpath,
+        new_path=43
+    WHERE piece = 'G3';
+     
+END IF;
+END IF;
+ 
+ 
+ 
+   -- pioni 4 tou green
+        WHEN 4444 THEN
+        SELECT x, y, g_path INTO current_x, current_y, current_gpath
+FROM board
+WHERE piece_color = 'G' AND piece = 'G4';
+
+        
+-- If the piece exists, calculate the new coordinates
+IF (current_gpath IS NULL) THEN
+    SET new_x = 2;
+    SET new_y = 7;
+      SET new_path=1;
+    
+ 
+    -- Update the existing record in the dice table
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= NULL,
+        new_path=1
+    WHERE piece = 'G4';
+ELSE
+    SET new_gpath = current_gpath +  @generated_dice_result;
+IF new_gpath <= 39 THEN
+    -- Calculate the new coordinates
+    SELECT X, Y INTO new_x, new_y
+    FROM `board`
+    WHERE g_path = new_gpath;
+
+ 
+   
+    
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y,
+        new_x = new_x,
+        new_y = new_y,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path= current_gpath,
+        new_path=new_gpath
+    WHERE piece = 'G4';
+END IF;
+ IF (new_gpath  >38 OR new_x=40    AND new_y=4) THEN
+    UPDATE dice
+    SET
+        prev_x = current_x,
+        prev_y = current_y ,
+        new_x = 40 ,
+        new_y = 4,
+        p_turn = 'G',
+       dice =  @generated_dice_result,
+        prev_path=current_gpath,
+        new_path=44
+    WHERE piece = 'G4';
+     
+END IF;
+END IF;
+ 
        -- CALL R4_dice();
         ELSE
             -- Default case
@@ -1550,17 +2419,31 @@ BEGIN
     SET  generated_dice_result = FLOOR(1 + RAND() * 6);
  SELECT  generated_dice_result ;
  
- 
- CALL roll_dice(1, generated_dice_result);
- 
- CALL roll_dice(2,generated_dice_result);
- 
+ -- prwtos paiktis yellow
+ CALL roll_dice(1, generated_dice_result); 
+ CALL roll_dice(2,generated_dice_result); 
  CALL roll_dice(3, generated_dice_result);
  CALL roll_dice(4, generated_dice_result);
+ 
+ -- paiktis blue
+  CALL roll_dice(11, generated_dice_result); 
+ CALL roll_dice(22,generated_dice_result); 
+ CALL roll_dice(33, generated_dice_result);
+ CALL roll_dice(44, generated_dice_result);
+ 
+ 
+ -- paiktis red
  CALL roll_dice(111, generated_dice_result);
  CALL roll_dice(222, generated_dice_result);
  CALL roll_dice(333, generated_dice_result);
  CALL roll_dice(444, generated_dice_result);
+ 
+ 
+ -- paiktis green
+  CALL roll_dice(1111, generated_dice_result);
+ CALL roll_dice(2222, generated_dice_result);
+ CALL roll_dice(3333, generated_dice_result);
+ CALL roll_dice(4444, generated_dice_result);
  
  
 END//
@@ -1602,39 +2485,182 @@ BEGIN
 DECLARE current_second INT;
  DECLARE count_r INT;
     DECLARE count_y INT;
+     DECLARE count_g INT;
+    DECLARE count_b INT;
+    
+     DECLARE red_exists INT;
+    DECLARE yellow_exists INT;
+     DECLARE green_exists INT;
+    DECLARE blue_exists INT;
+    
+       DECLARE count_players INT;
+    
+
 
     SELECT COUNT(*) INTO count_r FROM game_status WHERE p_turn = 'R';
     SELECT COUNT(*) INTO count_y FROM game_status WHERE p_turn = 'Y';
+     SELECT COUNT(*) INTO count_g FROM game_status WHERE p_turn = 'G';
+    SELECT COUNT(*) INTO count_b FROM game_status WHERE p_turn = 'B';
 
+SELECT COUNT(*) INTO red_exists FROM players WHERE piece_color = 'R' AND username IS NOT NULL;
+SELECT COUNT(*) INTO yellow_exists FROM players WHERE piece_color = 'Y' AND username IS NOT NULL;
+SELECT COUNT(*) INTO green_exists FROM players WHERE piece_color = 'G' AND username IS NOT NULL;
+SELECT COUNT(*) INTO blue_exists FROM players WHERE piece_color = 'B' AND username IS NOT NULL;
+
+SELECT   COUNT(*) INTO count_players  FROM players WHERE   username IS NOT NULL;
+-- meionw kata ena  defterolepto se kathe klisi
     UPDATE timer_table
     SET second = second - 1
     WHERE id = 1;
   
- 
-        IF (SELECT second FROM timer_table WHERE id = 1) <= -1 THEN
-         
-			
-         
-         
+        IF (SELECT second FROM timer_table WHERE id = 1) <= -1 THEN         
         UPDATE timer_table
         SET    minute = 0  ,
             second = 10
         WHERE id = 1;
-        
-           
-    END IF;
-    
-     IF (SELECT second FROM timer_table WHERE id = 1)  = 0 THEN
-     IF count_y = 1  THEN 
-            UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'Y';
-         END IF;
-         
-     IF count_r = 1 THEN         
-   UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
-         END IF;
-
         END IF;
-		  
+    
+    -- an termatisei o xronos
+       IF (SELECT second FROM timer_table WHERE id = 1)  = 0 THEN
+    
+    		-- an einai i seira tou kokkinou
+    		IF(count_r = 1) THEN 
+    
+      		-- an to plithos twn paiktwn einai 2
+    			IF (count_players = 2) THEN
+    	  			 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos kai o kokkinos   
+     				IF (yellow_exists =1)THEN         
+   				UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
+         		END IF;
+ 
+    	 
+    	    		 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi  o kokkinos kai o mple        
+  					IF (blue_exists = 1)THEN         
+   				UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'R';
+         		END IF;
+         
+      		     -- an einai i seira tou kokkinou kai iparxoun sto paixnidi  o kokkinos kai o prasinos      
+  					IF (green_exists = 1)THEN         
+   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+        	   	 END IF;
+         	END IF;
+    	
+ 
+    	
+   			  -- an to plithos twn paiktwn einai 3 enw paizei o kokkinos 
+    			IF (count_players = 3) THEN
+       		 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos   kai o prasinos  
+     				IF (yellow_exists =1 AND green_exists=1)THEN         
+   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+       		   END IF;
+        			  -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos kai mple
+     				IF (yellow_exists =1 AND blue_exists)THEN         
+   				UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
+        			 END IF;
+        			 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o prasinos kai mple
+     				IF (blue_exists =1 AND green_exists)THEN         
+   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+        		   END IF;
+    	      END IF;
+    	
+    	      -- an to plithos twn paiktwn einai 4
+    			IF (count_players = 4 ) THEN
+    	     		 UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+         	END IF;
+	      END IF;
+    
+    
+  			-- an einai i seira tou kitrinou
+      	IF(count_y = 1) THEN 
+      		-- an to plithos twn paiktwn einai 2
+    			IF (count_players = 2) THEN
+    	 	   -- an iparxoun sto paixnidi mono o kitrinos kai o mple enw i seira einai tou kitrinou
+    	 	   IF(blue_exists=1) THEN UPDATE game_status SET p_turn='B' WHERE p_turn='Y';  END IF;
+    	 	   -- an iparxoun sto paixnidi mono o kitrinos kai o kokkinjos enw i seira einai tou kitrinou
+    		  	  IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='Y';  END IF;
+    	  		  -- an iparxoun sto paixnidi mono o kitrinos kai o prasinos enw i seira einai tou kitrinou
+    	  		 IF(green_exists=1) THEN UPDATE game_status SET p_turn='G' WHERE p_turn='Y';  END IF;
+    	   END IF;
+    		
+    	
+          -- an to plithos twn paiktwn einai 3
+        	IF (count_players = 3) THEN
+    			 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o mple kai prasinos  
+     			IF (blue_exists =1 AND green_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y'; END IF;
+       		 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o mple kai kokkinos  
+     			IF (blue_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y'; END IF; 
+				 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o kokkinos kai prasinos  
+     			IF (red_exists =1 AND green_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'Y'; END IF;
+    	   END IF;
+    	
+       -- an to plithos twn paiktwn einai 4
+    			IF (count_players = 4 ) THEN
+    	   		UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y';
+    			END IF;
+	 END IF;
+	 
+  -- an einai i seira tou prasinou
+    IF(count_g = 1) THEN 
+          -- an to plithos twn paiktwn einai 2
+    	IF (count_players = 2) THEN
+    	     -- an iparxoun sto paixnidi mono o  PRASINOS kai o mple enw i seira einai tou PRASINOU
+    	    IF(blue_exists=1) THEN UPDATE game_status SET p_turn='B' WHERE p_turn='G';  END IF;
+    	    -- an iparxoun sto paixnidi mono o PRASINOS kai o kokkinjos enw i seira einai tou  PRASINOU
+    	    IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='G';  END IF;
+    	    -- an iparxoun sto paixnidi mono o PRASINOS kai o KITRINOS enw i seira einai tou PRASINOU
+    	    IF(yellow_exists=1) THEN UPDATE game_status SET p_turn='Y' WHERE p_turn='G';  END IF;
+    	END IF;
+    	
+     -- an to plithos twn paiktwn einai 3
+    	IF (count_players = 3) THEN
+    		 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o mple kai kitrinos
+     		IF (blue_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
+       	 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o mple kai kokkinos  
+     		IF (blue_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'G'; END IF; 
+			 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o kokkinos kai kitrinos
+     		IF (red_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
+    	END IF;
+    	
+    	      -- an to plithos twn paiktwn einai 4
+    	IF (count_players = 4 ) THEN
+    	    UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
+    	END IF;
+ 
+ 
+	 
+ -- an einai i seira tou mple
+    IF(count_b = 1) THEN 
+          -- an to plithos twn paiktwn einai 2
+    	IF (count_players = 2) THEN
+         
+    	     -- an iparxoun sto paixnidi mono o  PRASINOS kai o mple enw i seira einai tou mple
+    	    IF(green_exists=1) THEN UPDATE game_status SET p_turn='G' WHERE p_turn='B';  END IF;
+    	    -- an iparxoun sto paixnidi mono o mple kai o kokkinjos enw i seira einai tou  mple
+    	    IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='B';  END IF;
+    	    -- an iparxoun sto paixnidi mono o mple kai o KITRINOS enw i seira einai tou mple
+    	    IF(yellow_exists=1) THEN UPDATE game_status SET p_turn='Y' WHERE p_turn='B';  END IF;
+    	END IF;
+   
+    	
+     -- an to plithos twn paiktwn einai 3
+    	IF (count_players = 3) THEN
+    		 -- an einai i seira tou mple kai iparxoun sto paixnidi kai o prasinos kai kitrinos
+     		IF (green_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'B'; END IF;
+       	 -- an einai i seira tou mple  kai iparxoun sto paixnidi kai o PRASINOS kai kokkinos  
+     		IF (green_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B'; END IF; 
+			 -- an einai i seira tou mple  kai iparxoun sto paixnidi kai o kokkinos kai kitrinos
+     		IF (red_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B'; END IF;
+    	END IF;
+    	
+    	      -- an to plithos twn paiktwn einai 4
+    	IF (count_players = 4 ) THEN
+    	    UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B';  
+    	END IF;
+	 END IF;
+ 
+ 
+ 
+      END IF;   
 END//
 DELIMITER ;
 
@@ -1790,13 +2816,8 @@ CREATE TABLE IF NOT EXISTS `yellow_win_pieces` (
   PRIMARY KEY (`piece`,`piece_color`,`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table adise23_ludo_game.yellow_win_pieces: ~4 rows (approximately)
+-- Dumping data for table adise23_ludo_game.yellow_win_pieces: ~0 rows (approximately)
 DELETE FROM `yellow_win_pieces`;
-INSERT INTO `yellow_win_pieces` (`piece`, `piece_color`, `id`) VALUES
-	('Y1', 'Y', 1),
-	('Y2', 'Y', 2),
-	('Y3', 'Y', 3),
-	('Y4', 'Y', 4);
 
 -- Dumping structure for trigger adise23_ludo_game.game_status_update
 DROP TRIGGER IF EXISTS `game_status_update`;
