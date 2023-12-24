@@ -518,9 +518,22 @@ function fill_board_by_data(data) {
  
       function update_info(){
         return_losers_home();
+
+        if (game_status.status!=='ended'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.'  );
-            
+        }else{
+            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '  );
+         if(game_status.result==='Y'){
+            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'YELLOW PLAYER WINS.');  
+         }
+         if(game_status.result==='R'){
+            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'RED PLAYER WINS.');   
+         }
+        }
             
         }
    
