@@ -52,6 +52,11 @@ function update_game_status() {
 				if($status['p_turn']==null) {//ξεκινα παντα ο μπλε 
 					$new_turn='Y'; // It was not started before...
 				}
+				//if($status['p_turn']=='Y'){
+			//		$new_turn='R';
+				//}if($status['p_turn']=='R'){
+				//	$new_turn='Y';
+			//	}
 				break;
 	}
 //για πολλα παιχνιδια εδω πρεπει να χω ενα where game id = ..

@@ -18,7 +18,9 @@ $(function(){
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
- 
+    $('#resetButton').click(reset_timer);
+
+    $('#resetButton').click(reset_timer);
 
     $('#do_move').click(do_move);
     $('#move_div').hide();
@@ -33,68 +35,7 @@ $(function(){
 	//$('#do_move2').click( do_move2);
 });
 
-
-// var time = document.getElementById("time");
-// var minute = document.getElementById("min");
-// var second = document.getElementById("sec");
-// var startButton = document.getElementById("start");
-// var resetButton = document.getElementById("reset");
-// var seti = undefined;
-// var mm = "25";
-// var ss = "00";
-// 
-// startButton.addEventListener("click", function start () {
-//   if (startButton.innerHTML === "START") {
-//     startButton.innerHTML = "PAUSE";
-//     mm = minute.value;
-//     ss = second.value;
-//     if (minute.value === "") minute.value = "00";
-//     if (second.value === "") second.value = "00";
-//     minute.setAttribute("disabled", true);
-//     second.setAttribute("disabled", true);
-//     seti = setInterval(function () {
-//       if (second.value > 0) {
-//         second.value -= 1;
-//         if (second.value < 10 && second.value >= 0) {
-//           second.value = "0" + second.value;
-//         }
-//       }
-//       else if (minute.value > 0) {
-//         second.value = "59";
-//         minute.value -= 1;
-//         if (minute.value < 10 && minute.value >= 0) {
-//           minute.value = "0" + minute.value;
-//         }
-//       }
-//       else {
-//         clearInterval(seti);
-//         document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
-//         setTimeout(function() {
-//           alert("Time Out !");
-//           res();
-//         }, 100);
-//       }
-//     }, 1000);
-//   }
-//   else {
-//     minute.removeAttribute("disabled");
-//     second.removeAttribute("disabled");
-//     startButton.innerHTML = "START";
-//     clearInterval(seti);
-//   }
-// });
-// 
-// resetButton.addEventListener("click", res);
-// 
-// function res() {
-//   clearInterval(seti);
-//   minute.value = mm;
-//   second.value = ss;
-//   minute.removeAttribute("disabled");
-//   second.removeAttribute("disabled");
-//   startButton.innerHTML = "START";
-//   document.body.style.backgroundImage = "linear-gradient(to top left, #2980b9, #9b59b6)";
-// }  
+ 
 
 function fetchTimerValue() {
     $.ajax({
@@ -114,7 +55,42 @@ function fetchTimerValue() {
                       document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
     setTimeout(function() {
                    alert("Time Out !");
-                    res();
+                
+                 if(  game_status.p_turn === 'R') {
+                    game_status.p_turn = 'Y';
+                    
+                    var theMoveInput = document.getElementById("the_move");
+
+          // Clear the input value
+          return_losers_home();
+          fill_board();
+
+          theMoveInput.value = "";
+            $('#move_div_roll').hide(5000);
+          $('#move_div').hide(5000);
+           
+          //  fill_red_lost();
+          //  fill_yellow_lost();
+         timer=setTimeout(function() { game_status_update();}, 4000);
+                };
+                 if(  game_status.p_turn === 'Y') {
+                    game_status.p_turn = 'R';
+                    
+                    var theMoveInput = document.getElementById("the_move");
+
+          // Clear the input value
+          return_losers_home();
+          fill_board();
+
+          theMoveInput.value = "";
+            $('#move_div_roll').hide(5000);
+          $('#move_div').hide(5000);
+           
+          //  fill_red_lost();
+          //  fill_yellow_lost();
+         timer=setTimeout(function() { game_status_update();}, 4000);
+                };
+                     
                       }, 100);
      }
   
@@ -137,6 +113,8 @@ function startTimer() {
         fetchTimerValue();
     }, 1000);
 }
+
+
 
 var time = document.getElementById("time");
 var minute = document.getElementById("min");
@@ -164,8 +142,10 @@ startButton.addEventListener("click", function () {
     }
 });
 
+
+function reset_timer(){
 // Event listener for the reset button
-resetButton.addEventListener("click", function () {
+ 
     clearInterval(seti);
     // Reset the timer value
     fetchTimerValue();
@@ -173,12 +153,13 @@ resetButton.addEventListener("click", function () {
     second.removeAttribute("disabled");
     startButton.innerHTML = "START";
     document.body.style.backgroundImage = "linear-gradient(to top left, #2980b9, #9b59b6)";
-});
+ 
 
 // Fetch the initial timer value when the page loads
 document.addEventListener("DOMContentLoaded", function () {
     fetchTimerValue();
 });
+}
 
 function roll_dice(){
     
@@ -414,6 +395,7 @@ function reset_board() {
 	$('#move_div').hide();
     $('#move_div_roll').hide(); 
 	$('#game_initializer').show(2000);
+    reset_timer();
 
     //reload ta pieces
     $('#red_win_pieces').empty();
@@ -506,8 +488,8 @@ function fill_board_by_data(data) {
           fill_board();
           $('#move_div_roll').show(1000);
            $('#move_div').show(1000);
-
-          
+           reset_timer();
+          startTimer();
          //  fill_red_lost();
           // fill_yellow_lost();
            timer=setTimeout(function() { game_status_update();}, 4000);
