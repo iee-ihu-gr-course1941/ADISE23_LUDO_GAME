@@ -30,6 +30,8 @@
 </section>
 <div id='yellow_win_pieces'></div>
         <div id='red_win_pieces'></div>
+        <div id='green_win_pieces'></div>
+        <div id='blue_win_pieces'></div>
         <div id='ludo_board'></div>
         <div id="imageContainer">  </div>
 
