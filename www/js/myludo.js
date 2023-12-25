@@ -28,11 +28,6 @@ $('#play').click(play);
     $('#move_div_roll').hide();
     $('YY1.png').click(roll_dice_Y1);
  
-
-   
-
-   // $('#the_move_src').change( update_moves_selector);
-	//$('#do_move2').click( do_move2);
 });
 
  
@@ -54,11 +49,8 @@ function fetchTimerValue() {
                     clearInterval(seti);
                       document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
     setTimeout(function() {
-                   alert("Time Out !");
-                
-                 if(  game_status.p_turn === 'R') {
+                   alert("Time Out !");          
                     game_status.p_turn = 'Y';
-                    
                     var theMoveInput = document.getElementById("the_move");
 
           // Clear the input value
@@ -68,31 +60,10 @@ function fetchTimerValue() {
           theMoveInput.value = "";
             $('#move_div_roll').hide(5000);
           $('#move_div').hide(5000);
-           
-          //  fill_red_lost();
-          //  fill_yellow_lost();
+  
          timer=setTimeout(function() { game_status_update();}, 4000);
-                };
-                 if(  game_status.p_turn === 'Y') {
-                    game_status.p_turn = 'R';
-                    
-                    var theMoveInput = document.getElementById("the_move");
-
-          // Clear the input value
-          return_losers_home();
-          fill_board();
-
-          theMoveInput.value = "";
-            $('#move_div_roll').hide(5000);
-          $('#move_div').hide(5000);
-           
-          //  fill_red_lost();
-          //  fill_yellow_lost();
-         timer=setTimeout(function() { game_status_update();}, 4000);
-                };
-                     
-                      }, 100);
-     }
+               ;
+          }, 100); }
   
             } else {
                 console.error('Invalid data received from the server.');
@@ -177,9 +148,13 @@ headers: { "X-Token": me.token },
             $("#diceResult").text("Dice Result: " +data[0].generated_dice_result); 
                if (game_status.p_turn == 'Y') {
                  makeImagesClickableY();
-  } else {
+  } else if (game_status.p_turn == 'R'){
      makeImagesClickableR();
-  }
+  } else if (game_status.p_turn == 'G'){
+    makeImagesClickableG();
+ } else if (game_status.p_turn == 'B'){
+    makeImagesClickableB();
+ }
 
           
      },
@@ -211,11 +186,15 @@ headers: { "X-Token": me.token },
         console.log("Success Response:", data);
         
             $("#diceResult").text("Dice Result: " +data[0].generated_dice_result); 
-               if (game_status.p_turn == 'Y') {
-                 makeImagesClickableY();
-  } else {
-     makeImagesClickableR();
-  }
+            if (game_status.p_turn == 'Y') {
+                makeImagesClickableY();
+ } else if (game_status.p_turn == 'R'){
+    makeImagesClickableR();
+ } else if (game_status.p_turn == 'G'){
+   makeImagesClickableG();
+} else if (game_status.p_turn == 'B'){
+   makeImagesClickableB();
+}
   $('#dice')
     setTimeout(function(){
       $('#platform').removeClass('playing').addClass('stop');
@@ -298,8 +277,62 @@ function checkYYImagesBeforeMove() {
         return { hasYYImage: false, imageName: null };
     }}
  
+    //methodos elegxou iparksis prasinwn pioniwn sto destination pioniou  pou paizei
+function checkGGImagesBeforeMove() {
+    // Extract the last 2 digits from the input #the_move
+    var moveInputValue = $('#the_move').val().trim();
+    var moveValues = moveInputValue.split(/\s+/);
 
+            
+    var x = moveValues[2];
+    var y = moveValues[3];
 
+    // Build the square ID
+    var squareId = 'square_' + x + '_' + y  ;
+    var tdElement = $('#square_' + x + '_' + y  );
+
+    var imageName = $(tdElement).find('img').attr('src'); // image source
+    
+    // elegxos an ksekina to image me GG
+    if (imageName && imageName.startsWith('images/GG')) {
+       
+
+    
+        console.log('Image with src starting with "GG" exists!YOU CANT MOVE');
+        return { hasGGImage: true, imageName: imageName };
+    } else {
+        // There is no such image inside the <td>
+        console.log('No image with src starting with "GG" found.');
+        return { hasGGImage: false, imageName: null };
+    }}
+  //methodos elegxou iparksis MPLE pioniwn sto destination pioniou  pou paizei
+    function checkBBImagesBeforeMove() {
+        // Extract the last 2 digits from the input #the_move
+        var moveInputValue = $('#the_move').val().trim();
+        var moveValues = moveInputValue.split(/\s+/);
+    
+                
+        var x = moveValues[2];
+        var y = moveValues[3];
+    
+        // Build the square ID
+        var squareId = 'square_' + x + '_' + y  ;
+        var tdElement = $('#square_' + x + '_' + y  );
+    
+        var imageName = $(tdElement).find('img').attr('src'); // image source
+        
+        // elegxos an ksekina to image me BB
+        if (imageName && imageName.startsWith('images/BB')) {
+           
+    
+        
+            console.log('Image with src starting with "BB" exists!YOU CANT MOVE');
+            return { hasBBImage: true, imageName: imageName }; //EPISTREFW OBJECT ME 2 VALUES
+        } else {
+            // There is no such image inside the <td>
+            console.log('No image with src starting with "BB" found.');
+            return { hasBBImage: false, imageName: null };
+        }}
 
 //methodos elegxou iparksis kokkinwn pioniwn sto destination pioniou  pou paizei
     function checkRRImagesBeforeMove() {
@@ -397,6 +430,8 @@ function reset_board() {
     //reload ta pieces
     $('#red_win_pieces').empty();
     $('#yellow_win_pieces').empty();
+    $('#green_win_pieces').empty();
+    $('#blue_win_pieces').empty();
 
 }
 
@@ -406,6 +441,8 @@ function fill_board_by_data(data) {
     return_losers_home();
     fill_red_win();
     fill_yellow_win();
+    fill_green_win();
+    fill_blue_win();
    // fill_red_win();
    // fill_yellow_win();
     board=data;
@@ -477,6 +514,8 @@ function fill_board_by_data(data) {
          if(game_stat_old.p_turn!=game_status.p_turn) {
             fill_red_win();
             fill_yellow_win();
+            fill_green_win();
+            fill_blue_win();
           return_losers_home();    
             fill_board();
           
@@ -484,6 +523,8 @@ function fill_board_by_data(data) {
           }
           fill_red_win();
           fill_yellow_win();
+          fill_green_win();
+          fill_blue_win();
           return_losers_home();
           fill_board();
           $('#play').prop('disabled', false);
@@ -523,8 +564,7 @@ function fill_board_by_data(data) {
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.'  );
         }else{
-            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
-            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '  );
+         
          if(game_status.result==='Y'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'YELLOW PLAYER WINS.');  
@@ -532,6 +572,14 @@ function fill_board_by_data(data) {
          if(game_status.result==='R'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'RED PLAYER WINS.');   
+         }
+         if(game_status.result==='G'){
+            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'GREEN PLAYER WINS.');  
+         }
+         if(game_status.result==='B'){
+            $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
+            +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'BLUE PLAYER WINS.');   
          }
         }
             
@@ -546,21 +594,27 @@ function fill_board_by_data(data) {
              //   alert('Must give 4 numbers');
                 return;
             }
-
+// elegxos iparksis pioniwn sto destination me ti xrisi twn check methodwn poy epistrefoun obj me 2 values(mia boolean gia tin iparksi kai mia poy leei pio pioni iparxei)
             var result_Y = checkYYImagesBeforeMove();
             var result_R = checkRRImagesBeforeMove();
+            var result_G = checkGGImagesBeforeMove();
+            var result_B = checkBBImagesBeforeMove();
 
 
             var hasYYImage =result_Y.hasYYImage;
             var hasRRImage=result_R.hasRRImage;
+            var hasGGImage =result_G.hasGGImage;
+            var hasBBImage=result_B.hasBBImage;
 
             var imageY= result_Y.imageName;
             var imageR= result_R.imageName;
+            var imageG= result_G.imageName;
+            var imageB= result_B.imageName;
 
 
 
             //elegxw ama o paiktis pou paizei exei diko tou pioni sti thesi pou thelei na paei an oxi kanei thn kinisi
-            if (hasYYImage === false && game_status.p_turn === 'Y' || hasRRImage === false && game_status.p_turn === 'R') {
+            if (hasYYImage === false && game_status.p_turn === 'Y' || hasRRImage === false && game_status.p_turn === 'R'||hasGGImage === false && game_status.p_turn === 'G' || hasBBImage === false && game_status.p_turn === 'B') {
                 $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
                     method: 'PUT',
                     dataType: "json",
@@ -578,7 +632,28 @@ function fill_board_by_data(data) {
             alert('ILLEGAL MOVE!');
         }
                 var imageContainer = $("#imageContainer");
-
+        //elegxw an o kitrinos paei na faei pioni tou mple
+        if (hasBBImage === true && game_status.p_turn === 'Y'){
+            alert('FAGATE TO PIONI TOU mple! EPISTREFEI STIN ARXIKI THESI');
+            
+return_losers_home();
+fill_board();
+}
+        //elegxw an o kitrinos paei na faei pioni tou prasinou
+        if (hasGGImage === true && game_status.p_turn === 'Y'){
+            alert('FAGATE TO PIONI TOU prasinou! EPISTREFEI STIN ARXIKI THESI');
+            
+return_losers_home();
+fill_board();
+}
+      //elegxw an o kitrinos paei na faei pioni tou kokkinou
+      if (hasRRImage === true && game_status.p_turn === 'Y') {
+        alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+          
+        return_losers_home();
+        fill_board();
+ 
+    }
 
         //elegxw an o kokkinos paei na faei pioni tou kitrinou
         if (hasYYImage === true && game_status.p_turn === 'R'){
@@ -586,21 +661,65 @@ function fill_board_by_data(data) {
                        
         return_losers_home();
         fill_board();
-    //       fill_red_win();
-       //     fill_yellow_win();
         }
-        
-      //elegxw an o kitrinos paei na faei pioni tou kokkinou
-    if (hasRRImage === true && game_status.p_turn === 'Y') {
-        alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
-          
-        return_losers_home();
-        fill_board();
 
-     //      fill_red_win();
-      // fill_yellow_win();
-    //  $("#imageContainer").append(`<img src="${imageR}"  >`);
-    }
+                //elegxw an o kokkinos paei na faei pioni tou mple
+                if (hasBBImage === true && game_status.p_turn === 'R'){
+                    alert('FAGATE TO PIONI TOU mple! EPISTREFEI STIN ARXIKI THESI');
+                    
+     return_losers_home();
+     fill_board();
+     }
+      //elegxw an o kokkinos paei na faei pioni tou prasinou
+     if (hasGGImage === true && game_status.p_turn === 'R'){
+            alert('FAGATE TO PIONI TOU prasinou! EPISTREFEI STIN ARXIKI THESI');
+                    
+     return_losers_home();
+     fill_board();
+     }
+           //elegxw an o mple paei na faei pioni tou kitrinou
+           if (hasYYImage === true && game_status.p_turn === 'B'){
+            alert('FAGATE TO PIONI TOU kitrinou! EPISTREFEI STIN ARXIKI THESI');
+                    
+     return_losers_home();
+     fill_board();
+     }
+             //elegxw an o mple paei na faei pioni tou prasinou
+             if (hasGGImage === true && game_status.p_turn === 'B'){
+                alert('FAGATE TO PIONI TOU prasinou! EPISTREFEI STIN ARXIKI THESI');
+                        
+         return_losers_home();
+         fill_board();
+         }      
+                    //elegxw an o mple paei na faei pioni tou kokkinou
+                    if (hasRRImage === true && game_status.p_turn === 'B'){
+                        alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+                                
+                 return_losers_home();
+                 fill_board();
+                 }
+    //elegxw an o prasinos paei na faei pioni tou kokkinou
+    if (hasRRImage === true && game_status.p_turn === 'G'){
+         alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+                                            
+        return_losers_home();
+    fill_board();
+                             }
+        //elegxw an o prasinos paei na faei pioni tou mple
+        if (hasBBImage === true && game_status.p_turn === 'G'){
+            alert('FAGATE TO PIONI TOU mple! EPISTREFEI STIN ARXIKI THESI');
+                                               
+           return_losers_home();
+       fill_board();
+                                }
+                                    //elegxw an o prasinos paei na faei pioni tou kitrinou
+    if (hasYYImage === true && game_status.p_turn === 'G'){
+        alert('FAGATE TO PIONI TOU kitrinou! EPISTREFEI STIN ARXIKI THESI');
+                                           
+       return_losers_home();
+   fill_board();
+                            }
+
 }
    
 function return_losers_home(){
@@ -654,6 +773,67 @@ function fill_red_win() {
         }
     });
 }
+function fill_green_win() {
+    $.ajax({
+        url: "ludo.php/green_win_pieces",
+        method: 'GET',
+        dataType: "json",
+        contentType: 'application/json',
+        data: { action: 'fill_green_win_pieces' },
+        headers: { "X-Token": me.token },
+        success: function (response) {
+            var container = $('#green_win_pieces');
+            
+            // Clear the existing images
+            container.empty();
+
+            // Check if response has pieceValues and it's an array
+            if (response.pieceValues && Array.isArray(response.pieceValues)) {
+                // Iterate through the pieces and add new images
+                $.each(response.pieceValues, function (index, pieceValue) {
+                    var imageUrl = 'images/G' + pieceValue + '.png';
+                    container.append('<img src="' + imageUrl + '" alt="' + pieceValue + '">');
+                });
+            } else {
+                console.error("Pieces not found");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error Response:", xhr.responseText);
+        }
+    });
+}
+
+function fill_blue_win() {
+    $.ajax({
+        url: "ludo.php/blue_win_pieces",
+        method: 'GET',
+        dataType: "json",
+        contentType: 'application/json',
+        data: { action: 'fill_blue_win_pieces' },
+        headers: { "X-Token": me.token },
+        success: function (response) {
+            var container = $('#blue_win_pieces');
+            
+            // Clear the existing images
+            container.empty();
+
+            // Check if response has pieceValues and it's an array
+            if (response.pieceValues && Array.isArray(response.pieceValues)) {
+                // Iterate through the pieces and add new images
+                $.each(response.pieceValues, function (index, pieceValue) {
+                    var imageUrl = 'images/B' + pieceValue + '.png';
+                    container.append('<img src="' + imageUrl + '" alt="' + pieceValue + '">');
+                });
+            } else {
+                console.error("Pieces not found");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Error Response:", xhr.responseText);
+        }
+    });
+}
 
    function fill_yellow_win(){
     $.ajax({
@@ -688,7 +868,7 @@ function fill_red_win() {
         }
     } );
    }
-
+//oi functions roll_dice gia kathe piece epistrefoun tis sintetagmenes me vasi to zari kai fwtismeno to path
 function roll_dice_Y1() {
     $.ajax({
         url: "ludo.php/rollY1",
@@ -707,13 +887,15 @@ function roll_dice_Y1() {
          
                 // Check if the dice result is 6
                 if ('dice' in data && data[data.length - 1].dice === 6) {
-                   makeImagesClickableY();
-                   makeImagesUnclickableR();
+                    makeImagesClickableY();
+                    makeImagesUnclickableB();
+                    makeImagesUnclickableR();
+                    makeImagesUnclickableG();
                } else {
-                  makeImagesClickableY();
-
-                   makeImagesUnclickableR();
-             //    do_move();
+                makeImagesClickableY();
+                makeImagesUnclickableB();
+                makeImagesUnclickableR();
+                makeImagesUnclickableG();
                }
               $("#the_move").val(
                   " " + data[data.length - 1].prev_x +
@@ -725,14 +907,12 @@ function roll_dice_Y1() {
             
           } else {
               console.error("Invalid dice result:", data);
-              // Handle the case where 'dice' is not present or invalid
+            
           }
       },
       error: function (xhr, status, error) {
-          // Handle the error response
           console.error("Error Response:", xhr.responseText);
-          // You might want to handle errors and display an appropriate message
-      }
+          }
       }); 
        $.ajax({
          url: "ludo.php/highlightY1",
@@ -749,7 +929,7 @@ function roll_dice_Y1() {
                 var squareId = 'square_' + item.x + '_' + item.y;
                 $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
               
-             // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+             // Remove the "highlight" class after 1000 milliseconds (1 seconds)
                setTimeout(function() {
                  $('#' + squareId).removeClass('highlight');
               },  1000);
@@ -757,9 +937,9 @@ function roll_dice_Y1() {
             }
               ,
        error: function (xhr, status, error) {
-           // Handle the error response
+        
            console.error("Error Response:", xhr.responseText);
-           // You might want to handle errors and display an appropriate message
+ 
        }
      } );
     }
@@ -767,9 +947,7 @@ function roll_dice_Y1() {
 
 
   function roll_dice_Y2() {
-   
-     // Make an AJAX call to the server to perform the move
-     $.ajax({
+       $.ajax({
          url: "ludo.php/rollY2",
          method: 'GET',
          dataType: "json",
@@ -786,12 +964,14 @@ function roll_dice_Y1() {
                  // Check if the dice result is 6
                  if ('dice' in data && data[data.length - 1].dice === 6) {
                     makeImagesClickableY();
+                    makeImagesUnclickableB();
                     makeImagesUnclickableR();
+                    makeImagesUnclickableG();
                 } else {
-                   makeImagesClickableY();
-
+                    makeImagesClickableY();
+                    makeImagesUnclickableB();
                     makeImagesUnclickableR();
-              //    do_move();
+                    makeImagesUnclickableG();
                 }
                $("#the_move").val(
                    " " + data[data.length - 1].prev_x +
@@ -803,13 +983,13 @@ function roll_dice_Y1() {
              
            } else {
                console.error("Invalid dice result:", data);
-               // Handle the case where 'dice' is not present or invalid
+ 
            }
        },
        error: function (xhr, status, error) {
-           // Handle the error response
+ 
            console.error("Error Response:", xhr.responseText);
-           // You might want to handle errors and display an appropriate message
+ 
        }
    });        
    $.ajax({
@@ -827,7 +1007,7 @@ function roll_dice_Y1() {
             var squareId = 'square_' + item.x + '_' + item.y;
             $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
           
-         // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+         // Remove the "highlight" class after 1000 milliseconds (1 seconds)
            setTimeout(function() {
              $('#' + squareId).removeClass('highlight');
           },  1000);
@@ -835,16 +1015,15 @@ function roll_dice_Y1() {
         }
           ,
    error: function (xhr, status, error) {
-       // Handle the error response
+      
        console.error("Error Response:", xhr.responseText);
-       // You might want to handle errors and display an appropriate message
+      
    }
  } );
 }
 
    function roll_dice_Y3() {
-    
-     $.ajax({
+         $.ajax({
          url: "ludo.php/rollY3",
          method: 'GET',
          dataType: "json",
@@ -861,12 +1040,14 @@ function roll_dice_Y1() {
                  // Check if the dice result is 6
                  if ('dice' in data && data[data.length - 1].dice === 6) {
                     makeImagesClickableY();
+                    makeImagesUnclickableB();
                     makeImagesUnclickableR();
+                    makeImagesUnclickableG();
                 } else {
-                   makeImagesClickableY();
-
+                    makeImagesClickableY();
+                    makeImagesUnclickableB();
                     makeImagesUnclickableR();
-              //    do_move();
+                    makeImagesUnclickableG();
                 }
  
                $("#the_move").val(
@@ -877,13 +1058,10 @@ function roll_dice_Y1() {
                ); 
            } else {
                console.error("Invalid dice result:", data);
-               // Handle the case where 'dice' is not present or invalid
-           }
+            }
        },
        error: function (xhr, status, error) {
-           // Handle the error response
            console.error("Error Response:", xhr.responseText);
-           // You might want to handle errors and display an appropriate message
        }
    });         
    $.ajax({
@@ -901,7 +1079,7 @@ function roll_dice_Y1() {
             var squareId = 'square_' + item.x + '_' + item.y;
             $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
           
-         // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+         // Remove the "highlight" class after 1000 milliseconds (1 seconds)
            setTimeout(function() {
              $('#' + squareId).removeClass('highlight');
           },  1000);
@@ -909,9 +1087,9 @@ function roll_dice_Y1() {
         }
           ,
    error: function (xhr, status, error) {
-       // Handle the error response
+   
        console.error("Error Response:", xhr.responseText);
-       // You might want to handle errors and display an appropriate message
+ 
    }
  } );
 } 
@@ -935,11 +1113,14 @@ function roll_dice_Y1() {
                   // Check if the dice result is 6
                   if ('dice' in data && data[data.length - 1].dice === 6) {
                      makeImagesClickableY();
+                     makeImagesUnclickableB();
                      makeImagesUnclickableR();
+                     makeImagesUnclickableG();
                  } else {
                     makeImagesClickableY();
- 
-                     makeImagesUnclickableR();
+                    makeImagesUnclickableB();
+                    makeImagesUnclickableR();
+                    makeImagesUnclickableG();
                //    do_move();
                  }
  
@@ -951,14 +1132,11 @@ function roll_dice_Y1() {
                );
            } else {
                console.error("Invalid dice result:", data);
-               // Handle the case where 'dice' is not present or invalid
-           }
+                }
        },
        error: function (xhr, status, error) {
-           // Handle the error response
            console.error("Error Response:", xhr.responseText);
-           // You might want to handle errors and display an appropriate message
-        }
+                  }
     });         
     $.ajax({
       url: "ludo.php/highlightY4",
@@ -992,7 +1170,6 @@ function roll_dice_Y1() {
  
 
      function roll_dice_R1() {
-         // Make an AJAX call to the server to perform the move
          $.ajax({
              url: "ludo.php/rollR1",
              method: 'GET',
@@ -1010,11 +1187,15 @@ function roll_dice_Y1() {
       
              // Check if the dice result is 6
              if ('dice' in data && data[data.length - 1].dice === 6) {
-                    makeImagesClickableR();
-                    makeImagesUnclickableY();
+                makeImagesClickableR();
+                makeImagesUnclickableB();
+                makeImagesUnclickableY();
+                makeImagesUnclickableG();
                 } else {
                     makeImagesClickableR();
+                    makeImagesUnclickableB();
                     makeImagesUnclickableY();
+                    makeImagesUnclickableG();
                 //    do_move();
                                }
         
@@ -1069,7 +1250,6 @@ function roll_dice_Y1() {
 
 
        function roll_dice_R2() {
-        // Make an AJAX call to the server to perform the move
         $.ajax({
             url: "ludo.php/rollR2",
             method: 'GET',
@@ -1087,12 +1267,16 @@ function roll_dice_Y1() {
      
             // Check if the dice result is 6
             if ('dice' in data && data[data.length - 1].dice === 6) {
-                   makeImagesClickableR();
-                   makeImagesUnclickableY();
+                makeImagesClickableR();
+                makeImagesUnclickableB();
+                makeImagesUnclickableY();
+                makeImagesUnclickableG();
                } else {
-                   makeImagesClickableR();
-                   makeImagesUnclickableY();
-               //   do_move();
+                makeImagesClickableR();
+                makeImagesUnclickableB();
+                makeImagesUnclickableY();
+                makeImagesUnclickableG();
+    
                               }
        
                   $("#the_move").val(
@@ -1104,13 +1288,10 @@ function roll_dice_Y1() {
               
               } else {
                   console.error("Invalid dice result:", data);
-                  // Handle the case where 'dice' is not present or invalid
-              }
+                 }
           },
           error: function (xhr, status, error) {
-              // Handle the error response
               console.error("Error Response:", xhr.responseText);
-              // You might want to handle errors and display an appropriate message
             }
         });         
         $.ajax({
@@ -1144,7 +1325,6 @@ function roll_dice_Y1() {
      } 
      
       function roll_dice_R3() {
-        // Make an AJAX call to the server to perform the move
         $.ajax({
             url: "ludo.php/rollR3",
             method: 'GET',
@@ -1162,12 +1342,15 @@ function roll_dice_Y1() {
       
              // Check if the dice result is 6
              if ('dice' in data && data[data.length - 1].dice === 6) {
-                    makeImagesClickableR();
-                    makeImagesUnclickableY();
+                makeImagesClickableR();
+                makeImagesUnclickableB();
+                makeImagesUnclickableY();
+                makeImagesUnclickableG();
                 } else {
                     makeImagesClickableR();
+                    makeImagesUnclickableB();
                     makeImagesUnclickableY();
-             //      do_move();
+                    makeImagesUnclickableG();
                               }
        
                   $("#the_move").val(
@@ -1179,13 +1362,10 @@ function roll_dice_Y1() {
               
               } else {
                   console.error("Invalid dice result:", data);
-                  // Handle the case where 'dice' is not present or invalid
               }
           },
           error: function (xhr, status, error) {
-              // Handle the error response
               console.error("Error Response:", xhr.responseText);
-              // You might want to handle errors and display an appropriate message
             }
         });         
         $.ajax({
@@ -1203,7 +1383,7 @@ function roll_dice_Y1() {
                  var squareId = 'square_' + item.x + '_' + item.y;
                  $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
                
-              // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+              // Remove the "highlight" class after 1000 milliseconds (1 seconds)
                 setTimeout(function() {
                   $('#' + squareId).removeClass('highlight');
                },  1000);
@@ -1211,9 +1391,7 @@ function roll_dice_Y1() {
              }
                ,
         error: function (xhr, status, error) {
-            // Handle the error response
             console.error("Error Response:", xhr.responseText);
-            // You might want to handle errors and display an appropriate message
         }
       } );
      } 
@@ -1221,8 +1399,7 @@ function roll_dice_Y1() {
 
 
       function roll_dice_R4() {
-        // Make an AJAX call to the server to perform the move
-        $.ajax({
+          $.ajax({
             url: "ludo.php/rollR4",
             method: 'GET',
             dataType: "json",
@@ -1239,11 +1416,14 @@ function roll_dice_Y1() {
                   // Check if the dice result is 6
                   if ('dice' in data && data[data.length - 1].dice === 6) {
                          makeImagesClickableR();
+                         makeImagesUnclickableB();
                          makeImagesUnclickableY();
+                         makeImagesUnclickableG();
                      } else {
-                         makeImagesClickableR();
-                         makeImagesUnclickableY();
-                     //    do_move();
+                        makeImagesClickableR();
+                        makeImagesUnclickableB();
+                        makeImagesUnclickableY();
+                        makeImagesUnclickableG();
                                     }
              
        
@@ -1256,13 +1436,11 @@ function roll_dice_Y1() {
               
               } else {
                   console.error("Invalid dice result:", data);
-                  // Handle the case where 'dice' is not present or invalid
               }
           },
           error: function (xhr, status, error) {
-              // Handle the error response
               console.error("Error Response:", xhr.responseText);
-              // You might want to handle errors and display an appropriate message
+    
             }
         });         
         $.ajax({
@@ -1279,8 +1457,7 @@ function roll_dice_Y1() {
              data.forEach(function(item) {
                  var squareId = 'square_' + item.x + '_' + item.y;
                  $('#' + squareId).addClass('highlight'); // Add a CSS class for highlighting
-               
-              // Remove the "highlight" class after 3000 milliseconds (3 seconds)
+            //afairesi class meta apo 1 defterolepto
                 setTimeout(function() {
                   $('#' + squareId).removeClass('highlight');
                },  1000);
@@ -1290,21 +1467,595 @@ function roll_dice_Y1() {
         error: function (xhr, status, error) {
             // Handle the error response
             console.error("Error Response:", xhr.responseText);
-            // You might want to handle errors and display an appropriate message
         }
       } );
      } 
      
+     function roll_dice_G1() {
+        $.ajax({
+            url: "ludo.php/rollG1",
+            method: 'GET',
+            dataType: "json",
+            contentType: 'application/json',
+            data: { action: 'roll_dice' , piece_num:1111 },          
+            headers: { "X-Token": me.token },
+            success: function (data) {
+               console.log("Success Response:", data);    
+            
+              if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                   $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+
+                    // Check if the dice result is 6
+                    if ('dice' in data && data[data.length - 1].dice === 6) {
+                       makeImagesClickableG();
+                       makeImagesUnclickableR();
+                       makeImagesUnclickableY();
+                       makeImagesUnclickableB();
+                   } else {
+                    makeImagesClickableG();
+                    makeImagesUnclickableR();
+                    makeImagesUnclickableY();
+                    makeImagesUnclickableB();
+                 //    do_move();
+                   }
+                  $("#the_move").val(
+                      " " + data[data.length - 1].prev_x +
+                      " " + data[data.length - 1].prev_y +
+                      " " + data[data.length - 1].new_x +
+                      "  " + data[data.length - 1].new_y
+                  );  
+              } else {
+                  console.error("Invalid dice result:", data);
+                      }
+          },
+          error: function (xhr, status, error) {
+               console.error("Error Response:", xhr.responseText);
+                   }
+          }); 
+           $.ajax({
+             url: "ludo.php/highlightG1",
+             method: 'GET',
+             dataType: "json",
+             contentType: 'application/json',
+             data: { action: 'G1_highlight'  },
+           
+             headers: { "X-Token": me.token },
+             success: function (data) {
+                console.log("highlight coordinates : ", data);
+    
+                data.forEach(function(item) {
+                    var squareId = 'square_' + item.x + '_' + item.y;
+                    $('#' + squareId).addClass('highlight'); // dimiourgia class highlight
+                  
+                 // afairesi tou class meta apo 1 defterolepto
+                   setTimeout(function() {
+                     $('#' + squareId).removeClass('highlight');
+                  },  1000);
+                  });
+                }
+                  ,
+           error: function (xhr, status, error) {
+               console.error("Error Response:", xhr.responseText);
+         
+           }
+         } );
+        }
+
+        function roll_dice_G2() {
+            $.ajax({
+                url: "ludo.php/rollG2",
+                method: 'GET',
+                dataType: "json",
+                contentType: 'application/json',
+                data: { action: 'roll_dice' , piece_num:2222 },              
+                headers: { "X-Token": me.token },
+                success: function (data) {
+                   console.log("Success Response:", data);        
+                
+                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                       $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                 
+                        // Check if the dice result is 6
+                        if ('dice' in data && data[data.length - 1].dice === 6) {
+                           makeImagesClickableG();
+                           makeImagesUnclickableR();
+                           makeImagesUnclickableY();
+                           makeImagesUnclickableB();
+                       } else {
+                        makeImagesClickableG();
+                        makeImagesUnclickableR();
+                        makeImagesUnclickableY();
+                        makeImagesUnclickableB();
+                     //    do_move();
+                       }
+                      $("#the_move").val(
+                          " " + data[data.length - 1].prev_x +
+                          " " + data[data.length - 1].prev_y +
+                          " " + data[data.length - 1].new_x +
+                          "  " + data[data.length - 1].new_y
+                      );
+                          
+                  } else {
+                      console.error("Invalid dice result:", data);   }
+              },
+              error: function (xhr, status, error) {
+                       console.error("Error Response:", xhr.responseText);
+                             }
+              }); 
+               $.ajax({
+                 url: "ludo.php/highlightG2",
+                 method: 'GET',
+                 dataType: "json",
+                 contentType: 'application/json',
+                 data: { action: 'G2_highlight'  },
+               
+                 headers: { "X-Token": me.token },
+                 success: function (data) {
+                    console.log("highlight coordinates : ", data);
+        
+                    data.forEach(function(item) {
+                        var squareId = 'square_' + item.x + '_' + item.y;
+                        $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                      
+                     // afairww to class meta apo 1 defterolepto
+                       setTimeout(function() {
+                         $('#' + squareId).removeClass('highlight');
+                      },  1000);
+                      });
+                    }
+                      ,
+               error: function (xhr, status, error) {                 
+                   console.error("Error Response:", xhr.responseText);                    
+               }
+             } );
+            }
+            function roll_dice_G3() {
+                $.ajax({
+                    url: "ludo.php/rollG3",
+                    method: 'GET',
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: { action: 'roll_dice' , piece_num:3333 },              
+                    headers: { "X-Token": me.token },
+                    success: function (data) {
+                       console.log("Success Response:", data);        
+                    
+                      if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                           $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                     
+                            // Check if the dice result is 6
+                            if ('dice' in data && data[data.length - 1].dice === 6) {
+                               makeImagesClickableG();
+                               makeImagesUnclickableR();
+                               makeImagesUnclickableY();
+                               makeImagesUnclickableB();
+                           } else {
+                            makeImagesClickableG();
+                            makeImagesUnclickableR();
+                            makeImagesUnclickableY();
+                            makeImagesUnclickableB();
+                         //    do_move();
+                           }
+                          $("#the_move").val(
+                              " " + data[data.length - 1].prev_x +
+                              " " + data[data.length - 1].prev_y +
+                              " " + data[data.length - 1].new_x +
+                              "  " + data[data.length - 1].new_y
+                          );
+                              
+                      } else {
+                          console.error("Invalid dice result:", data);   }
+                  },
+                  error: function (xhr, status, error) {
+                           console.error("Error Response:", xhr.responseText);
+                                 }
+                  }); 
+                   $.ajax({
+                     url: "ludo.php/highlightG3",
+                     method: 'GET',
+                     dataType: "json",
+                     contentType: 'application/json',
+                     data: { action: 'G3_highlight'  },
+                   
+                     headers: { "X-Token": me.token },
+                     success: function (data) {
+                        console.log("highlight coordinates : ", data);
+            
+                        data.forEach(function(item) {
+                            var squareId = 'square_' + item.x + '_' + item.y;
+                            $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                          
+                         // afairww to class meta apo 1 defterolepto
+                           setTimeout(function() {
+                             $('#' + squareId).removeClass('highlight');
+                          },  1000);
+                          });
+                        }
+                          ,
+                   error: function (xhr, status, error) {                 
+                       console.error("Error Response:", xhr.responseText);                    
+                   }
+                 } );
+                }
+   function roll_dice_G4() {
+       $.ajax({
+           url: "ludo.php/rollG4",
+           method: 'GET',
+           dataType: "json",
+           contentType: 'application/json',
+           data: { action: 'roll_dice' , piece_num:4444 },              
+           headers: { "X-Token": me.token },
+           success: function (data) {
+              console.log("Success Response:", data);        
+           
+             if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                  $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+            
+                   // Check if the dice result is 6
+                   if ('dice' in data && data[data.length - 1].dice === 6) {
+                      makeImagesClickableG();
+                      makeImagesUnclickableR();
+                      makeImagesUnclickableY();
+                      makeImagesUnclickableB();
+                  } else {
+                   makeImagesClickableG();
+                   makeImagesUnclickableR();
+                   makeImagesUnclickableY();
+                   makeImagesUnclickableB();
+                //    do_move();
+                  }
+                 $("#the_move").val(
+                     " " + data[data.length - 1].prev_x +
+                     " " + data[data.length - 1].prev_y +
+                     " " + data[data.length - 1].new_x +
+                     "  " + data[data.length - 1].new_y
+                 );
+                     
+             } else {
+                 console.error("Invalid dice result:", data);   }
+         },
+         error: function (xhr, status, error) {
+                  console.error("Error Response:", xhr.responseText);
+                        }
+         }); 
+          $.ajax({
+            url: "ludo.php/highlightG4",
+            method: 'GET',
+            dataType: "json",
+            contentType: 'application/json',
+            data: { action: 'G4_highlight'  },
+          
+            headers: { "X-Token": me.token },
+            success: function (data) {
+               console.log("highlight coordinates : ", data);
+   
+               data.forEach(function(item) {
+                   var squareId = 'square_' + item.x + '_' + item.y;
+                   $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                 
+                // afairww to class meta apo 1 defterolepto
+                  setTimeout(function() {
+                    $('#' + squareId).removeClass('highlight');
+                 },  1000);
+                 });
+               }
+                 ,
+          error: function (xhr, status, error) {                 
+              console.error("Error Response:", xhr.responseText);                    
+          }
+        } );
+       }
+
+       function roll_dice_B1() {
+        $.ajax({
+            url: "ludo.php/rollB1",
+            method: 'GET',
+            dataType: "json",
+            contentType: 'application/json',
+            data: { action: 'roll_dice' , piece_num:11 },              
+            headers: { "X-Token": me.token },
+            success: function (data) {
+               console.log("Success Response:", data);        
+            
+              if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                   $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+             
+                    // Check if the dice result is 6
+                    if ('dice' in data && data[data.length - 1].dice === 6) {
+                       makeImagesClickableB();
+                       makeImagesUnclickableR();
+                       makeImagesUnclickableY();
+                       makeImagesUnclickableG();
+                   } else {
+                    makeImagesClickableB();
+                    makeImagesUnclickableR();
+                    makeImagesUnclickableY();
+                    makeImagesUnclickableG();
+                 //    do_move();
+                   }
+                  $("#the_move").val(
+                      " " + data[data.length - 1].prev_x +
+                      " " + data[data.length - 1].prev_y +
+                      " " + data[data.length - 1].new_x +
+                      "  " + data[data.length - 1].new_y
+                  );
+                      
+              } else {
+                  console.error("Invalid dice result:", data);   }
+          },
+          error: function (xhr, status, error) {
+                   console.error("Error Response:", xhr.responseText);
+                         }
+          }); 
+           $.ajax({
+             url: "ludo.php/highlightB1",
+             method: 'GET',
+             dataType: "json",
+             contentType: 'application/json',
+             data: { action: 'B1_highlight'  },
+           
+             headers: { "X-Token": me.token },
+             success: function (data) {
+                console.log("highlight coordinates : ", data);
+    
+                data.forEach(function(item) {
+                    var squareId = 'square_' + item.x + '_' + item.y;
+                    $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                  
+                 // afairww to class meta apo 1 defterolepto
+                   setTimeout(function() {
+                     $('#' + squareId).removeClass('highlight');
+                  },  1000);
+                  });
+                }
+                  ,
+           error: function (xhr, status, error) {                 
+               console.error("Error Response:", xhr.responseText);                    
+           }
+         } );
+        }
 
 
-       function makeImagesClickableR() {
-        // Make all image td elements clickable and highlighted
-        $('.piece').filter('[src^="images/R"]').parent('td').addClass('clickableR').click(onImageClickR);
- 
-    }
+        function roll_dice_B2() {
+            $.ajax({
+                url: "ludo.php/rollB2",
+                method: 'GET',
+                dataType: "json",
+                contentType: 'application/json',
+                data: { action: 'roll_dice' , piece_num:22 },              
+                headers: { "X-Token": me.token },
+                success: function (data) {
+                   console.log("Success Response:", data);        
+                
+                  if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                       $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                 
+                        // Check if the dice result is 6
+                        if ('dice' in data && data[data.length - 1].dice === 6) {
+                           makeImagesClickableB();
+                           makeImagesUnclickableR();
+                           makeImagesUnclickableY();
+                           makeImagesUnclickableG();
+                       } else {
+                        makeImagesClickableB();
+                        makeImagesUnclickableR();
+                        makeImagesUnclickableY();
+                        makeImagesUnclickableG();
+                     //    do_move();
+                       }
+                      $("#the_move").val(
+                          " " + data[data.length - 1].prev_x +
+                          " " + data[data.length - 1].prev_y +
+                          " " + data[data.length - 1].new_x +
+                          "  " + data[data.length - 1].new_y
+                      );
+                          
+                  } else {
+                      console.error("Invalid dice result:", data);   }
+              },
+              error: function (xhr, status, error) {
+                       console.error("Error Response:", xhr.responseText);
+                             }
+              }); 
+               $.ajax({
+                 url: "ludo.php/highlightB2",
+                 method: 'GET',
+                 dataType: "json",
+                 contentType: 'application/json',
+                 data: { action: 'B2_highlight'  },
+               
+                 headers: { "X-Token": me.token },
+                 success: function (data) {
+                    console.log("highlight coordinates : ", data);
+        
+                    data.forEach(function(item) {
+                        var squareId = 'square_' + item.x + '_' + item.y;
+                        $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                      
+                     // afairww to class meta apo 1 defterolepto
+                       setTimeout(function() {
+                         $('#' + squareId).removeClass('highlight');
+                      },  1000);
+                      });
+                    }
+                      ,
+               error: function (xhr, status, error) {                 
+                   console.error("Error Response:", xhr.responseText);                    
+               }
+             } );
+            }
+
+            function roll_dice_B3() {
+                $.ajax({
+                    url: "ludo.php/rollB3",
+                    method: 'GET',
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: { action: 'roll_dice' , piece_num:33 },              
+                    headers: { "X-Token": me.token },
+                    success: function (data) {
+                       console.log("Success Response:", data);        
+                    
+                      if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                           $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                     
+                            // Check if the dice result is 6
+                            if ('dice' in data && data[data.length - 1].dice === 6) {
+                               makeImagesClickableB();
+                               makeImagesUnclickableR();
+                               makeImagesUnclickableY();
+                               makeImagesUnclickableG();
+                           } else {
+                            makeImagesClickableB();
+                            makeImagesUnclickableR();
+                            makeImagesUnclickableY();
+                            makeImagesUnclickableG();
+                         //    do_move();
+                           }
+                          $("#the_move").val(
+                              " " + data[data.length - 1].prev_x +
+                              " " + data[data.length - 1].prev_y +
+                              " " + data[data.length - 1].new_x +
+                              "  " + data[data.length - 1].new_y
+                          );
+                              
+                      } else {
+                          console.error("Invalid dice result:", data);   }
+                  },
+                  error: function (xhr, status, error) {
+                           console.error("Error Response:", xhr.responseText);
+                                 }
+                  }); 
+                   $.ajax({
+                     url: "ludo.php/highlightB3",
+                     method: 'GET',
+                     dataType: "json",
+                     contentType: 'application/json',
+                     data: { action: 'B3_highlight'  },
+                   
+                     headers: { "X-Token": me.token },
+                     success: function (data) {
+                        console.log("highlight coordinates : ", data);
+            
+                        data.forEach(function(item) {
+                            var squareId = 'square_' + item.x + '_' + item.y;
+                            $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                          
+                         // afairww to class meta apo 1 defterolepto
+                           setTimeout(function() {
+                             $('#' + squareId).removeClass('highlight');
+                          },  1000);
+                          });
+                        }
+                          ,
+                   error: function (xhr, status, error) {                 
+                       console.error("Error Response:", xhr.responseText);                    
+                   }
+                 } );
+                }
+
+                function roll_dice_B4() {
+                    $.ajax({
+                        url: "ludo.php/rollB4",
+                        method: 'GET',
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: { action: 'roll_dice' , piece_num:44 },              
+                        headers: { "X-Token": me.token },
+                        success: function (data) {
+                           console.log("Success Response:", data);        
+                        
+                          if (Array.isArray(data) && data.length > 0 && 'dice' in data[data.length - 1]) {
+                               $("#diceResult").text("Dice Result: " + data[data.length - 1].dice);
+                         
+                                // Check if the dice result is 6
+                                if ('dice' in data && data[data.length - 1].dice === 6) {
+                                   makeImagesClickableB();
+                                   makeImagesUnclickableR();
+                                   makeImagesUnclickableY();
+                                   makeImagesUnclickableG();
+                               } else {
+                                makeImagesClickableB();
+                                makeImagesUnclickableR();
+                                makeImagesUnclickableY();
+                                makeImagesUnclickableG();
+                             //    do_move();
+                               }
+                              $("#the_move").val(
+                                  " " + data[data.length - 1].prev_x +
+                                  " " + data[data.length - 1].prev_y +
+                                  " " + data[data.length - 1].new_x +
+                                  "  " + data[data.length - 1].new_y
+                              );
+                                  
+                          } else {
+                              console.error("Invalid dice result:", data);   }
+                      },
+                      error: function (xhr, status, error) {
+                               console.error("Error Response:", xhr.responseText);
+                                     }
+                      }); 
+                       $.ajax({
+                         url: "ludo.php/highlightB4",
+                         method: 'GET',
+                         dataType: "json",
+                         contentType: 'application/json',
+                         data: { action: 'B4_highlight'  },
+                       
+                         headers: { "X-Token": me.token },
+                         success: function (data) {
+                            console.log("highlight coordinates : ", data);
+                
+                            data.forEach(function(item) {
+                                var squareId = 'square_' + item.x + '_' + item.y;
+                                $('#' + squareId).addClass('highlight'); // prosthetw to class highlight 
+                              
+                             // afairww to class meta apo 1 defterolepto
+                               setTimeout(function() {
+                                 $('#' + squareId).removeClass('highlight');
+                              },  1000);
+                              });
+                            }
+                              ,
+                       error: function (xhr, status, error) {                 
+                           console.error("Error Response:", xhr.responseText);                    
+                       }
+                     } );
+                    }
+    
+  function makeImagesClickableY() {
+      // Make all image td elements clickable and highlighted
+      $('.piece').filter('[src^="images/Y"]').parent('td').addClass('clickableY').click(onImageClickY);
+     // $('.piece').parent('td').addClass('clickableY').click(onImageClickY);
+  }
+    function makeImagesClickableR() {
+     // Make all image td elements clickable and highlighted
+     $('.piece').filter('[src^="images/R"]').parent('td').addClass('clickableR').click(onImageClickR);
+  }
+  function makeImagesClickableG() {
+     // Make all image td elements clickable and highlighted
+     $('.piece').filter('[src^="images/G"]').parent('td').addClass('clickableG').click(onImageClickG);
+  }
+  function makeImagesClickableB() {
+     // Make all image td elements clickable and highlighted
+     $('.piece').filter('[src^="images/B"]').parent('td').addClass('clickableB').click(onImageClickB);
+  }
+
+  function makeImagesUnclickableY() {
+    // Remove clickability and highlighting from image td elements
+    $('.piece').parent('td').removeClass('clickableY').off('click', onImageClickY);
+}
     function makeImagesUnclickableR() {
         // Remove clickability and highlighting from image td elements
         $('.piece').parent('td').removeClass('clickableR').off('click', onImageClickR);
+    }
+    function makeImagesUnclickableG() {
+        // Remove clickability and highlighting from image td elements
+        $('.piece').parent('td').removeClass('clickableG').off('click', onImageClickG);
+    }
+    function makeImagesUnclickableB() {
+        // Remove clickability and highlighting from image td elements
+        $('.piece').parent('td').removeClass('clickableB').off('click', onImageClickB);
     }
 
     var isOnImageClickRCalled = false;
@@ -1361,16 +2112,80 @@ function roll_dice_Y1() {
             // Add logic for other images if needed
         }
     }
-   
+    var isOnImageClickGCalled = false;
+    function onImageClickG(e) {
+        isOnImageClickGCalled = true;
+        var clickedTd = e.currentTarget;
+        var imageName = $(clickedTd).find('img').attr('src'); // Get the image source
+    
+        // Check if the image name starts with "GG"
+        if (imageName && imageName.startsWith('images/GG')) {
+         
+            var imageNumber = imageName.replace('images/GG', '').replace('.png', '');
+ 
+            switch (imageNumber) {
+                case '1': 
+                    console.log('Clicked on GG1:', imageName);
+                     roll_dice_G1();
+                    break;
+                case '2':
+                     console.log('Clicked on GG2:', imageName);
+                    roll_dice_G2(); 
+                    break;
+                case '3':
+                    // Action for GG3
+                    console.log('Clicked on RR3:', imageName);
+                    roll_dice_G3();        
+                    break;
+                case '4':
+                    console.log('Clicked on RR4:', imageName);                
+                    roll_dice_G4();
+                    break;
+                default:
+                    console.log('Clicked on GG image with unknown number:', imageName);
 
-    function makeImagesClickableY() {
-        // Make all image td elements clickable and highlighted
-        $('.piece').filter('[src^="images/Y"]').parent('td').addClass('clickableY').click(onImageClickY);
-       // $('.piece').parent('td').addClass('clickableY').click(onImageClickY);
+            }
+        } else {
+            console.log('Clicked on non-GG image:', imageName);
+        }
     }
-    function makeImagesUnclickableY() {
-        // Remove clickability and highlighting from image td elements
-        $('.piece').parent('td').removeClass('clickableY').off('click', onImageClickY);
+
+    var isOnImageClickBCalled = false;
+    function onImageClickB(e) {
+        isOnImageClickBCalled = true;
+        var clickedTd = e.currentTarget;
+        var imageName = $(clickedTd).find('img').attr('src'); // Get the image source
+    
+        // Check if the image name starts with "GG"
+        if (imageName && imageName.startsWith('images/BB')) {
+         
+            var imageNumber = imageName.replace('images/BB', '').replace('.png', '');
+ 
+            switch (imageNumber) {
+                case '1': 
+                    console.log('Clicked on BB1:', imageName);
+                     roll_dice_B1();
+                    break;
+                case '2':
+                     console.log('Clicked on BB2:', imageName);
+                    roll_dice_B2(); 
+                    break;
+                case '3':
+                    // Action for BB3
+                    console.log('Clicked on BB3:', imageName);
+                    roll_dice_B3();        
+                    break;
+                case '4':
+                    console.log('Clicked on BB4:', imageName);                
+                    roll_dice_B4();
+                    break;
+                default:
+                    console.log('Clicked on BB image with unknown number:', imageName);
+
+            }
+        } else {
+            console.log('Clicked on non-BB image:', imageName);
+        }
     }
 
     var isOnImageClickYCalled = false;
@@ -1430,20 +2245,30 @@ function roll_dice_Y1() {
 
   // Define a variable to track if onImageClickY is called
 
-
+ 
+  function is_red_image_clicked() {
+    return isOnImageClickRCalled;
+}
   function is_yellow_image_clicked() {
     return isOnImageClickYCalled;
 }
-
+function is_green_image_clicked() {
+    return isOnImageClickGCalled;
+}
+function is_blue_image_clicked() {
+    return isOnImageClickBCalled;
+}
 function reset_yellow_img_click_status() {
     isOnImageClickYCalled = false;
 }
-
-
- 
-function is_red_image_clicked() {
-    return isOnImageClickRCalled;
+function reset_green_img_click_status() {
+    isOnImageClickGCalled = false;
 }
+function reset_blue_img_click_status() {
+    isOnImageClickBCalled = false;
+}
+
+
 
 function reset_red_img_click_status() {
     isOnImageClickRCalled = false;
@@ -1455,6 +2280,8 @@ function reset_red_img_click_status() {
           //  fill_board_by_data
             fill_red_win();
             fill_yellow_win();
+            fill_green_win();
+            fill_blue_win();
             fill_board_by_data(data);
             game_status_update();
         }
