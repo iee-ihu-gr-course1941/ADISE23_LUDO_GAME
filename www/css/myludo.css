@@ -116,6 +116,30 @@ TD.tomove {border:3px solid blue; background-color:blue;}
  
   flex-direction: column; /* Display items in a column */
 }
+#blue_win_pieces {
+
+  display: inline-block;
+   position: absolute;
+   bottom: 180px;
+   left: 0;
+   background:rgba(0, 0, 0, .4);
+   color: #fff;
+   padding: 10px;
+ direction: column; /* Display items in a column */
+}
+
+#green_win_pieces {
+  
+   display: inline-block;
+   position: absolute;
+   bottom: 270px;
+   left: 0px;
+   background: rgba(0, 0, 0, .4);
+   color: #fff;
+   padding: 10px;
+
+ flex-direction: column; /* Display items in a column */
+}
 
 
 
