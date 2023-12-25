@@ -12,6 +12,8 @@ $(function(){
  
    fill_red_win();
    fill_yellow_win();
+   fill_green_win();
+   fill_blue_win();
 
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
