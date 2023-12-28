@@ -8,21 +8,56 @@ var timer=null;
 $(function(){
     draw_empty_board();
     fill_board();
+    if (window.location.pathname.endsWith("lobby.php")) {//make the AJAX call when the page is lobby.php
+        fetchPlayerStatus();
+        setInterval(function () {
+            fetchPlayerStatus();
+        
+        }, 5000);
+    }
+    text_user_name();
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
+<<<<<<< Updated upstream
+    $('#do_move').click( do_move);
+    $('#move_div').hide();
     game_status_update();
+=======
+    //$('#do_move').click( do_move);
+    //$('#move_div').hide();
+    $('#do_move_roll').click( do_move_roll);
+    $('#move_div_roll').hide();
+>>>>>>> Stashed changes
 });
 
- 
+
+function text_user_name() {
+    $.ajax({
+        url: "ludo.php/inputUserName/",
+        dataType: 'json',
+        success: text_user_name_result,
+        error: function() {
+            console.error('Error fetching session username');
+        }
+    });
+}
+
+function text_user_name_result(data) {
+    console.log('Received data:', data); // Log the received data for debugging
+
+    if (data && data.username) {
+        $('#username').val(data.username);
+    } else {
+        console.error('Invalid response or username not found');
+    }
+}
+
+
  function reset_players() {
-    
-        // Send an AJAX request to the server to update the database
-        $.ajax({
-            url: 'ludo.php/delete_players/', // Adjust the path to your server-side script
+        $.ajax({url: 'ludo.php/delete_players/',
             method: 'POST',
-dataType: "json",
-          headers: {"X-Token": me.token},
+            dataType: "json",
             contentType: 'application/json',
             data: { action: 'reset_players' }, // Pass the action as part of the data
             success: function(response) {
@@ -35,25 +70,6 @@ dataType: "json",
         });
     // game_status_update();
 
-    } 
-    function login_to_game() {
-
-        if($('#username').val()=='') {
-            alert('You have to set a username');
-            return;
-        }
-        var p_color = $('#pcolor').val();
-        draw_empty_board(p_color);
-        fill_board();
-        
-        $.ajax({url: "ludo.php/players/"+p_color, 
-                method: 'PUT',
-                dataType: "json",
-                headers: {"X-Token": me.token},
-                contentType: 'application/json',
-                data: JSON.stringify( {username: $('#username').val(), piece_color: p_color}),
-                success: login_result,
-                error: login_error});
     } 
  
 
@@ -80,38 +96,50 @@ function draw_empty_board(p) {
 }
 
  
-function fill_board(){
-    $.ajax(
-        {url:"ludo.php/board/" ,
-      success: fill_board_by_data
-    }
-    );
+function fill_board() {
+	$.ajax({url: "ludo.php/board/", 
+		headers: {"X-Token": me.token},
+		success: fill_board_by_data });
 }
 
-function reset_board(){
-    $.ajax(
-        {url:"ludo.php/board/",
-        method: 'post',
-    success: fill_board_by_data
-    }
-    );
+function reset_board() {
+	$.ajax({url: "ludo.php/board/", headers: {"X-Token": me.token}, method: 'POST',  success: fill_board_by_data });
+<<<<<<< Updated upstream
+	$('#move_div').hide();
+=======
+    $('#move_div_roll').hide(); 
+>>>>>>> Stashed changes
+	$('#game_initializer').show(2000);
 }
-
-
 
 function fill_board_by_data(data) {
     board=data;
-		for(var i=0;i<data.length;i++) {
+    for(var i=0;i<data.length;i++) {
 		var o = data[i];
 		var id = '#square_'+ o.x +'_' + o.y;
-         var c = (o.piece!=null)?  o.piece:'';
-var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
-	 	$(id).addClass(o.b_color+'_square').html(im);
-        
-	}}
-
+		var c = (o.piece!=null)?o.piece_color + o.piece:'';
+		var pc= (o.piece!=null)?'piece'+o.piece_color:'';
+		var im = (o.piece!=null)?'<img class="piece '+pc+'" src="images/'+c+'.png">':'';
+		$(id).addClass(o.b_color+'_square').html(im);}
+    }
     
-
+    function login_to_game() {
+        if($('#username').val()=='') {
+            alert('You have to set a username');
+            return;
+        }
+        var p_color = $('#pcolor').val();
+        draw_empty_board(p_color);
+        fill_board();  
+        $.ajax({url: "ludo.php/players/"+p_color, 
+                method: 'PUT',
+                dataType: "json",
+                headers: {"X-Token": me.token},
+                contentType: 'application/json',
+                data: JSON.stringify( {username: $('#username').val(), piece_color: p_color}),
+                success: login_result,
+                error: login_error});
+    } 
 
     function login_result(data) {
 
@@ -122,44 +150,109 @@ var im =(o.piece!=null)?'<img class="piece" src="images/'+c+'.png">':'';
     }
     
     
-    function login_error(data,y,z,c) {
+    function login_error(data, y, z, c) {
         var x = data.responseJSON;
         alert(x.errormesg);
     }
   
    
     function game_status_update() {
-	        clearTimeout(timer);
+	    clearTimeout(timer);
         $.ajax({url: "ludo.php/status/", success: update_status,headers: {"X-Token": me.token} });
     }
     
     function update_status(data) {
         last_update=new Date().getTime();
-        var game_stat_old = game_status;
+       var game_stat_old = game_status;
         game_status=data[0];
         update_info();
-       // clearTimeout(timer);
-       // if(game_status.p_turn==me.piece_color &&  me.piece_color!=null) {
-    //        x=0;
-    //        // do play
-   //         if(game_stat_old.p_turn!=game_status.p_turn) {
-  //              fill_board();
-    //        }
-    //        $('#move_div').show(1000);
-     //       timer=setTimeout(function() { game_status_update();}, 15000);
-     //   } else {
-      //      // must wait for something
-      //      $('#move_div').hide(1000);
-      //      timer=setTimeout(function() { game_status_update();}, 4000);
+        clearTimeout(timer);
+         if(game_status.p_turn==me.piece_color &&  me.piece_color!=null) {
+           x=0;
+            // do play
+         if(game_stat_old.p_turn!=game_status.p_turn) {
+                fill_board();
+          }
+           $('#move_div').show(1000);
+           timer=setTimeout(function() { game_status_update();}, 4000);
+          
+        } else {
+            // must wait for something
+          $('#move_div').hide(1000);
+         timer=setTimeout(function() { game_status_update();}, 4000);
+         
         }
+ 
 
-        function update_info(){
+    }
+
+      function update_info(){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', '+ game_status.p_turn+' must play now.');
             
             
         }
-         
-  
+
+        function do_move() {
+            var s = $('#the_move').val();
+            
+            var a = s.trim().split(/[ ]+/);
+            if(a.length!=4) {
+                alert('Must give 4 numbers');
+                return;
+            }
+            $.ajax({url: "ludo.php/board/piece/"+a[0]+'/'+a[1], 
+                    method: 'PUT',
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify( {x: a[2], y: a[3]}),
+                  // data: JSON.stringify( {x: a[2], y: a[3] , "X-Token": me.token  }),
+                  //to token απο ορισμα, το βαζω στους headers(αλλαγη ludo.php)
+                    headers: {"X-Token": me.token},
+                    success: move_result,
+                    error: login_error});
+            
+        }
 
 
-    
+        function move_result(data){
+          //  fill_board_by_data
+          //  game_status_update();
+            fill_board_by_data(data);
+        }
+        
+
+        //lobby//
+
+        function fetchPlayerStatus() {
+            $.ajax({
+                url: "ludo.php/players_status/",
+                method: 'GET',
+                dataType: "json",
+                headers: { "X-Token": me.token },
+                contentType: 'application/json',
+                success: fetchPlayerStatusResult,
+                error: fetchPlayerStatusError
+            });
+        }
+        
+        function fetchPlayerStatusResult(data) {
+            console.log(data); // Log the received data for debugging
+            var t = '<table id="players_table">';
+            t += '<tr><th>Player</th><th>Username</th><th>Piece Color</th></tr>';
+            for (var i = 0; i < data.length; i++) {
+                var o = data[i];
+                t += '<tr><td>' + (i + 1) + '</td><td>' + o.username + '</td><td>' + o.piece_color + '</td></tr>';
+            }
+            t += '</table>';
+            $('#players').html(t);
+        }
+        
+        function fetchPlayerStatusError(data, y, z, c) {
+            console.log(data); // Log the entire response for debugging
+            var x = data.responseJSON;
+            alert(x.error); // Assuming the property name is 'error' in the response
+        }
+        
+        //finish lobby//
+
+        

@@ -13,7 +13,6 @@ function show_status() {
 	print json_encode($res->fetch_all(MYSQLI_ASSOC), JSON_PRETTY_PRINT);
 }
  
-
 function update_game_status() {
 	global $mysqli;
 	
@@ -47,9 +46,11 @@ function update_game_status() {
 	switch($active_players) {
 		case 0: $new_status='not active'; break;
 		case 1: $new_status='initialized'; break;
-		case 2: $new_status='started'; 
+		case 2:
+			case 3:
+				case 4: $new_status='started'; 
 				if($status['p_turn']==null) {//ξεκινα παντα ο μπλε 
-					$new_turn='Β'; // It was not started before...
+					$new_turn='Y'; // It was not started before...
 				}
 				break;
 	}
@@ -58,10 +59,9 @@ function update_game_status() {
 	$st = $mysqli->prepare($sql);
 	$st->bind_param('ss',$new_status,$new_turn);
 	$st->execute();
-	
-	
-	
-}
+	}
+
+
 function read_status() {
 	global $mysqli;
 	
@@ -73,4 +73,9 @@ function read_status() {
 	$status = $res->fetch_assoc();
 	return($status);
 }
+
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 ?>

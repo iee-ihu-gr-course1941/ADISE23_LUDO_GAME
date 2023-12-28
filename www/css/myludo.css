@@ -1,4 +1,4 @@
-#ludo_board td{width:30px; height:30px; border: solid black 1px; text-align:center;}
+#ludo_board td{width:40px; height:40px; border: solid black 1px; text-align:center;}
 
 #ludo_board{border-collapse: collapse;}
 
@@ -8,8 +8,8 @@ td.G_square {background-color:greenyellow;}
 td.B_square{background-color: blue;}
 td.Y_square{background-color: yellow;}
 
- 
- td.GR_square{background:linear-gradient(to bottom left, red 50%, greenyellow 50%);  } 
+
+td.GR_square{background:linear-gradient(to bottom left, red 50%, greenyellow 50%);  } 
  td.BR_square{background:linear-gradient(to bottom right, red 50%, blue 50%);}
  td.BY_square{background:linear-gradient(to bottom left, blue 50%, yellow 50%);}
  td.GY_square{background:linear-gradient(to bottom right, greenyellow 50%, yellow 50%);}
