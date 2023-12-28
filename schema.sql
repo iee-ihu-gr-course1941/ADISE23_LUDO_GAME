@@ -171,7 +171,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(3, 4, 'Y', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 5, 'W', NULL, NULL, 5, 14, 23, 32),
 	(3, 6, 'G', NULL, NULL, NULL, NULL, NULL, 37),
-	(3, 7, 'W', NULL, NULL, 11, 20, 29, 2),
+	(3, 7, 'W', 'Y', 'Y1', 11, 20, 29, 2),
 	(3, 8, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(3, 9, 'W', 'G', 'G4', NULL, NULL, NULL, NULL),
 	(3, 10, 'W', 'G', 'G2', NULL, NULL, NULL, NULL),
@@ -188,7 +188,7 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(4, 10, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(4, 11, 'G', NULL, NULL, NULL, NULL, NULL, NULL),
 	(5, 1, 'W', NULL, NULL, NULL, 9, 18, 27),
-	(5, 2, 'Y', 'Y', 'Y1', 1, 10, 19, 28),
+	(5, 2, 'Y', NULL, NULL, 1, 10, 19, 28),
 	(5, 3, 'W', NULL, NULL, 2, 11, 20, 29),
 	(5, 4, 'W', NULL, NULL, 3, 12, 21, 30),
 	(5, 5, 'GY', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -212,13 +212,13 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(7, 1, 'W', NULL, NULL, 34, 7, 16, 25),
 	(7, 2, 'W', NULL, NULL, 33, 6, 15, 24),
 	(7, 3, 'W', NULL, NULL, 32, 5, 14, 23),
-	(7, 4, 'W', NULL, NULL, 31, 4, 13, 22),
+	(7, 4, 'W', 'B', 'B1', 31, 4, 13, 22),
 	(7, 5, 'BY', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 6, 'B', NULL, NULL, NULL, 39, NULL, NULL),
 	(7, 7, 'BR', NULL, NULL, NULL, NULL, NULL, NULL),
 	(7, 8, 'W', NULL, NULL, 21, 30, 3, 12),
 	(7, 9, 'W', NULL, NULL, 20, 29, 2, 11),
-	(7, 10, 'R', 'R', 'R1', 19, 28, 1, 10),
+	(7, 10, 'R', NULL, NULL, 19, 28, 1, 10),
 	(7, 11, 'W', NULL, NULL, 18, 27, NULL, 9),
 	(8, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(8, 2, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
@@ -233,14 +233,14 @@ INSERT INTO `board` (`x`, `y`, `b_color`, `piece_color`, `piece`, `y_path`, `b_p
 	(8, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 2, 'W', 'B', 'B3', NULL, NULL, NULL, NULL),
-	(9, 3, 'W', 'B', 'B1', NULL, NULL, NULL, NULL),
+	(9, 3, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 4, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 5, 'W', NULL, NULL, 29, 2, 11, 20),
 	(9, 6, 'B', NULL, NULL, NULL, 37, NULL, NULL),
 	(9, 7, 'W', NULL, NULL, 23, 32, 5, 14),
 	(9, 8, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(9, 9, 'W', 'R', 'R3', NULL, NULL, NULL, NULL),
-	(9, 10, 'W', NULL, NULL, NULL, NULL, NULL, NULL),
+	(9, 10, 'W', 'R', 'R1', NULL, NULL, NULL, NULL),
 	(9, 11, 'R', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 1, 'B', NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 2, 'W', 'B', 'B4', NULL, NULL, NULL, NULL),
@@ -558,6 +558,181 @@ BEGIN
 END//
 DELIMITER ;
 
+-- Dumping structure for procedure adise23_ludo_game.check_turn
+DROP PROCEDURE IF EXISTS `check_turn`;
+DELIMITER //
+CREATE PROCEDURE `check_turn`()
+BEGIN
+
+DECLARE current_second INT;
+ DECLARE count_r INT;
+    DECLARE count_y INT;
+     DECLARE count_g INT;
+    DECLARE count_b INT;
+    
+     DECLARE red_exists INT;
+    DECLARE yellow_exists INT;
+     DECLARE green_exists INT;
+    DECLARE blue_exists INT;
+    
+       DECLARE count_players INT;
+    
+
+
+    SELECT COUNT(*) INTO count_r FROM game_status WHERE p_turn = 'R';
+    SELECT COUNT(*) INTO count_y FROM game_status WHERE p_turn = 'Y';
+     SELECT COUNT(*) INTO count_g FROM game_status WHERE p_turn = 'G';
+    SELECT COUNT(*) INTO count_b FROM game_status WHERE p_turn = 'B';
+
+SELECT COUNT(*) INTO red_exists FROM players WHERE piece_color = 'R' AND username IS NOT NULL;
+SELECT COUNT(*) INTO yellow_exists FROM players WHERE piece_color = 'Y' AND username IS NOT NULL;
+SELECT COUNT(*) INTO green_exists FROM players WHERE piece_color = 'G' AND username IS NOT NULL;
+SELECT COUNT(*) INTO blue_exists FROM players WHERE piece_color = 'B' AND username IS NOT NULL;
+
+SELECT   COUNT(*) INTO count_players  FROM players WHERE   username IS NOT NULL;
+ 
+    
+    
+    		-- an einai i seira tou kokkinou
+    		IF(count_r = 1) THEN 
+    
+      		-- an to plithos twn paiktwn einai 2
+    			IF (count_players = 2) THEN
+    	  			 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos kai o kokkinos   
+     				IF (yellow_exists =1)THEN         
+   				UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
+         		END IF;
+ 
+    	 
+    	    		 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi  o kokkinos kai o mple        
+  					IF (blue_exists = 1)THEN         
+   				UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'R';
+         		END IF;
+         
+      		     -- an einai i seira tou kokkinou kai iparxoun sto paixnidi  o kokkinos kai o prasinos      
+  					IF (green_exists = 1)THEN         
+   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+        	   	 END IF;
+         	END IF;
+    	
+ 
+    	
+   			  -- an to plithos twn paiktwn einai 3 enw paizei o kokkinos 
+    			IF (count_players = 3) THEN
+       		 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos   kai o prasinos  
+     				IF (yellow_exists =1 AND green_exists=1)THEN         
+   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+       		   END IF;
+        			  -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos kai mple
+     				IF (yellow_exists =1 AND blue_exists)THEN         
+   				UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
+        			 END IF;
+        			 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o prasinos kai mple
+     				IF (blue_exists =1 AND green_exists)THEN         
+   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+        		   END IF;
+    	      END IF;
+    	
+    	      -- an to plithos twn paiktwn einai 4
+    			IF (count_players = 4 ) THEN
+    	     		 UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
+         	END IF;
+	      END IF;
+    
+    
+  			-- an einai i seira tou kitrinou
+      	IF(count_y = 1) THEN 
+      		-- an to plithos twn paiktwn einai 2
+    			IF (count_players = 2) THEN
+    	 	   -- an iparxoun sto paixnidi mono o kitrinos kai o mple enw i seira einai tou kitrinou
+    	 	   IF(blue_exists=1) THEN UPDATE game_status SET p_turn='B' WHERE p_turn='Y';  END IF;
+    	 	   -- an iparxoun sto paixnidi mono o kitrinos kai o kokkinjos enw i seira einai tou kitrinou
+    		  	  IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='Y';  END IF;
+    	  		  -- an iparxoun sto paixnidi mono o kitrinos kai o prasinos enw i seira einai tou kitrinou
+    	  		 IF(green_exists=1) THEN UPDATE game_status SET p_turn='G' WHERE p_turn='Y';  END IF;
+    	   END IF;
+    		
+    	
+          -- an to plithos twn paiktwn einai 3
+        	IF (count_players = 3) THEN
+    			 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o mple kai prasinos  
+     			IF (blue_exists =1 AND green_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y'; END IF;
+       		 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o mple kai kokkinos  
+     			IF (blue_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y'; END IF; 
+				 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o kokkinos kai prasinos  
+     			IF (red_exists =1 AND green_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'Y'; END IF;
+    	   END IF;
+    	
+       -- an to plithos twn paiktwn einai 4
+    			IF (count_players = 4 ) THEN
+    	   		UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y';
+    			END IF;
+	 END IF;
+	 
+  -- an einai i seira tou prasinou
+    IF(count_g = 1) THEN 
+          -- an to plithos twn paiktwn einai 2
+    	IF (count_players = 2) THEN
+    	     -- an iparxoun sto paixnidi mono o  PRASINOS kai o mple enw i seira einai tou PRASINOU
+    	    IF(blue_exists=1) THEN UPDATE game_status SET p_turn='B' WHERE p_turn='G';  END IF;
+    	    -- an iparxoun sto paixnidi mono o PRASINOS kai o kokkinjos enw i seira einai tou  PRASINOU
+    	    IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='G';  END IF;
+    	    -- an iparxoun sto paixnidi mono o PRASINOS kai o KITRINOS enw i seira einai tou PRASINOU
+    	    IF(yellow_exists=1) THEN UPDATE game_status SET p_turn='Y' WHERE p_turn='G';  END IF;
+    	END IF;
+    	
+     -- an to plithos twn paiktwn einai 3
+    	IF (count_players = 3) THEN
+    		 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o mple kai kitrinos
+     		IF (blue_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
+       	 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o mple kai kokkinos  
+     		IF (blue_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'G'; END IF; 
+			 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o kokkinos kai kitrinos
+     		IF (red_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
+    	END IF;
+    	
+    	      -- an to plithos twn paiktwn einai 4
+    	IF (count_players = 4 ) THEN
+    	    UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
+    	END IF;
+ 
+ 
+	 
+ -- an einai i seira tou mple
+    IF(count_b = 1) THEN 
+          -- an to plithos twn paiktwn einai 2
+    	IF (count_players = 2) THEN
+         
+    	     -- an iparxoun sto paixnidi mono o  PRASINOS kai o mple enw i seira einai tou mple
+    	    IF(green_exists=1) THEN UPDATE game_status SET p_turn='G' WHERE p_turn='B';  END IF;
+    	    -- an iparxoun sto paixnidi mono o mple kai o kokkinjos enw i seira einai tou  mple
+    	    IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='B';  END IF;
+    	    -- an iparxoun sto paixnidi mono o mple kai o KITRINOS enw i seira einai tou mple
+    	    IF(yellow_exists=1) THEN UPDATE game_status SET p_turn='Y' WHERE p_turn='B';  END IF;
+    	END IF;
+   
+    	
+     -- an to plithos twn paiktwn einai 3
+    	IF (count_players = 3) THEN
+    		 -- an einai i seira tou mple kai iparxoun sto paixnidi kai o prasinos kai kitrinos
+     		IF (green_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'B'; END IF;
+       	 -- an einai i seira tou mple  kai iparxoun sto paixnidi kai o PRASINOS kai kokkinos  
+     		IF (green_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B'; END IF; 
+			 -- an einai i seira tou mple  kai iparxoun sto paixnidi kai o kokkinos kai kitrinos
+     		IF (red_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B'; END IF;
+    	END IF;
+    	
+    	      -- an to plithos twn paiktwn einai 4
+    	IF (count_players = 4 ) THEN
+    	    UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B';  
+    	END IF;
+	 END IF;
+ 
+ 
+  
+END//
+DELIMITER ;
+
 -- Dumping structure for procedure adise23_ludo_game.check_winner
 DROP PROCEDURE IF EXISTS `check_winner`;
 DELIMITER //
@@ -660,22 +835,22 @@ CREATE TABLE IF NOT EXISTS `dice` (
 -- Dumping data for table adise23_ludo_game.dice: ~16 rows (approximately)
 DELETE FROM `dice`;
 INSERT INTO `dice` (`prev_x`, `prev_y`, `new_x`, `new_y`, `created_at`, `p_turn`, `piece`, `dice`, `prev_path`, `new_path`) VALUES
-	(9, 3, 10, 5, '2023-12-24 13:26:57', 'B', 'B1', 5, NULL, 1),
-	(10, 3, 10, 5, '2023-12-24 13:26:57', 'B', 'B2', 5, NULL, 1),
-	(9, 2, 10, 5, '2023-12-24 13:26:57', 'B', 'B3', 5, NULL, 1),
-	(10, 2, 10, 5, '2023-12-24 13:26:57', 'B', 'B4', 5, NULL, 1),
-	(2, 10, 2, 7, '2023-12-24 13:26:57', 'G', 'G1', 5, NULL, 1),
-	(3, 10, 2, 7, '2023-12-24 13:26:57', 'G', 'G2', 5, NULL, 1),
-	(2, 9, 2, 7, '2023-12-24 13:26:57', 'G', 'G3', 5, NULL, 1),
-	(3, 9, 2, 7, '2023-12-24 13:26:57', 'G', 'G4', 5, NULL, 1),
-	(9, 10, 7, 10, '2023-12-24 13:26:57', 'R', 'R1', 5, NULL, 1),
-	(10, 10, 7, 10, '2023-12-24 13:26:57', 'R', 'R2', 5, NULL, 1),
-	(9, 9, 7, 10, '2023-12-24 13:26:57', 'R', 'R3', 5, NULL, 1),
-	(10, 9, 7, 10, '2023-12-24 13:26:57', 'R', 'R4', 5, NULL, 1),
-	(5, 2, 2, 5, '2023-12-24 13:26:57', 'Y', 'Y1', 5, 1, 6),
-	(3, 3, 5, 2, '2023-12-24 13:26:57', 'Y', 'Y2', 5, NULL, 1),
-	(2, 2, 5, 2, '2023-12-24 13:26:57', 'Y', 'Y3', 5, NULL, 1),
-	(3, 2, 5, 2, '2023-12-24 13:26:57', 'Y', 'Y4', 5, NULL, 1);
+	(7, 4, 6, 1, '2023-12-28 14:10:58', 'B', 'B1', 4, 4, 8),
+	(10, 3, 10, 5, '2023-12-28 14:10:58', 'B', 'B2', 4, NULL, 1),
+	(9, 2, 10, 5, '2023-12-28 14:10:58', 'B', 'B3', 4, NULL, 1),
+	(10, 2, 10, 5, '2023-12-28 14:10:58', 'B', 'B4', 4, NULL, 1),
+	(2, 10, 2, 7, '2023-12-28 14:10:58', 'G', 'G1', 4, NULL, 1),
+	(3, 10, 2, 7, '2023-12-28 14:10:58', 'G', 'G2', 4, NULL, 1),
+	(2, 9, 2, 7, '2023-12-28 14:10:58', 'G', 'G3', 4, NULL, 1),
+	(3, 9, 2, 7, '2023-12-28 14:10:58', 'G', 'G4', 4, NULL, 1),
+	(9, 10, 7, 10, '2023-12-28 14:10:58', 'R', 'R1', 4, NULL, 1),
+	(10, 10, 7, 10, '2023-12-28 14:10:58', 'R', 'R2', 4, NULL, 1),
+	(9, 9, 7, 10, '2023-12-28 14:10:58', 'R', 'R3', 4, NULL, 1),
+	(10, 9, 7, 10, '2023-12-28 14:10:58', 'R', 'R4', 4, NULL, 1),
+	(1, 5, 3, 7, '2023-12-28 14:10:58', 'Y', 'Y1', 4, 7, 11),
+	(3, 3, 5, 2, '2023-12-28 14:10:58', 'Y', 'Y2', 4, NULL, 1),
+	(2, 2, 5, 2, '2023-12-28 14:10:58', 'Y', 'Y3', 4, NULL, 1),
+	(3, 2, 5, 2, '2023-12-28 14:10:58', 'Y', 'Y4', 4, NULL, 1);
 
 -- Dumping structure for πίνακας adise23_ludo_game.error_log
 DROP TABLE IF EXISTS `error_log`;
@@ -911,7 +1086,7 @@ CREATE TABLE IF NOT EXISTS `game_status` (
 -- Dumping data for table adise23_ludo_game.game_status: ~0 rows (approximately)
 DELETE FROM `game_status`;
 INSERT INTO `game_status` (`status`, `p_turn`, `result`, `last_change`) VALUES
-	('started', 'B', 'Y', '2023-12-24 15:30:02');
+	('started', 'B', 'Y', '2023-12-28 14:12:32');
 
 -- Dumping structure for πίνακας adise23_ludo_game.green_win_pieces
 DROP TABLE IF EXISTS `green_win_pieces`;
@@ -931,7 +1106,7 @@ CREATE TABLE IF NOT EXISTS `missing_pieces` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `missing_piece` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2478 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table adise23_ludo_game.missing_pieces: ~0 rows (approximately)
 DELETE FROM `missing_pieces`;
@@ -963,27 +1138,20 @@ BEGIN
     -- Check if the piece exists at the source coordinates
     SELECT piece, piece_color INTO p, p_color
     FROM `board`
-    WHERE X = x1 AND Y = y1;
+WHERE x = x1 AND y = y1;
+ 
+ IF p IS NOT NULL AND (p_color IN ('Y', 'R', 'G', 'B')) THEN    -- Move the piece to the destination coordinates
+ 
+    -- Move the piece to the destination coordinates
+    UPDATE `board`
+    SET piece = NULL, piece_color = NULL
+    WHERE x = x1 AND y = y1;
+COMMIT;
+    UPDATE `board`
+    SET piece = p, piece_color = p_color
+    WHERE x = x2 AND y = y2;
 
-    -- If the piece exists, move it
-    IF p IS NOT NULL THEN
-        -- Move the piece to the destination coordinates
-        UPDATE `board`
-        SET piece = NULL, piece_color = NULL
-        WHERE X = x1 AND Y = y1;
-
-        UPDATE `board`
-        SET piece = p, piece_color = p_color
-        WHERE X = x2 AND Y = y2;
-
-UPDATE game_status SET p_turn=if(p_color='Y','R','Y');
-
-        -- Debugging information
-        -- SELECT * FROM `board` WHERE X = x1 AND Y = y1;
-       -- SELECT * FROM `board` WHERE X = x2 AND Y = y2;
-
-        -- Commit the transaction if everything is successful
-        COMMIT;
+    COMMIT;
     ELSE
         -- If the piece does not exist at the source coordinates, rollback the transaction
         ROLLBACK;
@@ -1006,10 +1174,10 @@ CREATE TABLE IF NOT EXISTS `players` (
 -- Dumping data for table adise23_ludo_game.players: ~4 rows (approximately)
 DELETE FROM `players`;
 INSERT INTO `players` (`username`, `piece_color`, `token`, `last_action`) VALUES
-	('b', 'B', 'ff', '2023-12-24 15:18:07'),
-	('fsf', 'R', 'geeg', '2023-12-24 15:29:04'),
-	('deee', 'G', 'ee', '2023-12-24 15:26:16'),
-	(NULL, 'Y', NULL, '2023-12-24 15:29:09');
+	('b', 'B', '7fa0de946fe43ddeaa30bacfea6a66e9', '2023-12-28 14:11:16'),
+	(NULL, 'R', NULL, NULL),
+	(NULL, 'G', NULL, NULL),
+	('ye', 'Y', '2cad41647e0135a773f4c1af97ec0ddf', '2023-12-28 14:11:07');
 
 -- Dumping structure for πίνακας adise23_ludo_game.players_empty
 DROP TABLE IF EXISTS `players_empty`;
@@ -1220,7 +1388,7 @@ BEGIN
 	 UPDATE   board  
                  SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
 					 WHERE  X=10 AND Y=9    ;
-              END IF;
+             
                     
 -- an efage antipalos  pioni tou prasinou
 			    
@@ -1267,7 +1435,7 @@ BEGIN
                   SET piece_color='B', piece= 'B4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
 					 WHERE  X=10 AND Y=2    ;			  
 						  	  
-						   
+				 END IF;		   
       END IF;
                 
  
@@ -1313,13 +1481,7 @@ BEGIN
 
     -- Start the transaction
     START TRANSACTION;
- 
--- SET @generated_dice_result = 0;
--- Roll the dice
--- CALL roll_diceOUT(@generated_dice_result);
 
--- Debugging: Print the generated dice result
- -- SELECT @generated_dice_result AS debug_dice_result;
 
 SET  generated_dice_result = @generated_dice_result;
 
@@ -2516,151 +2678,30 @@ SELECT   COUNT(*) INTO count_players  FROM players WHERE   username IS NOT NULL;
         IF (SELECT second FROM timer_table WHERE id = 1) <= -1 THEN         
         UPDATE timer_table
         SET    minute = 0  ,
-            second = 10
+            SECOND = 30
         WHERE id = 1;
         END IF;
     
     -- an termatisei o xronos
        IF (SELECT second FROM timer_table WHERE id = 1)  = 0 THEN
     
-    		-- an einai i seira tou kokkinou
-    		IF(count_r = 1) THEN 
-    
-      		-- an to plithos twn paiktwn einai 2
-    			IF (count_players = 2) THEN
-    	  			 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos kai o kokkinos   
-     				IF (yellow_exists =1)THEN         
-   				UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
-         		END IF;
- 
-    	 
-    	    		 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi  o kokkinos kai o mple        
-  					IF (blue_exists = 1)THEN         
-   				UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'R';
-         		END IF;
-         
-      		     -- an einai i seira tou kokkinou kai iparxoun sto paixnidi  o kokkinos kai o prasinos      
-  					IF (green_exists = 1)THEN         
-   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
-        	   	 END IF;
-         	END IF;
-    	
- 
-    	
-   			  -- an to plithos twn paiktwn einai 3 enw paizei o kokkinos 
-    			IF (count_players = 3) THEN
-       		 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos   kai o prasinos  
-     				IF (yellow_exists =1 AND green_exists=1)THEN         
-   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
-       		   END IF;
-        			  -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o kitrinos kai mple
-     				IF (yellow_exists =1 AND blue_exists)THEN         
-   				UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'R';
-        			 END IF;
-        			 -- an einai i seira tou kokkinou kai iparxoun sto paixnidi o prasinos kai mple
-     				IF (blue_exists =1 AND green_exists)THEN         
-   				UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
-        		   END IF;
-    	      END IF;
-    	
-    	      -- an to plithos twn paiktwn einai 4
-    			IF (count_players = 4 ) THEN
-    	     		 UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'R';
-         	END IF;
-	      END IF;
-    
-    
-  			-- an einai i seira tou kitrinou
-      	IF(count_y = 1) THEN 
-      		-- an to plithos twn paiktwn einai 2
-    			IF (count_players = 2) THEN
-    	 	   -- an iparxoun sto paixnidi mono o kitrinos kai o mple enw i seira einai tou kitrinou
-    	 	   IF(blue_exists=1) THEN UPDATE game_status SET p_turn='B' WHERE p_turn='Y';  END IF;
-    	 	   -- an iparxoun sto paixnidi mono o kitrinos kai o kokkinjos enw i seira einai tou kitrinou
-    		  	  IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='Y';  END IF;
-    	  		  -- an iparxoun sto paixnidi mono o kitrinos kai o prasinos enw i seira einai tou kitrinou
-    	  		 IF(green_exists=1) THEN UPDATE game_status SET p_turn='G' WHERE p_turn='Y';  END IF;
-    	   END IF;
-    		
-    	
-          -- an to plithos twn paiktwn einai 3
-        	IF (count_players = 3) THEN
-    			 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o mple kai prasinos  
-     			IF (blue_exists =1 AND green_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y'; END IF;
-       		 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o mple kai kokkinos  
-     			IF (blue_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y'; END IF; 
-				 -- an einai i seira tou kitrinou kai iparxoun sto paixnidi kai o kokkinos kai prasinos  
-     			IF (red_exists =1 AND green_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'Y'; END IF;
-    	   END IF;
-    	
-       -- an to plithos twn paiktwn einai 4
-    			IF (count_players = 4 ) THEN
-    	   		UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'Y';
-    			END IF;
-	 END IF;
-	 
-  -- an einai i seira tou prasinou
-    IF(count_g = 1) THEN 
-          -- an to plithos twn paiktwn einai 2
-    	IF (count_players = 2) THEN
-    	     -- an iparxoun sto paixnidi mono o  PRASINOS kai o mple enw i seira einai tou PRASINOU
-    	    IF(blue_exists=1) THEN UPDATE game_status SET p_turn='B' WHERE p_turn='G';  END IF;
-    	    -- an iparxoun sto paixnidi mono o PRASINOS kai o kokkinjos enw i seira einai tou  PRASINOU
-    	    IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='G';  END IF;
-    	    -- an iparxoun sto paixnidi mono o PRASINOS kai o KITRINOS enw i seira einai tou PRASINOU
-    	    IF(yellow_exists=1) THEN UPDATE game_status SET p_turn='Y' WHERE p_turn='G';  END IF;
-    	END IF;
-    	
-     -- an to plithos twn paiktwn einai 3
-    	IF (count_players = 3) THEN
-    		 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o mple kai kitrinos
-     		IF (blue_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
-       	 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o mple kai kokkinos  
-     		IF (blue_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'B' WHERE p_turn = 'G'; END IF; 
-			 -- an einai i seira tou PRASINOU kai iparxoun sto paixnidi kai o kokkinos kai kitrinos
-     		IF (red_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
-    	END IF;
-    	
-    	      -- an to plithos twn paiktwn einai 4
-    	IF (count_players = 4 ) THEN
-    	    UPDATE game_status SET p_turn = 'Y' WHERE p_turn = 'G'; END IF;
-    	END IF;
- 
- 
-	 
- -- an einai i seira tou mple
-    IF(count_b = 1) THEN 
-          -- an to plithos twn paiktwn einai 2
-    	IF (count_players = 2) THEN
-         
-    	     -- an iparxoun sto paixnidi mono o  PRASINOS kai o mple enw i seira einai tou mple
-    	    IF(green_exists=1) THEN UPDATE game_status SET p_turn='G' WHERE p_turn='B';  END IF;
-    	    -- an iparxoun sto paixnidi mono o mple kai o kokkinjos enw i seira einai tou  mple
-    	    IF(red_exists=1) THEN UPDATE game_status SET p_turn='R' WHERE p_turn='B';  END IF;
-    	    -- an iparxoun sto paixnidi mono o mple kai o KITRINOS enw i seira einai tou mple
-    	    IF(yellow_exists=1) THEN UPDATE game_status SET p_turn='Y' WHERE p_turn='B';  END IF;
-    	END IF;
-   
-    	
-     -- an to plithos twn paiktwn einai 3
-    	IF (count_players = 3) THEN
-    		 -- an einai i seira tou mple kai iparxoun sto paixnidi kai o prasinos kai kitrinos
-     		IF (green_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'G' WHERE p_turn = 'B'; END IF;
-       	 -- an einai i seira tou mple  kai iparxoun sto paixnidi kai o PRASINOS kai kokkinos  
-     		IF (green_exists =1 AND red_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B'; END IF; 
-			 -- an einai i seira tou mple  kai iparxoun sto paixnidi kai o kokkinos kai kitrinos
-     		IF (red_exists =1 AND yellow_exists=1)THEN UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B'; END IF;
-    	END IF;
-    	
-    	      -- an to plithos twn paiktwn einai 4
-    	IF (count_players = 4 ) THEN
-    	    UPDATE game_status SET p_turn = 'R' WHERE p_turn = 'B';  
-    	END IF;
-	 END IF;
+   CALL check_turn();
  
  
  
       END IF;   
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure adise23_ludo_game.timer_reset
+DROP PROCEDURE IF EXISTS `timer_reset`;
+DELIMITER //
+CREATE PROCEDURE `timer_reset`()
+BEGIN
+    UPDATE timer_table
+    SET SECOND =  30
+    WHERE id = 1;
+      SELECT minute, second FROM timer_table WHERE id = 1; 
 END//
 DELIMITER ;
 
@@ -2675,7 +2716,7 @@ CREATE TABLE IF NOT EXISTS `timer_table` (
 -- Dumping data for table adise23_ludo_game.timer_table: ~1 rows (approximately)
 DELETE FROM `timer_table`;
 INSERT INTO `timer_table` (`minute`, `second`, `id`) VALUES
-	(0, 9, 1);
+	(0, 29, 1);
 
 -- Dumping structure for procedure adise23_ludo_game.timer_value
 DROP PROCEDURE IF EXISTS `timer_value`;
@@ -2683,11 +2724,11 @@ DELIMITER //
 CREATE PROCEDURE `timer_value`()
 BEGIN
 DECLARE current_second INT;
-
+CALL timer_decrease();
  
     
     
-CALL timer_decrease();
+
     SELECT minute, second FROM timer_table WHERE id = 1; 
  
 

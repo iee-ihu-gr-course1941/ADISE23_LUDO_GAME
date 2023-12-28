@@ -19,4 +19,23 @@ if ($result) {
     echo "Error: " . $sql . "<br>" . $mysqli->error;
 }}
 
+
+function reset_timer(){
+    global $mysqli;
+    //epistrofi stin arxiki timi tou clock
+      $sql = 'CALL timer_reset();';
+      $st = $mysqli -> prepare($sql);
+    
+      $st -> execute();
+  
+    
+      if ($st->errno) {
+          header('Content-type: application/json');
+          print json_encode(['error' => $st->error], JSON_PRETTY_PRINT);
+      } else {
+          header('Content-type: application/json');
+          print json_encode(['success' => true], JSON_PRETTY_PRINT);
+      }
+}
+
 ?>

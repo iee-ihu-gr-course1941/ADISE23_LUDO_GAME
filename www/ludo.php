@@ -100,12 +100,34 @@ if(isset($_SERVER['HTTP_X_TOKEN'])) {
 
 	 case 'return_losers_home' : handle_losers($method);break;
 	 case 'timer' : handle_timer($method); break;
+
+	 case 'check_turn': handle_check_turn($method);break;
+	 case 'reset_timer' : handle_reset_timer($method);break;
 	//case 'move_y':handle_move_y($method);
    // default: 	
 	header("HTTP/1.1 404 Not Found");
     print "<h1>not FOUND</h1>";
 	exit;
 }
+
+
+
+function handle_reset_timer($method) {
+    if($method=='GET') {
+		reset_timer();
+      }  else {header('HTTP/1.1 405 Method Not Allowed');}
+}
+
+
+
+function handle_check_turn($method) {
+    if($method=='GET') {
+		check_turn();
+      }  else {header('HTTP/1.1 405 Method Not Allowed');}
+}
+
+
+
 function handle_timer($method) {
     if($method=='GET') {
 		get_timer_value();
