@@ -1467,15 +1467,15 @@ BEGIN
     DECLARE current_y INT;
     DECLARE current_ypath INT;
     DECLARE current_rpath INT;
-      DECLARE current_gpath INT;
+    DECLARE current_gpath INT;
     DECLARE current_bpath INT;
     DECLARE new_x  INT;
     DECLARE new_y  INT;
-        DECLARE new_path INT;
-         DECLARE prev_path INT;
+    DECLARE new_path INT;
+    DECLARE prev_path INT;
     DECLARE new_ypath INT;
     DECLARE new_rpath INT;
-        DECLARE new_gpath INT;
+    DECLARE new_gpath INT;
     DECLARE new_bpath INT;
     DECLARE dice_result INT;
     DECLARE generated_dice_result INT;
@@ -1503,7 +1503,7 @@ IF (current_ypath IS NULL) THEN
     SET new_y = 2;
     SET new_path=1;
     
-  -- call check_spot(new_x, new_y);
+    -- call check_spot(new_x, new_y);
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -1539,12 +1539,10 @@ IF new_ypath <= 39 THEN
     WHERE piece = 'Y1'  ;
  -- IF new_ypath  = 39 THEN
  
-
-
-
-  END IF;
+    END IF;
  
  
+
  IF (new_ypath >38 OR (new_x=100 AND new_y=1)) THEN
     UPDATE dice
     SET
