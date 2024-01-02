@@ -1314,7 +1314,7 @@ BEGIN
     DECLARE missingPiece VARCHAR(10);
 
     -- Declare a cursor to select all possible pieces
-       DECLARE allPiecesCursor CURSOR FOR
+        DECLARE allPiecesCursor CURSOR FOR
         SELECT 'G1' UNION SELECT 'G2' UNION SELECT 'G3' UNION SELECT 'G4'
         UNION SELECT 'B1' UNION SELECT 'B2' UNION SELECT 'B3' UNION SELECT 'B4'
         UNION  SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
@@ -1340,11 +1340,11 @@ BEGIN
          
 			-- an efage antipalos  pioni tou kitrinou
 			 
-			    IF missingPiece LIKE 'Y1' THEN
-                -- Move 'Y1' to the board at coordinates (2, 3)
-                 UPDATE   board  
-                              SET piece_color='Y', piece= 'Y1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=2  AND  y=3    ;
+			IF missingPiece LIKE 'Y1' THEN
+            -- Move 'Y1' to the board at coordinates (2, 3)
+                UPDATE   board  
+                    SET piece_color='Y', piece= 'Y1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					WHERE  X=2  AND  y=3    ;
 			 
 			 
 			 
@@ -1361,17 +1361,17 @@ BEGIN
 		    WHERE  X=2  AND Y=2    ;
 					 
 					 
-    ELSEIF missingPiece LIKE 'Y4' THEN
-    UPDATE   board  
-			        SET piece_color='Y', piece= 'Y4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=3  AND Y=2    ;
+        ELSEIF missingPiece LIKE 'Y4' THEN
+            UPDATE   board  
+			    SET piece_color='Y', piece= 'Y4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				WHERE  X=3  AND Y=2    ;
 
        	 -- an efage antipalos  pioni tou kokkinou
 			    
-           ELSEIF missingPiece LIKE 'R1' THEN
-    UPDATE   board  
-                  SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=9  AND Y=10    ;
+        ELSEIF missingPiece LIKE 'R1' THEN
+            UPDATE   board  
+                SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				WHERE  X=9  AND Y=10    ;
 
     ELSEIF missingPiece LIKE 'R2' THEN
     UPDATE   board  
