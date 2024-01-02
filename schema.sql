@@ -1432,7 +1432,7 @@ BEGIN
 		    ELSEIF missingPiece LIKE 'B3' THEN
  			    UPDATE   board  
                     SET piece_color='B', piece= 'B3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-				      X=9  AND Y=2    ;	
+				    WHERE  X=9  AND Y=2    ;	
 					 
 		    ELSEIF missingPiece LIKE 'B4' THEN
  			    UPDATE   board  
