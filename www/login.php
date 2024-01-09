@@ -8,6 +8,7 @@
     <div id="h1Name"><h1 id="name">Login</h1></div>
 
     <section id='main_body'>
+        
      <div id='form'>
         <form action="../lib/login.inc.php" method="post">
             <?php

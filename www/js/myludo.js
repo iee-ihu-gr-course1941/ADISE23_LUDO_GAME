@@ -15,14 +15,16 @@ $(function(){
    fill_green_win();
    fill_blue_win();
  //reset_timer();
-
+ reset_board();
+reset_players();
     $('#ludo_login').click(login_to_game);
     $('#ludo_reset').click(reset_board);
     $('#players_reset').click(reset_players);
     
 $('#play').click(play);
-    $('#resetButton').click(reset_timer);
-//startTimer();
+    // $('#resetButton').click(reset_timer);
+
+ //startTimer();
     $('#do_move').click(do_move);
     $('#move_div').hide();
     $('#do_move_roll').click(roll_dice);
@@ -56,71 +58,6 @@ function check_turn(){
         }
     
  
- 
-//do_move = document.getElementById('do_move');
-//buttonClicked=false;
-function fetchTimerValue() {
-    buttonClicked=false;
-    $.ajax({
-        url: 'ludo.php/timer/',
-        method: 'GET',
-        dataType: 'json',
-        headers: { 'X-Token': me.token },
-        contentType: 'application/json',
-        data: { action: 'get_timer_value' },
-        success: function (data) {
-            // Check if 'data' is not undefined before accessing its properties
-            if (data && data.minute !== undefined && data.second !== undefined) {
-   
-                minute.value = data.minute;
-                second.value = data.second;
-        
-                if ((second.value === "0" || buttonClicked)  ) {
-                             
-                    clearInterval(seti);
-                      document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
-   
-                      setTimeout(function() {
-                   alert("Time Out !");          
-                 //   game_status.p_turn = 'Y';
-                    var theMoveInput = document.getElementById("the_move");
-
-          // Clear the input value
-          return_losers_home();
-          fill_board();
-
-          theMoveInput.value = "";
-            $('#move_div_roll').hide(5000);
-          $('#move_div').hide(5000);
-  
-         timer=setTimeout(function() { game_status_update();}, 4000);
-               ;
-          }, 100);  
-         } 
-         if(buttonClicked){
-           alert("Εκανες κινηση! "); 
-           reset_timer();
-         }
-  
-            } else {
-                console.error('Invalid data received from the server.');
-            }
-        },
-        error: function (error) {
-            console.error('Error:', error);
-        }
-    });
-}
-
-// Function to start the timer
-function startTimer() {
-   // if(buttonClicked==false){
-    seti = setInterval(function () {
-                fetchTimerValue();
-    }, 1000);
-//}
-
-}
 
 var time = document.getElementById("time");
 var minute = document.getElementById("min");
@@ -130,56 +67,63 @@ var resetButton = document.getElementById("reset");
 var seti = undefined;
 var mm = "00";
 var ss = "30";
-// Event listener for the start button
-startButton.addEventListener("click", function start() {
+
+startButton.addEventListener("click", start );
+//roll_dice.addEventListener("click",start);
+
+function start() {
     if (startButton.innerHTML === "START") {
-        startButton.innerHTML = "PAUSE";
-        mm = minute.value;
-        ss = second.value;
-        if (minute.value === "") minute.value = "00";
-        if (second.value === "") second.value = "00";
-        minute.setAttribute("disabled", true);
-        second.setAttribute("disabled", true);
-
-        // Start the timer
-        startTimer();
-    }else {
-        minute.removeAttribute("disabled");
-        second.removeAttribute("disabled");
-        startButton.innerHTML = "START";
-        clearInterval(seti);
+      startButton.innerHTML = "PAUSE";
+      mm = minute.value;
+      ss = second.value;
+      if (minute.value === "") minute.value = "00";
+      if (second.value === "") second.value = "00";
+      minute.setAttribute("disabled", true);
+      second.setAttribute("disabled", true);
+      seti = setInterval(function () {
+        if (second.value > 0) {
+          second.value -= 1;
+          if (second.value < 10 && second.value >= 0) {
+            second.value = "0" + second.value;
+          }
+        }
+        else if (minute.value > 0) {
+          second.value = "59";
+          minute.value -= 1;
+          if (minute.value < 10 && minute.value >= 0) {
+            minute.value = "0" + minute.value;
+          }
+        }
+        else {
+          clearInterval(seti);
+          document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
+          setTimeout(function() {
+            alert("Time Out !");
+            res();
+          }, 100);
+        }
+      }, 1000);
     }
-});
-
-resetButton.addEventListener("click", reset_timer);
-
-
-function reset_timer(){
-  //Fetch the initial timer value when the page loads
-  // document.addEventListener("DOMContentLoaded", function () {
-  //  fetchTimerValue();
-  //}); 
-$.ajax({
-    url: 'ludo.php/reset_timer/',
-    method: 'GET',
-    dataType: 'json',
-    headers: { 'X-Token': me.token },
-    contentType: 'application/json',
-    data: { action: 'reset_timer' },
-    success: function (data) {
-        // Check if 'data' is not undefined before accessing its properties
-        if (data && data.minute !== undefined && data.second !== undefined) {
-
-            minute.value = 0;
-            second.value = 30;
-            clearInterval(seti);
-        }},
-    error: function (error) {
-        console.error('Error:', error);
+    else {
+      minute.removeAttribute("disabled");
+      second.removeAttribute("disabled");
+      startButton.innerHTML = "START";
+      clearInterval(seti);
     }
-});
+  }
+resetButton.addEventListener("click", res);
+
+function res() {
+  clearInterval(seti);
+  minute.value = mm;
+  second.value = ss;
+  minute.removeAttribute("disabled");
+  second.removeAttribute("disabled");
+  startButton.innerHTML = "START";
+  document.body.style.backgroundImage = "linear-gradient(to top left, #2980b9, #9b59b6)";
 }
 
+ 
 function roll_dice(){
     
     // Send an AJAX request to the server to update the database
@@ -219,6 +163,7 @@ headers: { "X-Token": me.token },
 //dice anmimation 
 
  function play(){
+    start(); 
     $('#platform').removeClass('stop').addClass('playing');
 
       
@@ -430,7 +375,7 @@ dataType: "json",
             data: { action: 'reset_players' }, // Pass the action as part of the data
             success: function(response) {
                 // Handle the response from the server
-                alert('js Database updated successfully!');
+              alert('WELCOME!');
             },
             error: function() {
                 alert('js Error occurred while updating the database.');
@@ -476,8 +421,8 @@ function reset_board() {
 	$('#move_div').hide();
     $('#move_div_roll').hide(); 
 	$('#game_initializer').show(2000);
-    reset_timer();
-
+    //reset_timer();
+res();
     //reload ta pieces
     $('#red_win_pieces').empty();
     $('#yellow_win_pieces').empty();
@@ -531,7 +476,7 @@ function fill_board_by_data(data) {
  
 
     function login_result(data) {
-
+        check_turn();
         me = data[0];
         $('#game_initializer').hide();
        update_info();
@@ -586,7 +531,7 @@ function fill_board_by_data(data) {
           // reset_timer();
           // 
          // fetchTimerValue();
-           startTimer();
+          // startTimer();
         // timer=setTimeout(function() { game_status_update();}, 4000);
           
         } else {
@@ -2336,13 +2281,14 @@ function reset_red_img_click_status() {
             fill_blue_win();
             fill_board_by_data(data);
             game_status_update();
-            reset_timer();
+           // reset_timer();
+           res();
 check_turn();
  clearInterval(seti);
  document.body.style.backgroundImage = "linear-gradient(to top left, #c0392b, #e74c3c , #9b59b6)";
 
  setTimeout(function() {
-  alert("Εκανες κινηση! ");        
+  //alert("Εκανες κινηση! ");        
  
      var theMoveInput = document.getElementById("the_move");
 
