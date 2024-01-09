@@ -1314,10 +1314,10 @@ BEGIN
     DECLARE missingPiece VARCHAR(10);
 
     -- Declare a cursor to select all possible pieces
-       DECLARE allPiecesCursor CURSOR FOR
+        DECLARE allPiecesCursor CURSOR FOR
         SELECT 'G1' UNION SELECT 'G2' UNION SELECT 'G3' UNION SELECT 'G4'
         UNION SELECT 'B1' UNION SELECT 'B2' UNION SELECT 'B3' UNION SELECT 'B4'
-      UNION  SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
+        UNION  SELECT 'Y1' UNION SELECT 'Y2' UNION SELECT 'Y3' UNION SELECT 'Y4'
         UNION SELECT 'R1' UNION SELECT 'R2' UNION SELECT 'R3' UNION SELECT 'R4';
         
 
@@ -1333,110 +1333,115 @@ BEGIN
         FETCH allPiecesCursor INTO missingPiece;
 
         -- Check if the piece is missing in the 'board' table
-       IF NOT EXISTS (SELECT 1 FROM board WHERE piece = missingPiece) 
-    THEN
+        IF NOT EXISTS (SELECT 1 FROM board WHERE piece = missingPiece) 
+        THEN
             -- Insert the missing piece into the 'missing_pieces' table
             INSERT INTO missing_pieces (missing_piece) VALUES (missingPiece);
          
-			 -- an efage antipalos  pioni tou kitrinou
+			-- an efage antipalos  pioni tou kitrinou
 			 
-			    IF missingPiece LIKE 'Y1' THEN
-                -- Move 'Y1' to the board at coordinates (2, 3)
-                 UPDATE   board  
-                              SET piece_color='Y', piece= 'Y1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=2  AND  y=3    ;
-			 
-			 
+			IF missingPiece LIKE 'Y1' THEN
+            -- Move 'Y1' to the board at coordinates (2, 3)
+                UPDATE   board  
+                    SET piece_color='Y', piece= 'Y1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+					WHERE  X=2  AND  y=3    ;
 			 
 			 
-			   ELSEIF missingPiece LIKE 'Y2' THEN
-			     	 UPDATE   board  
-               SET piece_color='Y', piece= 'Y2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=3  AND y=3    ;
+			 
+			 
+		    ELSEIF missingPiece LIKE 'Y2' THEN
+			    UPDATE   board  
+                    SET piece_color='Y', piece= 'Y2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=3  AND y=3    ;
           
 
-   ELSEIF missingPiece LIKE 'Y3' THEN
-    UPDATE   board  
-			     	   SET piece_color='Y', piece= 'Y3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=2  AND Y=2    ;
+            ELSEIF missingPiece LIKE 'Y3' THEN
+                UPDATE   board  
+			        SET piece_color='Y', piece= 'Y3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+		            WHERE  X=2  AND Y=2    ;
 					 
 					 
-   ELSEIF missingPiece LIKE 'Y4' THEN
-    UPDATE   board  
+            ELSEIF missingPiece LIKE 'Y4' THEN
+                UPDATE   board  
 			        SET piece_color='Y', piece= 'Y4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=3  AND Y=2    ;
+				    WHERE  X=3  AND Y=2    ;
 
-       	 -- an efage antipalos  pioni tou kokkinou
+
+
+       	    -- an efage antipalos  pioni tou kokkinou
 			    
-           ELSEIF missingPiece LIKE 'R1' THEN
- UPDATE   board  
-                  SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=9  AND Y=10    ;
+            ELSEIF missingPiece LIKE 'R1' THEN
+                UPDATE   board  
+                    SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=9  AND Y=10    ;
 
- ELSEIF missingPiece LIKE 'R2' THEN
- UPDATE   board  
-                 SET piece_color='R', piece= 'R2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=10  AND Y=10    ;
+            ELSEIF missingPiece LIKE 'R2' THEN
+                UPDATE   board  
+                    SET piece_color='R', piece= 'R2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=10  AND Y=10    ;
 
- ELSEIF missingPiece LIKE 'R3' THEN
- UPDATE   board  
-                SET piece_color='R', piece= 'R3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=9  AND Y=9    ;
+            ELSEIF missingPiece LIKE 'R3' THEN
+                UPDATE   board  
+                    SET piece_color='R', piece= 'R3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=9  AND Y=9    ;
 					 
 					 
- ELSEIF missingPiece LIKE 'R4' THEN
-	 UPDATE   board  
-                 SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=10 AND Y=9    ;
+            ELSEIF missingPiece LIKE 'R4' THEN
+	            UPDATE   board  
+                    SET piece_color='R', piece= 'R1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=10 AND Y=9    ;
              
+
                     
--- an efage antipalos  pioni tou prasinou
+            -- an efage antipalos  pioni tou prasinou
 			    
-           ELSEIF missingPiece LIKE 'G1' THEN
- 				UPDATE   board  
-                  SET piece_color='G', piece= 'G1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=2  AND Y=10    ;
+            ELSEIF missingPiece LIKE 'G1' THEN
+ 			    UPDATE   board  
+                    SET piece_color='G', piece= 'G1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=2  AND Y=10    ;
 					 						  
-		           ELSEIF missingPiece LIKE 'G2' THEN
- 						UPDATE   board  
-                  SET piece_color='G', piece= 'G2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=3  AND Y=10    ;		
+		    ELSEIF missingPiece LIKE 'G2' THEN
+ 			    UPDATE   board  
+                    SET piece_color='G', piece= 'G2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=3  AND Y=10    ;		
 					 
-					   ELSEIF missingPiece LIKE 'G3' THEN
- 						UPDATE   board  
-                  SET piece_color='G', piece= 'G3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=2  AND Y=9    ;	
+		    ELSEIF missingPiece LIKE 'G3' THEN
+ 			    UPDATE   board  
+                    SET piece_color='G', piece= 'G3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=2  AND Y=9    ;	
 					 
-					  ELSEIF missingPiece LIKE 'G4' THEN
- 						UPDATE   board  
-                  SET piece_color='G', piece= 'G4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=3  AND Y=9    ;			  
+		    ELSEIF missingPiece LIKE 'G4' THEN
+ 			    UPDATE   board  
+                    SET piece_color='G', piece= 'G4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=3  AND Y=9    ;			  
+
+
 						  
-						  
-					-- an efage antipalos  pioni tou mple
+            -- an efage antipalos  pioni tou mple
 			    
-           ELSEIF missingPiece LIKE 'B1' THEN
- 				UPDATE   board  
-                  SET piece_color='B', piece= 'B1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=9  AND Y=3  ;
+            ELSEIF missingPiece LIKE 'B1' THEN
+ 			    UPDATE   board  
+                    SET piece_color='B', piece= 'B1', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=9  AND Y=3  ;
 					 						  
-		           ELSEIF missingPiece LIKE 'B2' THEN
- 						UPDATE   board  
-                  SET piece_color='B', piece= 'B2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=10  AND Y=3    ;		
+		    ELSEIF missingPiece LIKE 'B2' THEN
+ 			    UPDATE   board  
+                    SET piece_color='B', piece= 'B2', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=10  AND Y=3    ;		
 					 
-					   ELSEIF missingPiece LIKE 'B3' THEN
- 						UPDATE   board  
-                  SET piece_color='B', piece= 'B3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=9  AND Y=2    ;	
+		    ELSEIF missingPiece LIKE 'B3' THEN
+ 			    UPDATE   board  
+                    SET piece_color='B', piece= 'B3', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=9  AND Y=2    ;	
 					 
-					  ELSEIF missingPiece LIKE 'B4' THEN
- 						UPDATE   board  
-                  SET piece_color='B', piece= 'B4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
-					 WHERE  X=10 AND Y=2    ;			  
+		    ELSEIF missingPiece LIKE 'B4' THEN
+ 			    UPDATE   board  
+                    SET piece_color='B', piece= 'B4', y_path= NULL,b_path =NULL,r_path =NULL,g_path= NULL
+				    WHERE  X=10 AND Y=2    ;			  
 						  	  
-				 END IF;		   
-      END IF;
+			END IF;
+
+        END IF;
                 
  
         -- Check if we are done
@@ -1462,15 +1467,15 @@ BEGIN
     DECLARE current_y INT;
     DECLARE current_ypath INT;
     DECLARE current_rpath INT;
-      DECLARE current_gpath INT;
+    DECLARE current_gpath INT;
     DECLARE current_bpath INT;
     DECLARE new_x  INT;
     DECLARE new_y  INT;
-        DECLARE new_path INT;
-         DECLARE prev_path INT;
+    DECLARE new_path INT;
+    DECLARE prev_path INT;
     DECLARE new_ypath INT;
     DECLARE new_rpath INT;
-        DECLARE new_gpath INT;
+    DECLARE new_gpath INT;
     DECLARE new_bpath INT;
     DECLARE dice_result INT;
     DECLARE generated_dice_result INT;
@@ -1498,7 +1503,7 @@ IF (current_ypath IS NULL) THEN
     SET new_y = 2;
     SET new_path=1;
     
-  -- call check_spot(new_x, new_y);
+    -- call check_spot(new_x, new_y);
     -- Update the existing record in the dice table
     UPDATE dice
     SET
@@ -1534,12 +1539,10 @@ IF new_ypath <= 39 THEN
     WHERE piece = 'Y1'  ;
  -- IF new_ypath  = 39 THEN
  
-
-
-
-  END IF;
+    END IF;
  
  
+
  IF (new_ypath >38 OR (new_x=100 AND new_y=1)) THEN
     UPDATE dice
     SET
@@ -2436,7 +2439,7 @@ WHERE piece_color = 'G' AND piece = 'G3';
 IF (current_gpath IS NULL) THEN
     SET new_x = 2;
     SET new_y = 7;
-      SET new_path=1;
+    SET new_path=1;
     
  
     -- Update the existing record in the dice table
@@ -2871,6 +2874,8 @@ SET NEW.last_change = NOW();
 END//
 DELIMITER ;
 SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
