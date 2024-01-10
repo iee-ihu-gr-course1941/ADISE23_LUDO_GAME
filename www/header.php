@@ -10,9 +10,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <!-- Other meta tags and stylesheets -->
-
-    <!-- Include jQuery from CDN -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <!-- Include Popper.js from CDN -->
@@ -21,9 +18,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/myludo.css" rel="stylesheet" type="text/css">
     <link href="css/styles.css" rel="stylesheet" type="text/css">
-
+    <link href="css/timer.css" rel="stylesheet" type="text/css">
+    <link href="css/login.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="js/myludo.js"></script>
     <!-- Your custom JavaScript -->
  
 </head>

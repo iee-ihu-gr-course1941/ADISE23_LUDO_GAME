@@ -565,31 +565,38 @@ function fill_board_by_data(data) {
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'YELLOW PLAYER WINS.');  
             alert('YELLOW PLAYER WINS.');
-            reset_board();
-            reset_players();
+           // reset_board();
+           // reset_players();
+            location.reload();
+           
 
         }
          if(game_status.result==='R'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'RED PLAYER WINS.');   
             alert('RED PLAYER WINS.');
-            reset_board();
-            reset_players();
+          //  reset_board();
+           // reset_players();
+            location.reload();
         }
          if(game_status.result==='G'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'GREEN PLAYER WINS.');  
             alert('GREEN PLAYER WINS.'); 
-            reset_board();
-            reset_players();
+         //   reset_board();
+          //  reset_players();
+            location.reload();
+           
         }
          if(game_status.result==='B'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'BLUE PLAYER WINS.');   
             alert('BLUE PLAYER WINS.'); 
-            reset_board();
-            reset_players();
+         //   reset_board();
+         //   reset_players();
+            location.reload();
         }
+       
         }
             
         }
@@ -645,21 +652,21 @@ function fill_board_by_data(data) {
                 var imageContainer = $("#imageContainer");
         //elegxw an o kitrinos paei na faei pioni tou mple
         if (hasBBImage === true && game_status.p_turn === 'Y'){
-            alert('FAGATE TO PIONI TOU mple! EPISTREFEI STIN ARXIKI THESI');
+            alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΜΠΛΕ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
             
 return_losers_home();
 fill_board();
 }
         //elegxw an o kitrinos paei na faei pioni tou prasinou
         if (hasGGImage === true && game_status.p_turn === 'Y'){
-            alert('FAGATE TO PIONI TOU prasinou! EPISTREFEI STIN ARXIKI THESI');
+            alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΠΡΑΣΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
             
 return_losers_home();
 fill_board();
 }
       //elegxw an o kitrinos paei na faei pioni tou kokkinou
       if (hasRRImage === true && game_status.p_turn === 'Y') {
-        alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+        alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΚΟΚΚΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
           
         return_losers_home();
         fill_board();
@@ -668,7 +675,7 @@ fill_board();
 
         //elegxw an o kokkinos paei na faei pioni tou kitrinou
         if (hasYYImage === true && game_status.p_turn === 'R'){
-                       alert('FAGATE TO PIONI TOU kitrinou! EPISTREFEI STIN ARXIKI THESI');
+                       alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΚΙΤΡΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                        
         return_losers_home();
         fill_board();
@@ -676,56 +683,56 @@ fill_board();
 
                 //elegxw an o kokkinos paei na faei pioni tou mple
                 if (hasBBImage === true && game_status.p_turn === 'R'){
-                    alert('FAGATE TO PIONI TOU mple! EPISTREFEI STIN ARXIKI THESI');
+                    alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΜΠΛΕ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                     
      return_losers_home();
      fill_board();
      }
       //elegxw an o kokkinos paei na faei pioni tou prasinou
      if (hasGGImage === true && game_status.p_turn === 'R'){
-            alert('FAGATE TO PIONI TOU prasinou! EPISTREFEI STIN ARXIKI THESI');
+            alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΠΡΑΣΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                     
      return_losers_home();
      fill_board();
      }
            //elegxw an o mple paei na faei pioni tou kitrinou
            if (hasYYImage === true && game_status.p_turn === 'B'){
-            alert('FAGATE TO PIONI TOU kitrinou! EPISTREFEI STIN ARXIKI THESI');
+            alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΚΙΤΡΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                     
      return_losers_home();
      fill_board();
      }
              //elegxw an o mple paei na faei pioni tou prasinou
              if (hasGGImage === true && game_status.p_turn === 'B'){
-                alert('FAGATE TO PIONI TOU prasinou! EPISTREFEI STIN ARXIKI THESI');
+                alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΠΡΑΣΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                         
          return_losers_home();
          fill_board();
          }      
                     //elegxw an o mple paei na faei pioni tou kokkinou
                     if (hasRRImage === true && game_status.p_turn === 'B'){
-                        alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+                        alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΚΟΚΚΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                                 
                  return_losers_home();
                  fill_board();
                  }
     //elegxw an o prasinos paei na faei pioni tou kokkinou
     if (hasRRImage === true && game_status.p_turn === 'G'){
-         alert('FAGATE TO PIONI TOU kokkinou! EPISTREFEI STIN ARXIKI THESI');
+         alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΚΟΚΚΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                                             
         return_losers_home();
     fill_board();
                              }
         //elegxw an o prasinos paei na faei pioni tou mple
         if (hasBBImage === true && game_status.p_turn === 'G'){
-            alert('FAGATE TO PIONI TOU mple! EPISTREFEI STIN ARXIKI THESI');
+            alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΜΠΛΕ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                                                
            return_losers_home();
        fill_board();
                                 }
                                     //elegxw an o prasinos paei na faei pioni tou kitrinou
     if (hasYYImage === true && game_status.p_turn === 'G'){
-        alert('FAGATE TO PIONI TOU kitrinou! EPISTREFEI STIN ARXIKI THESI');
+        alert('ΦΑΓΑΤΕ ΤΟ ΠΙΟΝΙ ΤΟΥ ΚΙΤΡΙΝΟΥ, ΕΠΙΣΤΡΕΦΕΙ ΣΤΗΝ ΑΡΧΙΚΗ ΤΟΥ ΘΕΣΗ!');
                                            
        return_losers_home();
    fill_board();
