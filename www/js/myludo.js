@@ -564,19 +564,32 @@ function fill_board_by_data(data) {
          if(game_status.result==='Y'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'YELLOW PLAYER WINS.');  
-         }
+            alert('YELLOW PLAYER WINS.');
+            reset_board();
+            reset_players();
+
+        }
          if(game_status.result==='R'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'RED PLAYER WINS.');   
-         }
+            alert('RED PLAYER WINS.');
+            reset_board();
+            reset_players();
+        }
          if(game_status.result==='G'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'GREEN PLAYER WINS.');  
-         }
+            alert('GREEN PLAYER WINS.'); 
+            reset_board();
+            reset_players();
+        }
          if(game_status.result==='B'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
             +'<br>Token='+me.token+'<br>Game state: '+game_status.status+', ' + game_status.result+'BLUE PLAYER WINS.');   
-         }
+            alert('BLUE PLAYER WINS.'); 
+            reset_board();
+            reset_players();
+        }
         }
             
         }
