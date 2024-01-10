@@ -2,7 +2,7 @@
 #main_body {
   height: 70vh;
   border-collapse: collapse;
-  background-image: url('/www/images/black-1072366_1920.jpg');
+  background-image: url('../images/black-1072366_1920.jpg');
   border: solid black 1px;
   text-align: center;
   position: relative;
