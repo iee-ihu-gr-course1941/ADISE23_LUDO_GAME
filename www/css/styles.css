@@ -1,5 +1,4 @@
-    /*-----navybox-----*/
-  .navybox {
+   .navybox {
     position: relative;
     background: navy; /* Use 'background' instead of 'background-color' */
     padding: 20px;
@@ -55,9 +54,7 @@
     height: 8vh;
   }
 
-    /*-----Finish PageName-----*/
-
-    /*-----Board-----*/
+ 
 
   #main_body {
     height: 70vh;
@@ -94,9 +91,6 @@
     background-color: white;
     color: black;
   }
-    /*-----Finish Board-----*/
-
-    /*-----Form-----*/
 
   #form{
     display: flex;
@@ -155,5 +149,4 @@
     background-color: navy;
 
   }
-
-    /*-----Finish Media Query-----*/
+ 
