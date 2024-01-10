@@ -5,6 +5,8 @@
 
 ?>
 
+<link href="../www/css/login.css" rel="stylesheet" type="text/css">
+  
 
         <div id="h1Name"><h1 id="name">Sing Up</h1></div>
 
@@ -37,12 +39,33 @@
                     }
                 }
             ?>
-            <input type="text" name="username" placeholder="Username"><br>
-            <input type="text" name="email" placeholder="Email"><br>
-            <input type="password" name="pwd" placeholder="Passworld"><br>
-            <input type="password" name="pwdrepeat" placeholder="Repeat Passworld"><br>
-            <button id='submit' type="submit" name="submit">Sing Up</button>
-            
+            <div class="ring">
+    <i style="--clr:#00ff0a;"></i>
+    <i style="--clr:#ff0057;"></i>
+    <i style="--clr:#fffd44;"></i>
+    <div class="login">
+      <h2>Welcome!</h2>
+      <div class="inputBx">
+        <input type="text" name="username" placeholder="Username">
+      </div>
+      <div class="inputBx">
+        <input type="text" name="email" placeholder="Email">
+      </div>
+      <div class="inputBx">
+        <input type="password" name="pwd" placeholder="Passworld"> 
+      </div>
+      <div class="inputBx">
+        <input type="password" name="pwdrepeat" placeholder="Repeat Password"> 
+      </div>
+      <div class="inputBx">
+        <button id='submit' type="submit" name="submit">Sing Up</button>
+      </div>
+      <div class="links">
+        <a href="#">Forget Password</a>
+        <a href="#">Signup</a>
+      </div>
+    </div>
+             
         </form>
         </div>
     </section>
