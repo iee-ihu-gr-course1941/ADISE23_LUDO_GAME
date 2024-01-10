@@ -60,10 +60,7 @@
       <div class="inputBx">
         <button id='submit' type="submit" name="submit">Sing Up</button>
       </div>
-      <div class="links">
-        <a href="#">Forget Password</a>
-        <a href="#">Signup</a>
-      </div>
+    
     </div>
              
         </form>
