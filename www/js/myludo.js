@@ -434,7 +434,7 @@ res();
 
 
 function fill_board_by_data(data) {
-    return_losers_home();
+  //  return_losers_home();
     fill_red_win();
     fill_yellow_win();
     fill_green_win();
@@ -512,7 +512,7 @@ function fill_board_by_data(data) {
             fill_yellow_win();
             fill_green_win();
             fill_blue_win();
-          return_losers_home();    
+         // return_losers_home();    
             fill_board();
           
 
@@ -521,7 +521,7 @@ function fill_board_by_data(data) {
           fill_yellow_win();
           fill_green_win();
           fill_blue_win();
-          return_losers_home();
+        //  return_losers_home();
           fill_board();
           $('#play').prop('disabled', false);
           //reset_timer();
@@ -538,7 +538,7 @@ function fill_board_by_data(data) {
          var theMoveInput = document.getElementById("the_move");
 
           // Clear the input value
-          return_losers_home();
+       //   return_losers_home();
           fill_board();
 
           theMoveInput.value = "";
