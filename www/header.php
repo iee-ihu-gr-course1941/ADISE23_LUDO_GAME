@@ -46,7 +46,7 @@
               </a></li>
              </ul>
         
-            <li><a href="./">Παιχνιδι</a></li>
+            <li><a href="./index.php">Παιχνιδι</a></li>
             <?php
                 if(isset($_SESSION["username"])){
                     echo "<li><a href='../lib/logout.inc.php'>Log Out</a></li>";
