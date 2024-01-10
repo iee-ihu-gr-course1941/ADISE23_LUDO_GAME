@@ -6,8 +6,12 @@
 ?>
 
 
-        <div id="h1Name"><h1 id="name">γκρινιαρης</h1></div>
-
+        <div id="h1Name"><h1 id="name">ΓΚΡΙΝΙΑΡΗΣ</h1></div>
+        <style>
+        h1#name {
+            color: #fff;
+        }
+    </style>
 
     <section id='main_body'>
     

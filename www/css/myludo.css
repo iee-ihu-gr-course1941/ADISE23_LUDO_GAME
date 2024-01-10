@@ -9,6 +9,7 @@
   display: flex;
 } 
 
+
 #ludo_board td {
   width: 2.5em;
   height: 2.5em;
@@ -90,7 +91,10 @@ td.Y_square{background-color: yellow;}
   background-color: #fafc95;  
    
 }
+h1#name{
+  color: #fff;
 
+}
  td.GR_square{background:linear-gradient(to bottom left, red 50%, greenyellow 50%);  } 
  td.BR_square{background:linear-gradient(to bottom right, red 50%, blue 50%);}
  td.BY_square{background:linear-gradient(to bottom left, blue 50%, yellow 50%);}

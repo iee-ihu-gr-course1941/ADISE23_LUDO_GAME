@@ -45,8 +45,7 @@
                 ?>
               </a></li>
              </ul>
-            <li><a href="#">Αρχικη</a></li>
-            <li><a href="">Προφιλ</a></li>
+        
             <li><a href="./">Παιχνιδι</a></li>
             <?php
                 if(isset($_SESSION["username"])){
