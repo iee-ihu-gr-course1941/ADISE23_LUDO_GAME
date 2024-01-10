@@ -4,6 +4,8 @@ var board={};
 var last_update=new Date().getTime();
 var timer=null;
 
+ 
+
 
 $(function(){
     draw_empty_board();
@@ -14,6 +16,8 @@ $(function(){
    fill_yellow_win();
    fill_green_win();
    fill_blue_win();
+
+   return_losers_home();
  //reset_timer();
  reset_board();
 reset_players();
@@ -554,7 +558,7 @@ function fill_board_by_data(data) {
     }
  
       function update_info(){
-        return_losers_home();
+      //  return_losers_home();
 
         if (game_status.status!=='ended'){
             $('#game_info').html("I am Player: "+me.piece_color+", my name is "+me.username 
