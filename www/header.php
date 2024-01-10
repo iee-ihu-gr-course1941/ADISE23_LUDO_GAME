@@ -49,11 +49,11 @@
             <li><a href="./">Παιχνιδι</a></li>
             <?php
                 if(isset($_SESSION["username"])){
-                    echo "<li><a href='../lib/logout.inc.php'>Log out</a></li>";
+                    echo "<li><a href='../lib/logout.inc.php'>Log Out</a></li>";
                 }
                 else{
                     echo "<li><a href='./singup.php'>Sing Up</a></li>";
-                    echo "<li><a href='./login.php'>Log in</a></li>";
+                    echo "<li><a href='./login.php'>Log In</a></li>";
                 }
             ?>
              <ul id="playerData"><a>Score:</a>&nbsp;
