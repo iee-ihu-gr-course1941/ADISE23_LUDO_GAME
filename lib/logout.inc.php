@@ -3,7 +3,7 @@
 session_start();
 session_unset();
 session_destroy();
-header("location: ../www/Login.php");
+header("location: ../www/login.php");
 exit();
 
 

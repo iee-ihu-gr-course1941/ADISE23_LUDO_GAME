@@ -22,7 +22,7 @@
                 }
             ?> 
             <input type="text" name="username" placeholder="Username/Email"><br>
-            <input type="password" name="pwd" placeholder="Passworld"><br>
+            <input type="password" name="pwd" placeholder="Password"><br>
             <button id='submit' type="submit" name="submit">Login</button>
 
         </form>
