@@ -1,46 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <!-- Other meta tags and stylesheets -->
 
-    <!-- Include jQuery from CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<?php
 
-    <!-- Include Popper.js from CDN -->
- 
-    <!-- Bootstrap core CSS and JavaScript -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/myludo.css" rel="stylesheet" type="text/css">
-    <link href="css/styles.css" rel="stylesheet" type="text/css">
-    <link href="css/timer.css" rel="stylesheet" type="text/css">
+    include_once "header.php";
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="js/myludo.js"></script>
-    <!-- Your custom JavaScript -->
- 
-    <title>Your Page Title</title>
-    <!-- Include any CSS or other head elements here -->
-</head>
-<body>
- 
-    <div id="h1Name"><h1 id="name">γκρινιαρης</h1></div>
+?>
+
+
+        <div id="h1Name"><h1 id="name">ΓΚΡΙΝΙΑΡΗΣ</h1></div>
+        <style>
+        h1#name {
+            color: #fff;
+        }
+    </style>
 
     <section id='main_body'>
-
-        <div id='ludo_board'></div>
-        
+    
         <div id="background"></div>
+
+    <section>
+  <div>
+    <div id="clock">
+      <form>
+        <input id="min" type="number" step="1" min="0" max="59" value="00"></input>
+        <span>:</span>
+        <input id="sec" type="number" step="1" min="0" max="59" value="10"></input>
+      </form>
+      <div id="controls">
+        <button id="start">START</button>
+        <button id="reset">RESET</button>
+      </div>
+    </div>
+  </div>
+</section>
+<div id='yellow_win_pieces'></div>
+        <div id='red_win_pieces'></div>
+        <div id='green_win_pieces'></div>
+        <div id='blue_win_pieces'></div>
+        <div id='ludo_board'></div>
+        <div id="imageContainer">  </div>
+
        
-<div id="imageContainer">  </div>
-<div id='yellow_lost_pieces'></div>
-        <div id='red_lost_pieces'></div>
+
 
 <div id="wrapper">
   <p id="point">0</p>
@@ -140,5 +140,9 @@
     </div>
  
  
-</body>
-</html>
+
+<?php
+
+    include_once "footer.php";
+
+?>
