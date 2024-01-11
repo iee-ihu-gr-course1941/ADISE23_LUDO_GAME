@@ -46,7 +46,7 @@ td.Y_square{background-color: yellow;}
   background-color: rgb(254, 254, 125);
    border: 1px solid red;
 }
-
+ 
 .clickableG {
   cursor: pointer;
   border: 2px solid #00f;  
@@ -104,7 +104,8 @@ h1#name{
     border-right: 20px solid red;
     border-bottom: 20px solid green;
     border-top: 20px solid blue;
- display: inline;
+    background: conic-gradient(red 0deg 45deg, blue 45deg 135deg, yellow 135deg 225deg, greenyellow 225deg 315deg, red 315deg 360deg);
+
 }
 
  IMG.piece{width: 2.1em; height: 2.1em;}
