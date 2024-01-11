@@ -16,8 +16,7 @@ $(function(){
    fill_yellow_win();
    fill_green_win();
    fill_blue_win();
-
-   return_losers_home();
+ 
  //reset_timer();
  reset_board();
 reset_players();
